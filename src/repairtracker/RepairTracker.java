@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package repairtracker;
+import org.apache.logging.log4j.LogManager;
 
 /**
  *
