@@ -3,7 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/doc-rep1/work/repair-tracker/RepairTracker/src/repairtracker/RepairTracker.java</file>
+            <file>file:/E:/doc-rep1/work/repair-tracker/service-point-rt/src/repairtracker/views/Bundle.properties</file>
+            <file>file:/E:/doc-rep1/work/repair-tracker/service-point-rt/src/repairtracker/RTProperties.java</file>
+            <file>file:/E:/doc-rep1/work/repair-tracker/service-point-rt/src/repairtracker/models/DBDoor.java</file>
+            <file>file:/E:/doc-rep1/work/repair-tracker/service-point-rt/src/repairtracker/views/ProgressBar.java</file>
+            <file>file:/E:/doc-rep1/work/repair-tracker/service-point-rt/src/repairtracker/views/Bundle_RepairTrackerGUI_ru_RU.properties</file>
+            <file>file:/E:/doc-rep1/work/repair-tracker/service-point-rt/src/repairtracker/RepairTracker.java</file>
+            <file>file:/E:/doc-rep1/work/repair-tracker/service-point-rt/src/repairtracker/views/Bundle_RepairTrackerGUI_uk_UA.properties</file>
+            <file>file:/E:/doc-rep1/work/repair-tracker/service-point-rt/src/repairtracker/views/Bundle_RepairTrackerGUI.properties</file>
+            <file>file:/E:/doc-rep1/work/repair-tracker/service-point-rt/src/repairtracker/views/RepairTrackerGUI.java</file>
         </group>
     </open-files>
 </project-private>
