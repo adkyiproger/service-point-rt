@@ -8,6 +8,7 @@ package repairtracker.views;
 import guitypes.TabAbstractPanel;
 import guitypes.TabManager;
 import java.awt.Graphics;
+import java.util.ResourceBundle;
 import javax.swing.Icon;
 import javax.swing.JMenu;
 
@@ -20,7 +21,9 @@ public class Dashboard extends TabAbstractPanel {
     /**
      * Creates new form Dashboard
      */
+    private static java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("repairtracker/views/Bundle"); // NOI18N
     public Dashboard() {
+        
         initComponents();
     }
 
@@ -48,7 +51,7 @@ public class Dashboard extends TabAbstractPanel {
         jPanel3 = new javax.swing.JPanel();
 
         THIS_COMPONENT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/16/window.png"))); // NOI18N
-        THIS_COMPONENT.setText("jLabel1");
+        THIS_COMPONENT.setText(bundle.getString("JLABEL1")); // NOI18N
 
         SEARCH_FOR.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -61,9 +64,9 @@ public class Dashboard extends TabAbstractPanel {
 
         FILTER_STATUS.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "New", "In Progress", "Clarification", "Completed" }));
 
-        FILTER_CLIENT.setText("Client name");
+        FILTER_CLIENT.setText(bundle.getString("CLIENT NAME")); // NOI18N
 
-        FILTER_TICKET.setText("Ticket #");
+        FILTER_TICKET.setText(bundle.getString("TICKET #")); // NOI18N
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
