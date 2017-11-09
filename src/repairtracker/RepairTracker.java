@@ -9,6 +9,8 @@ import java.util.Properties;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import repairtracker.models.DBDoor;
 import repairtracker.views.RepairTrackerGUI;
 
 
@@ -20,24 +22,28 @@ import repairtracker.views.RepairTrackerGUI;
 public class RepairTracker {
     //
 
-    
-    
+    // System properties
+    public static String FS=System.getProperty("file.separator","/");
     public static Properties PROPERTIES=RTProperties.ReadProperties();
     public static String LOCALE = PROPERTIES.getProperty("LOCALE_CODE", "ru_RU");
     public static String LOG_FILE = PROPERTIES.getProperty("LOG_FILE", "NA");
     
     // Database connection properties
-    public static String DBHOST = PROPERTIES.getProperty("DBHOST", "192.168.217.130");
-    public static String DBNAME = PROPERTIES.getProperty("DBNAME", "ehospital");
-     public static String DERBY_DBNAME = PROPERTIES.getProperty("DERBY_DBNAME", "hospital");
-     public static String DBPASS = PROPERTIES.getProperty("DBPASS", "grandy");
-     public static String DBUSER = PROPERTIES.getProperty("DBUSER", "doctor");
-     public static String JDBCTYPE = PROPERTIES.getProperty("JDBCTYPE", "derby");
+    public static String JDBCTYPE = PROPERTIES.getProperty("JDBCTYPE", "derby");
+    // Derby configuration
+    public static String DERBY_DBNAME = PROPERTIES.getProperty("DERBY_DBNAME", RTProperties.APP_HOME+FS+"db/rt");
+    // MySQL configuration
+    public static String DBHOST = PROPERTIES.getProperty("DBHOST", "127.0.0.1");
+    public static String DBNAME = PROPERTIES.getProperty("DBNAME", "rt");
+    public static String DBPASS = PROPERTIES.getProperty("DBPASS", "grandy");
+    public static String DBUSER = PROPERTIES.getProperty("DBUSER", "doctor");
     
     // Setup initial look and feel
     public static String THEME = PROPERTIES.getProperty("THEME", "Metal");
     public static String THEME_CLASS = PROPERTIES.getProperty("THEME_CLASS", "javax.swing.plaf.metal.MetalLookAndFeel");
     
+    
+    public static Logger LOGGER=LogManager.getLogger();
     /**
      * @param args the command line arguments
      */
@@ -45,7 +51,7 @@ public class RepairTracker {
         // TODO code application logic here
         System.out.print("Repair Tracker started!");
         String lc=LOCALE.substring(0,2), lm=LOCALE.substring(3,5);
-                String FS=System.getProperty("file.separator","/");
+                
                 Locale.setDefault(new Locale(lc,lm));
                 System.out.println(System.getProperty("user.dir"));
                 if (LOG_FILE=="NA")
@@ -77,7 +83,7 @@ ctx.reconfigure();
        // handle exception
         e.printStackTrace();
     }
-               //  DBDoor.setupMyConnection();
+                 DBDoor.setupMyConnection();
                //   LogonForm LF = new LogonForm();
                  //   LogManager.getLogger(EHospital.class.getName()).info("Application initialized");
                  RepairTrackerGUI rt=new RepairTrackerGUI();
