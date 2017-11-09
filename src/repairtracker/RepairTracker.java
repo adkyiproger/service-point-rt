@@ -29,7 +29,7 @@ public class RepairTracker {
     // Database connection properties
     public static String DBHOST = PROPERTIES.getProperty("DBHOST", "192.168.217.130");
     public static String DBNAME = PROPERTIES.getProperty("DBNAME", "ehospital");
-     public static String DERBY_DBNAME = PROPERTIES.getProperty("DERBY_DBNAME", "hospital");
+     public static String DERBY_DBNAME = PROPERTIES.getProperty("DERBY_DBNAME", PROPERTIES.getProperty("APP_HOME")+"hospital");
      public static String DBPASS = PROPERTIES.getProperty("DBPASS", "grandy");
      public static String DBUSER = PROPERTIES.getProperty("DBUSER", "doctor");
      public static String JDBCTYPE = PROPERTIES.getProperty("JDBCTYPE", "derby");

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+<param name="Encoding" value="UTF-8" />
+<Appenders>
+<RollingFile name="RollingFile" fileName="${sys:logFilename}"
+filePattern="${sys:logFilename}-%d{yyyy-MM-dd}-%i.log" >
+
+<PatternLayout>
+<pattern>%d{dd/MM/yyyy HH:mm:ss,SSS}- %c{1}: %m%n</pattern>
+</PatternLayout>
+<Policies>
+<SizeBasedTriggeringPolicy size="10000 KB" />
+</Policies>
+<DefaultRolloverStrategy max="4"/>
+</RollingFile>
+</Appenders>
+<Loggers>
+<Logger name="root" level="info" additivity="false">
+<appender-ref ref="RollingFile" level="info"/>
+</Logger>
+<Root level="info" additivity="false">
+<AppenderRef ref="RollingFile"/>
+</Root>
+</Loggers>
+</Configuration>
