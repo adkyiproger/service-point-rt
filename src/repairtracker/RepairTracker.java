@@ -29,6 +29,7 @@ public class RepairTracker {
     public static String LOG_FILE = PROPERTIES.getProperty("LOG_FILE", "NA");
     
     // Database connection properties
+<<<<<<< HEAD
     public static String JDBCTYPE = PROPERTIES.getProperty("JDBCTYPE", "derby");
     // Derby configuration
     public static String DERBY_DBNAME = PROPERTIES.getProperty("DERBY_DBNAME", RTProperties.APP_HOME+FS+"db/rt");
@@ -37,6 +38,14 @@ public class RepairTracker {
     public static String DBNAME = PROPERTIES.getProperty("DBNAME", "rt");
     public static String DBPASS = PROPERTIES.getProperty("DBPASS", "grandy");
     public static String DBUSER = PROPERTIES.getProperty("DBUSER", "doctor");
+=======
+    public static String DBHOST = PROPERTIES.getProperty("DBHOST", "192.168.217.130");
+    public static String DBNAME = PROPERTIES.getProperty("DBNAME", "ehospital");
+     public static String DERBY_DBNAME = PROPERTIES.getProperty("DERBY_DBNAME", PROPERTIES.getProperty("APP_HOME")+"hospital");
+     public static String DBPASS = PROPERTIES.getProperty("DBPASS", "grandy");
+     public static String DBUSER = PROPERTIES.getProperty("DBUSER", "doctor");
+     public static String JDBCTYPE = PROPERTIES.getProperty("JDBCTYPE", "derby");
+>>>>>>> 633419db9a10230c8d4e73d436fcee207ef0aacf
     
     // Setup initial look and feel
     public static String THEME = PROPERTIES.getProperty("THEME", "Metal");
