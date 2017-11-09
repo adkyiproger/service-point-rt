@@ -15,10 +15,13 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -36,7 +39,13 @@ public class DBDoor {
     private static Connection CONN = null;
     private static Statement STATEMENT=null;
     private static boolean CONN_STATE=true;
-    private static final Logger LOGGER=LogManager.getLogger(DBDoor.class.getName()); ;
+    private static final Logger LOGGER=LogManager.getLogger(DBDoor.class.getName());
+    
+    //private static String[][] RT_TABLES = {"clients", "address", "issues", "issueattributes"};
+    private static Map<String, String> RT_TABLES = new HashMap<String, String>();
+    
+    
+    
     
     public DBDoor() {
         
@@ -60,6 +69,7 @@ public class DBDoor {
         return CONN_STATE;
     }
     public static void setupMyConnection() {
+        LOGGER.info("Setting DB connection");
         boolean res=false;
         try {
             res=InetAddress.getByName(DBHOST).isReachable(5000);
@@ -86,11 +96,12 @@ public class DBDoor {
             }
            
             if (JDBCTYPE.equalsIgnoreCase("derby")) {
-                LOGGER.info("Link:"+"jdbc:derby:"+RepairTracker.DERBY_DBNAME+";");
-                CONN = DriverManager.getConnection("jdbc:derby:"+RepairTracker.DERBY_DBNAME+";");
+                LOGGER.info("Link:"+"jdbc:derby:"+RepairTracker.DERBY_DBNAME+";create=true");
+                CONN = DriverManager.getConnection("jdbc:derby:"+RepairTracker.DERBY_DBNAME+";create=true");
               STATEMENT=CONN.createStatement();
             STATEMENT.setQueryTimeout(15);
             CONN_STATE=true;
+            
             }  else CONN_STATE=false;
            
             
@@ -98,6 +109,11 @@ public class DBDoor {
         } catch ( SQLException ex) {
             LOGGER.error(ex.toString());
             CONN_STATE=false;
+        }
+        if (CONN_STATE==true) {
+            LOGGER.info("DB connection successfully created");
+            LOGGER.info("Checking tables");
+            createTables();
         }
     }
     public static int checkDBAccess(){
@@ -120,6 +136,56 @@ public class DBDoor {
             LOGGER.error(ex.toString());
         }
         return rs;
+    }
+    
+    public static void listTables(){
+        try {
+
+        ResultSet rs = CONN.getMetaData().getTables(null, "APP", "%", null);
+        LOGGER.info("Tables list for default DB schema (APP):");
+        while (rs.next()) {
+            LOGGER.info(rs.getString(3));
+        }
+        } catch (SQLException ex) {
+            LOGGER.error(ex.toString());
+        }
+    }
+    public static boolean checkTable(String tbl_name) {
+        boolean flag=false;
+        try {
+        ResultSet rs = CONN.getMetaData().getTables(null, "APP", "%", null);
+        
+        while (rs.next()) {
+            if ( rs.getString(3).equalsIgnoreCase(tbl_name) ) {
+            LOGGER.info("Table: "+tbl_name+" exists");
+            flag=true;
+            }
+        }
+        } catch (SQLException ex) {
+            LOGGER.error(ex.toString());
+        }
+        return flag;
+    }
+    private static void defTables(){
+        RT_TABLES.put("clients",
+            "CREATE TABLE clients ( client_id bigint NOT NULL, fname varchar(128) NOT NULL, "
+            + "lname varchar(128) NOT NULL, mname varchar(128) DEFAULT NULL, PRIMARY KEY (client_id))");
+    }
+    private static boolean createTables(){
+        defTables();
+        boolean flag=false;
+        for (String s: RT_TABLES.keySet()) {
+            if (checkTable(s)==false) {
+                LOGGER.error("Table: "+s+" does not exists");
+                try {
+                getStatement().execute(RT_TABLES.get(s));
+                LOGGER.info("Table "+s+" created");
+                } catch (SQLException ex) {
+                 LOGGER.error(ex.toString());
+                }
+            }
+        }
+        return flag;
     }
     
 }

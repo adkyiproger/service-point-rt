@@ -29,7 +29,6 @@ public class RepairTracker {
     public static String LOG_FILE = PROPERTIES.getProperty("LOG_FILE", "NA");
     
     // Database connection properties
-<<<<<<< HEAD
     public static String JDBCTYPE = PROPERTIES.getProperty("JDBCTYPE", "derby");
     // Derby configuration
     public static String DERBY_DBNAME = PROPERTIES.getProperty("DERBY_DBNAME", RTProperties.APP_HOME+FS+"db/rt");
@@ -38,14 +37,6 @@ public class RepairTracker {
     public static String DBNAME = PROPERTIES.getProperty("DBNAME", "rt");
     public static String DBPASS = PROPERTIES.getProperty("DBPASS", "grandy");
     public static String DBUSER = PROPERTIES.getProperty("DBUSER", "doctor");
-=======
-    public static String DBHOST = PROPERTIES.getProperty("DBHOST", "192.168.217.130");
-    public static String DBNAME = PROPERTIES.getProperty("DBNAME", "ehospital");
-     public static String DERBY_DBNAME = PROPERTIES.getProperty("DERBY_DBNAME", PROPERTIES.getProperty("APP_HOME")+"hospital");
-     public static String DBPASS = PROPERTIES.getProperty("DBPASS", "grandy");
-     public static String DBUSER = PROPERTIES.getProperty("DBUSER", "doctor");
-     public static String JDBCTYPE = PROPERTIES.getProperty("JDBCTYPE", "derby");
->>>>>>> 633419db9a10230c8d4e73d436fcee207ef0aacf
     
     // Setup initial look and feel
     public static String THEME = PROPERTIES.getProperty("THEME", "Metal");
@@ -58,11 +49,11 @@ public class RepairTracker {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        System.out.print("Repair Tracker started!");
+        
         String lc=LOCALE.substring(0,2), lm=LOCALE.substring(3,5);
                 
                 Locale.setDefault(new Locale(lc,lm));
-                System.out.println(System.getProperty("user.dir"));
+                //System.out.println(System.getProperty("user.dir"));
                 if (LOG_FILE=="NA")
                     
                     LOG_FILE=RTProperties.APP_HOME+FS+"logs"+FS+RTProperties.APP_NAME+".log";
@@ -71,6 +62,7 @@ public class RepairTracker {
                 org.apache.logging.log4j.core.LoggerContext ctx =
     (org.apache.logging.log4j.core.LoggerContext) LogManager.getContext(false);
 ctx.reconfigure();
+LOGGER.info("Repair Tracker started!");
          try {
              
              //new McWinLookAndFeel();
@@ -92,11 +84,11 @@ ctx.reconfigure();
        // handle exception
         e.printStackTrace();
     }
-                 DBDoor.setupMyConnection();
-               //   LogonForm LF = new LogonForm();
-                 //   LogManager.getLogger(EHospital.class.getName()).info("Application initialized");
-                 RepairTrackerGUI rt=new RepairTrackerGUI();
-                 rt.setVisible(true);
+                DBDoor.setupMyConnection();
+                //   LogonForm LF = new LogonForm();
+                //   LogManager.getLogger(EHospital.class.getName()).info("Application initialized");
+                RepairTrackerGUI rt=new RepairTrackerGUI();
+                rt.setVisible(true);
     
     }
     

@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Thu Nov 09 08:03:13 PST 2017:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.3 - (1557168): instance a816c00e-015f-a185-5dc6-0000013e5370 
+on database directory /home/user/SPRepatirTracker/db/rt with class loader sun.misc.Launcher$AppClassLoader@6d6f6e28 
+Loaded from file:/home/user/git/service-point-rt/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_151-b12
+user.dir=/home/user/git/service-point-rt
+os.name=Linux
+os.arch=amd64
+os.version=4.10.0-28-generic
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
