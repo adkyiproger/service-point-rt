@@ -101,70 +101,82 @@ public class Issue {
     }
 
     private void saveDB(String mode) {
-
+/*
+        issue_id bigint NOT NULL,
+        issuetype_id bigint NOT NULL,
+        client_id bigint NOT NULL,
+        devicetype_id bigint NOT NULL,
+        warranty_id bigint NOT NULL,
+        startdate date not null,
+        enddate date not null,
+        devicename varchar(128) DEFAULT NULL, 
+        devicenumber varchar(128) DEFAULT NULL, 
+        shortdescription varchar(256) DEFAULT NULL,  
+        comments varchar(256) NOT NULL,
+        totalcost double not null default 0,
+        prepay double not null default 0,
+        
+        */
         try {
             if (mode.equals("I")) {
                 preparedStatement = DB
-                        .prepareStatement("insert into clients values (?,?,?,?)");
+                        .prepareStatement("insert into issues values (?,?,?,?,?,?,?,?,?,?,?,?,?)");
                 preparedStatement.setInt(1, this.ID);
-                preparedStatement.setString(2, toUpper(this.FNAME));
-                preparedStatement.setString(3, toUpper(this.LNAME));
-                preparedStatement.setString(4, toUpper(this.MNAME));
+                preparedStatement.setInt(2, this.TYPE);
+                preparedStatement.setInt(3, this.CLIENT_ID);
+                preparedStatement.setInt(4, this.DEVTYPE);
+                preparedStatement.setInt(5, this.WARRANTY_ID);
+                preparedStatement.setDate(6,new java.sql.Date(this.START_DATE.getTime()));
+                preparedStatement.setDate(7,new java.sql.Date(this.END_DATE.getTime()));
+                preparedStatement.setString(8, DEVICE_NAME);
+                preparedStatement.setString(9, DEVICE_NUMBER);
+                preparedStatement.setString(10, SHORTDESCRIPTION);
+                preparedStatement.setString(11, COMMENTS);
+                preparedStatement.setDouble(12, TOTAL_COST);
+                preparedStatement.setDouble(13, PREPAY);
             }
             if (mode.equals("U")) {
 
                 preparedStatement = DB
-                        .prepareStatement("update clients set "
-                                + "fname=?, "
-                                + "lname=?,"
-                                + "mname=?"
-                                + "where client_id=?");
-                preparedStatement.setString(1, toUpper(this.FNAME));
-                preparedStatement.setString(2, toUpper(this.LNAME));
-                preparedStatement.setString(3, toUpper(this.MNAME));
-                preparedStatement.setInt(4, this.ID);
+                        .prepareStatement("update issues set "
+                                + "issuetype_id=?, "
+                                + "client_id=?, "
+                                + "devicetype_id=?, "
+                                + "warranty_id=?, "
+                                + "startdate=?, "
+                                + "enddate=?, "
+                                + "devicename=?, "
+                                + "devicenumber=?, "
+                                + "shortdescription=?, "
+                                + "comments=?, "
+                                + "totalcost=?, "
+                                + "prepay=?"
+                                + "where issue_id=?");
+
+                preparedStatement.setInt(1, this.TYPE);
+                preparedStatement.setInt(2, this.CLIENT_ID);
+                preparedStatement.setInt(3, this.DEVTYPE);
+                preparedStatement.setInt(4, this.WARRANTY_ID);
+                preparedStatement.setDate(5,new java.sql.Date(this.START_DATE.getTime()));
+                preparedStatement.setDate(6,new java.sql.Date(this.END_DATE.getTime()));
+                preparedStatement.setString(7, DEVICE_NAME);
+                preparedStatement.setString(8, DEVICE_NUMBER);
+                preparedStatement.setString(9, SHORTDESCRIPTION);
+                preparedStatement.setString(10, COMMENTS);
+                preparedStatement.setDouble(11, TOTAL_COST);
+                preparedStatement.setDouble(12, PREPAY);
 
             }
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
-            LOGGER.error("Client::saveDB(): " + ex.toString());
+            LOGGER.error("Issue::saveDB(): " + ex.toString());
         }
 
-    }
-private String toUpper(String str){
-    if (str.length()>2)
-        return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
-    else if (str.length()>0)
-        return str.substring(0, 1).toUpperCase();
-    else return "";
-}
-    public String lastName() {
-        return LNAME;
-    }
-
-    public String firstName() {
-        return FNAME;
-    }
-
-    public String middleName() {
-        return MNAME;
     }
     public int id() {
         return ID;
     }
      
-    public void setLName(String name) {
-        this.LNAME = name;
-    }
-
-    public void setFName(String name) {
-        this.FNAME = name;
-    }
-
-    public void setMName(String name) {
-        this.MNAME = name;
-    }
-
     public void save() {
         if (this.ID > 0) {
             this.saveDB("U");
@@ -175,6 +187,6 @@ private String toUpper(String str){
     }
     @Override
     public String toString() {
-        return this.lastName() + " " + this.firstName().substring(0, 1) + ". " + this.middleName().substring(0, 1) + ".";
+        return new Client(this.CLIENT_ID).toString()+" : "+this.DEVICE_NAME+" ("+this.DEVICE_NUMBER+")";
     }
 }

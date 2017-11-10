@@ -205,17 +205,18 @@ public class DBDoor {
         
         // -- DEVICETYPES
         RT_TABLES.put("devicetypes", "CREATE TABLE devicetypes (devicetype_id bigint NOT NULL, name varchar(128) NOT NULL, PRIMARY KEY(devicetype_id) ) ");
-        // -- WARRANTYTYPES
+        // -- WARRANTIES
         RT_TABLES.put("WARRANTIES", "CREATE TABLE WARRANTIES (warranty_id bigint NOT NULL, name varchar(128) NOT NULL, description varchar(4096) NOT NULL, PRIMARY KEY(warranty_id) ) ");
         
         // -- ISSUETYPES
         // http://sc24.su/pages/
         RT_TABLES.put("issuetypes", "CREATE TABLE issuetypes (issuetype_id bigint NOT NULL, name varchar(128) NOT NULL, PRIMARY KEY(issuetype_id) ) ");
         
+        // -- ISSUES
         RT_TABLES.put("issues", "CREATE TABLE issues (issue_id bigint NOT NULL, issuetype_id bigint NOT NULL, client_id bigint NOT NULL,"
                 + " devicetype_id bigint NOT NULL, warranty_id bigint NOT NULL,"
                 + "startdate date not null, enddate date not null,"
-                + "devicename varchar(128) DEFAULT NULL, devicemodel varchar(128) DEFAULT NULL, shortdescription varchar(256) DEFAULT NULL,  comments varchar(256) NOT NULL,"
+                + "devicename varchar(128) DEFAULT NULL, devicenumber varchar(128) DEFAULT NULL, shortdescription varchar(256) DEFAULT NULL,  comments varchar(256) NOT NULL,"
                 + "totalcost double not null default 0, prepay double not null default 0,"
                 + "  PRIMARY KEY (issue_id), "
                 + "CONSTRAINT FK_ISSCL  FOREIGN KEY (client_id)  REFERENCES clients (client_id),"
