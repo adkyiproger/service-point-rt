@@ -4,9 +4,9 @@
  * and open the template in the editor.
  */
 
-package ehospital.model;
+package repairtracker.models;
 
-import ehospital.model.DBDoor;
+import repairtracker.models.DBDoor;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

@@ -4,10 +4,8 @@
  * and open the template in the editor.
  */
 
-package ehospital.model;
+package repairtracker.models;
 
-import ehospital.model.DBDoor;
-import ehospital.code.EHospital;
 import java.util.Iterator;
 import java.util.Map;
 import java.sql.Connection;
@@ -26,7 +24,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Template {
     
-    private Integer ID = -1, DEP_ID=EHospital.DEP_ID, AUTHOR_ID=EHospital.DOC_ID;
+    private Integer ID = -1, DEP_ID=1, AUTHOR_ID=1;
     private String NAME = "";
     private String CONTENT="";
     private Connection DB = null;
