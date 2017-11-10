@@ -175,7 +175,7 @@ public class Template {
         Map<String,String> doctors = new HashMap<>();
         
         try {
-        ResultSet resultSet = DBDoor.getStatement().executeQuery("select name, content from templates where department_id="+EHospital.DEP_ID);
+        ResultSet resultSet = DBDoor.getStatement().executeQuery("select name, content from templates where department_id=");
             while (resultSet.next()) {
                     doctors.put(resultSet.getString("name"),resultSet.getString("content"));
                 }
