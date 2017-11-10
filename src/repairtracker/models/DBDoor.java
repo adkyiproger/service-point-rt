@@ -20,6 +20,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.logging.log4j.LogManager;
@@ -114,6 +115,8 @@ public class DBDoor {
             LOGGER.info("DB connection successfully created");
             LOGGER.info("Checking tables");
             createTables();
+                
+            
         }
     }
     public static int checkDBAccess(){
@@ -137,6 +140,28 @@ public class DBDoor {
         }
         return rs;
     }
+    
+    public static String[] sqlToList(String sql){
+       ArrayList<String> list=new ArrayList<>();
+       if (DBDoor.isConnected()) {
+       try {
+        ResultSet resultSet = DBDoor.getStatement().executeQuery(sql);
+            while (resultSet.next()) {
+                    
+                    list.add(resultSet.getString(1));
+                }
+        } catch (SQLException ex) {
+            LOGGER.error("private static String[] sqlToList(String sql): "+ex.toString());
+            list.add("NA");
+        }
+       }
+        String[] stockArr = new String[list.size()];
+        stockArr = list.toArray(stockArr);
+        
+        return stockArr;
+    
+   }
+    
     
     public static void listTables(){
         try {
@@ -167,13 +192,48 @@ public class DBDoor {
         return flag;
     }
     private static void defTables(){
+        
+        // -- CLIENTS
         RT_TABLES.put("clients",
             "CREATE TABLE clients ( client_id bigint NOT NULL, fname varchar(128) NOT NULL, "
             + "lname varchar(128) NOT NULL, mname varchar(128) DEFAULT NULL, PRIMARY KEY (client_id))");
+        // -- ADDRESS
+        RT_TABLES.put("address", "CREATE TABLE address (address_id bigint NOT NULL,"
+                + " region varchar(256) NOT NULL,  district varchar(256) NOT NULL,  zip varchar(9) NOT NULL,  city varchar(256) NOT NULL,"
+                + "  address1 varchar(1024) NOT NULL,  phone varchar(32) NOT NULL,  email varchar(256) NOT NULL,  client_id bigint NOT NULL,"
+                + "  PRIMARY KEY (address_id),  CONSTRAINT FK_ADPTS  FOREIGN KEY (client_id) REFERENCES clients (client_id))");
+        
+        // -- DEVICETYPES
+        RT_TABLES.put("devicetypes", "CREATE TABLE devicetypes (devicetype_id bigint NOT NULL, name varchar(128) NOT NULL, PRIMARY KEY(devicetype_id) ) ");
+        // -- WARRANTYTYPES
+        RT_TABLES.put("WARRANTIES", "CREATE TABLE WARRANTIES (warranty_id bigint NOT NULL, name varchar(128) NOT NULL, description varchar(4096) NOT NULL, PRIMARY KEY(warranty_id) ) ");
+        
+        // -- ISSUETYPES
+        RT_TABLES.put("issuetypes", "CREATE TABLE issuetypes (issuetype_id bigint NOT NULL, name varchar(128) NOT NULL, PRIMARY KEY(issuetype_id) ) ");
+        
+        RT_TABLES.put("issues", "CREATE TABLE issues (issue_id bigint NOT NULL, issuetype_id bigint NOT NULL, client_id bigint NOT NULL,"
+                + " devicetype_id bigint NOT NULL, warranty_id bigint NOT NULL,"
+                + "startdate date not null, enddate date not null,"
+                + "devicename varchar(128) DEFAULT NULL, devicemodel varchar(128) DEFAULT NULL, shortdescription varchar(256) DEFAULT NULL,  comments varchar(256) NOT NULL,"
+                + "  PRIMARY KEY (issue_id), "
+                + "CONSTRAINT FK_ISSCL  FOREIGN KEY (client_id)  REFERENCES clients (client_id),"
+                + "CONSTRAINT FK_ISTYP  FOREIGN KEY (issuetype_id)  REFERENCES issuetypes (issuetype_id),"
+                + "CONSTRAINT FK_ISDEV  FOREIGN KEY (devicetype_id)  REFERENCES devicetypes (devicetype_id),"
+                + "CONSTRAINT FK_ISWAR  FOREIGN KEY (warranty_id)  REFERENCES WARRANTIES (warranty_id)"
+                + ")");
+        // -- issueattributes types
+        RT_TABLES.put("issueattrtypes", "CREATE TABLE issueattrtypes (issueattrtype_id bigint NOT NULL, name varchar(128) NOT NULL, PRIMARY KEY(issueattrtype_id) ) ");
+        
+        RT_TABLES.put("issueattributes", "CREATE TABLE issueattributes (issueattribute_id bigint NOT NULL, issue_id bigint NOT NULL,"
+                + " description varchar(128) NOT NULL, price double default null, issueattrtype_id bigint not null, PRIMARY KEY(issueattribute_id),"
+                + "CONSTRAINT FK_ISAIS  FOREIGN KEY (issue_id)  REFERENCES issues (issue_id),"
+                + "CONSTRAINT FK_ISATY  FOREIGN KEY (issueattrtype_id)  REFERENCES issueattrtypes (issueattrtype_id)"
+                + " ) ");
+
     }
     private static boolean createTables(){
         defTables();
-        boolean flag=false;
+        boolean flag=true;
         for (String s: RT_TABLES.keySet()) {
             if (checkTable(s)==false) {
                 LOGGER.error("Table: "+s+" does not exists");
@@ -181,9 +241,17 @@ public class DBDoor {
                 getStatement().execute(RT_TABLES.get(s));
                 LOGGER.info("Table "+s+" created");
                 } catch (SQLException ex) {
+                 LOGGER.error("Table "+s+" was not created");   
                  LOGGER.error(ex.toString());
+                 flag=false;
                 }
+                
             }
+        }
+        if (flag==true) {
+            LOGGER.info("createTables(): Completed successfully. All required tables are present in database");
+        } else {
+            LOGGER.error("createTables(): Failed. Application will not function properly");
         }
         return flag;
     }

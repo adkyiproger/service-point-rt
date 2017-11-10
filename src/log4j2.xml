@@ -6,7 +6,7 @@
 filePattern="${sys:logFilename}-%d{yyyy-MM-dd}-%i.log" >
 
 <PatternLayout>
-<pattern>%d{dd/MM/yyyy HH:mm:ss,SSS}- %c{1}: %m%n</pattern>
+<pattern>%d{dd/MM/yyyy HH:mm:ss,SSS} | %-5p | [%c{1}] %m%n</pattern>
 </PatternLayout>
 <Policies>
 <SizeBasedTriggeringPolicy size="10000 KB" />
