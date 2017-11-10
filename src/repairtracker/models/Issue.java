@@ -23,11 +23,14 @@ import org.apache.logging.log4j.Logger;
 public class Issue {
     private static java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("repairtracker/views/Bundle"); // NOI18N
     private static Logger LOGGER=LogManager.getLogger(Issue.class.getName()); 
-    
+    private Connection DB = DBDoor.getConn();
+    private Statement statement = null;
+    private PreparedStatement preparedStatement = null;
+    private ResultSet resultSet = null;
     
     private Integer ID = -1;
     // Issue ID
-    
+    private Integer CLIENT_ID=-1;
     private Integer TYPE=1;
     // Issue type ID
     //  - Regular repair
@@ -41,13 +44,18 @@ public class Issue {
     //  - Laptop
     //  - PC
     
-    private String FNAME = "";
-    private String LNAME = "";
-    private String MNAME = "";
-    private Connection DB = DBDoor.getConn();
-    private Statement statement = null;
-    private PreparedStatement preparedStatement = null;
-    private ResultSet resultSet = null;
+    private Integer WARRANTY_ID=1;
+    
+    private String DEVICE_NAME="";
+    private String DEVICE_NUMBER = "";
+    private String SHORTDESCRIPTION = "";
+    private String COMMENTS = "";
+    private Date START_DATE;
+    private Date END_DATE;
+    private Double TOTAL_COST=0.0;
+    private Double PREPAY=0.0;
+    
+            
     
 
     public Issue() {
@@ -55,32 +63,40 @@ public class Issue {
     }
 
     public Issue(Integer id) {
-        DB = DBDoor.getConn();
-        LOGGER.info("Client::Client(" + id+")");
+        LOGGER.info("Issue::Issue(" + id+")");
         this.ID = id;
         loadDB();
     }
     private void loadDB() {
         if (ID >= 0) {
             try {
-                resultSet = DBDoor.executeSelect("select * from clients where client_id=" + this.ID);
+                resultSet = DBDoor.executeSelect("select * from issues where issue_id=" + this.ID);
                 resultSet.next();
-                FNAME = resultSet.getString("fname");
-                LNAME = resultSet.getString("lname");
-                MNAME = resultSet.getString("mname");
+                CLIENT_ID=resultSet.getInt("client_id");
+                TYPE=resultSet.getInt("issuetype_id");
+                DEVTYPE=resultSet.getInt("devicetype_id");
+                WARRANTY_ID=resultSet.getInt("warranty_id");
+                DEVICE_NAME = resultSet.getString("devicename");
+                DEVICE_NUMBER = resultSet.getString("devicenumber");
+                SHORTDESCRIPTION = resultSet.getString("shortdescription");
+                COMMENTS = resultSet.getString("comments");
+                START_DATE = resultSet.getDate("startdate");
+                END_DATE = resultSet.getDate("enddate");
+                TOTAL_COST = resultSet.getDouble("totalcost");
+                PREPAY = resultSet.getDouble("prepay");
+                
             } catch (SQLException ex) {
-                LOGGER.error("Client::loadDB(): " + ex.toString());
+                LOGGER.error("Issue::loadDB(): " + ex.toString());
             }
         }
 }
     private void resolveID() {
         try {
-            resultSet = DBDoor.getStatement()
-                    .executeQuery("select max(client_id)+1 as client_id from clients");
+            resultSet = DBDoor.executeSelect("select max(issue_id)+1 as issue_id from issues");
             resultSet.next();
-            ID = resultSet.getInt("client_id");
+            ID = resultSet.getInt("issue_id");
         } catch (SQLException ex) {
-            LOGGER.error("Client::resolveID(): " + ex.toString());
+            LOGGER.error("Issue::resolveID(): " + ex.toString());
         }
     }
 
