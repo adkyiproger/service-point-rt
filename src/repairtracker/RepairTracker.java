@@ -43,7 +43,7 @@ public class RepairTracker {
     public static String THEME_CLASS = PROPERTIES.getProperty("THEME_CLASS", "javax.swing.plaf.metal.MetalLookAndFeel");
     
     
-    public static Logger LOGGER=LogManager.getLogger();
+    public static Logger LOGGER;
     /**
      * @param args the command line arguments
      */
@@ -53,15 +53,16 @@ public class RepairTracker {
         String lc=LOCALE.substring(0,2), lm=LOCALE.substring(3,5);
                 
                 Locale.setDefault(new Locale(lc,lm));
-                //System.out.println(System.getProperty("user.dir"));
+                
                 if (LOG_FILE=="NA")
                     
                     LOG_FILE=RTProperties.APP_HOME+FS+"logs"+FS+RTProperties.APP_NAME+".log";
                 System.setProperty("logFilename", LOG_FILE);
-                //System.out.println("App dir: "+System.);
-                org.apache.logging.log4j.core.LoggerContext ctx =
-    (org.apache.logging.log4j.core.LoggerContext) LogManager.getContext(false);
-ctx.reconfigure();
+                //System.out.println("logFilename: "+LOG_FILE);
+                //org.apache.logging.log4j.core.LoggerContext ctx =
+    //(org.apache.logging.log4j.core.LoggerContext) LogManager.getContext(false);
+//ctx.reconfigure();
+LOGGER=LogManager.getLogger();
 LOGGER.info("Repair Tracker started!");
          try {
              
