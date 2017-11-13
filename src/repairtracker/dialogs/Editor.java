@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package dialogs;
+package repairtracker.dialogs;
 
 import ehospital.code.EHospital;
 import helpers.PropertiesReader;
@@ -67,7 +67,7 @@ public static Logger LOGGER=LogManager.getLogger(Editor.class.getName());
         TEXT_AREA.setRows(5);
         jScrollPane1.setViewportView(TEXT_AREA);
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("dialogs/Bundle"); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("repairtracker/dialogs/Bundle"); // NOI18N
         TITLE.setText(bundle.getString("Editor.TITLE.text")); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
