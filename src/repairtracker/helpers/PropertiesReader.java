@@ -4,12 +4,12 @@
  * and open the template in the editor.
  */
 
-package helpers;
+package repairtracker.helpers;
 
-import ehospital.code.EHospital;
-import ehospital.code.EHospitalProperties;
-import static ehospital.code.EHospitalProperties.APP_HOME;
-import static helpers.PropertiesReader.LOGGER;
+import repairtracker.RepairTracker;
+import repairtracker.RTProperties;
+import static repairtracker.RTProperties.APP_HOME;
+import static repairtracker.helpers.PropertiesReader.LOGGER;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -72,7 +72,7 @@ public class PropertiesReader {
 
         try {
             InputStream ins = null;
-            File infile = new File(EHospitalProperties.APP_HOME + "/"+locale_file);
+            File infile = new File(RTProperties.APP_HOME + "/"+locale_file);
 
             if (infile.exists()) {
                 LOGGER.info("Reading "+locale_file+" from application directory");
@@ -83,10 +83,10 @@ public class PropertiesReader {
                 
                 try {
                     
-                ins = EHospital.class.getClassLoader().getResourceAsStream(locale_file);
+                ins = RTProperties.class.getClassLoader().getResourceAsStream(locale_file);
                 if (ins==null) {
                     LOGGER.info("Locale specific file "+locale_file+" not found using generic file. Trying to load "+file);
-                    ins = EHospital.class.getClassLoader().getResourceAsStream(file);
+                    ins = RTProperties.class.getClassLoader().getResourceAsStream(file);
                 }
                 LOGGER.info("File "+locale_file+" found in embeded sources");
                 } catch (Exception e) {
@@ -137,7 +137,7 @@ class SaveFile implements Runnable {
        
         String appDir="";
 
-        fileName=EHospitalProperties.APP_HOME + "/"+ fileName.replace(".txt", "_" + Locale.getDefault() + ".txt");
+        fileName=RTProperties.APP_HOME + "/"+ fileName.replace(".txt", "_" + Locale.getDefault() + ".txt");
  
         LOGGER.info("Init file object:"+fileName);
         File infile=new File(fileName);

@@ -21,7 +21,7 @@ public class RTProperties {
     static String SEP = File.separator;
     static String HOME = System.getProperty("user.home");
     static String TEMP_DIR = System.getProperty("java.io.tmpdir");
-    static String APP_NAME = "SPRepatirTracker";
+    public static String APP_NAME = "SPRepatirTracker";
     public static String APP_HOME = HOME + SEP + APP_NAME;
     static String PROPS_FILE = APP_HOME + SEP + "config.properties";
     static String PROPS_XML = APP_HOME + SEP + "config.xml";

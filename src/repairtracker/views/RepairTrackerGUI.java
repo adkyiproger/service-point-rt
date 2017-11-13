@@ -76,7 +76,7 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
 
         jToolBar1.setRollover(true);
 
-        jButton1.setText("jButton1");
+        jButton1.setText("New");
         jButton1.setFocusable(false);
         jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -119,6 +119,11 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
         MENU_ISSUES.setText("Edit");
 
         MENU_NEWISSUE.setText("New Issue");
+        MENU_NEWISSUE.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MENU_NEWISSUEActionPerformed(evt);
+            }
+        });
         MENU_ISSUES.add(MENU_NEWISSUE);
 
         MAIN_MENU.add(MENU_ISSUES);
@@ -148,6 +153,10 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void MENU_NEWISSUEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MENU_NEWISSUEActionPerformed
+        TabManager.insertTab(new IssueEditor());
+    }//GEN-LAST:event_MENU_NEWISSUEActionPerformed
 
     /**
      * @param args the command line arguments

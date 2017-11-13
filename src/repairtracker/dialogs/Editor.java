@@ -7,14 +7,14 @@
 package repairtracker.dialogs;
 
 //import ehospital.code.EHospital;
-//import helpers.PropertiesReader;
-import helpers.TextPropsDecorator;
+import repairtracker.RTProperties;
+import repairtracker.helpers.TextPropsDecorator;
 //import java.awt.event.WindowEvent;
 //import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import repairtracker.RTProperties;
+import repairtracker.helpers.PropertiesReader;
 
 /**
  *
@@ -33,7 +33,7 @@ public static Logger LOGGER=LogManager.getLogger(Editor.class.getName());
         TextPropsDecorator.decorate(TEXT_AREA);
         TITLE.setText(title);
         FILE=filename;
-        TEXT_AREA.setText(RTProperties.getFileAsString(filename));
+        TEXT_AREA.setText(PropertiesReader.getFileAsString(filename));
         int result=JOptionPane.showConfirmDialog(null,jPanel1,title,JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE);
         if (result == JOptionPane.OK_OPTION) {
             PropertiesReader.savePropertiesFile(FILE, TEXT_AREA.getText());
@@ -61,7 +61,7 @@ public static Logger LOGGER=LogManager.getLogger(Editor.class.getName());
         TITLE = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle(EHospital.APPLICATION_NAME);
+        setTitle(RTProperties.APP_NAME);
 
         TEXT_AREA.setColumns(20);
         TEXT_AREA.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N

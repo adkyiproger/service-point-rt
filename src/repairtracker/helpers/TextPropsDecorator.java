@@ -4,9 +4,9 @@
  * and open the template in the editor.
  */
 
-package helpers;
+package repairtracker.helpers;
 
-import ehospital.code.EHospital;
+import repairtracker.RepairTracker;
 import javax.swing.JList;
 import javax.swing.JTextArea;
 
@@ -16,12 +16,12 @@ import javax.swing.JTextArea;
  */
 public class TextPropsDecorator {
     
-    private static String EDITOR_FONT_FAMILY=EHospital.PROPERTIES.getProperty("EDITOR_FONT_FAMILY","DejaVu Sans Mono");
-    private static int EDITOR_FONT_SIZE=Integer.parseInt(EHospital.PROPERTIES.getProperty("EDITOR_FONT_SIZE","12"));
-    private static String LIST_FONT_FAMILY=EHospital.PROPERTIES.getProperty("LIST_FONT_FAMILY");
-    private static int LIST_FONT_SIZE=Integer.parseInt(EHospital.PROPERTIES.getProperty("LIST_FONT_SIZE","12"));
-    private static String PRINT_FONT_FAMILY=EHospital.PROPERTIES.getProperty("PRINT_FONT_FAMILY");
-    private static int PRINT_FONT_SIZE=Integer.parseInt(EHospital.PROPERTIES.getProperty("PRINT_FONT_SIZE","12"));
+    private static String EDITOR_FONT_FAMILY=RepairTracker.PROPERTIES.getProperty("EDITOR_FONT_FAMILY","DejaVu Sans Mono");
+    private static int EDITOR_FONT_SIZE=Integer.parseInt(RepairTracker.PROPERTIES.getProperty("EDITOR_FONT_SIZE","12"));
+    private static String LIST_FONT_FAMILY=RepairTracker.PROPERTIES.getProperty("LIST_FONT_FAMILY");
+    private static int LIST_FONT_SIZE=Integer.parseInt(RepairTracker.PROPERTIES.getProperty("LIST_FONT_SIZE","12"));
+    private static String PRINT_FONT_FAMILY=RepairTracker.PROPERTIES.getProperty("PRINT_FONT_FAMILY");
+    private static int PRINT_FONT_SIZE=Integer.parseInt(RepairTracker.PROPERTIES.getProperty("PRINT_FONT_SIZE","12"));
             
     
     public static void decorate(JTextArea ta) {

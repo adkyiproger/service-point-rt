@@ -7,7 +7,7 @@
 package ehospital.configurator;
 
 import ehospital.model.Template;
-import helpers.TextPropsDecorator;
+import repairtracker.helpers.TextPropsDecorator;
 import javax.swing.Icon;
 //import ehospital.code.*;
 //import ehospital.model.Doctor;

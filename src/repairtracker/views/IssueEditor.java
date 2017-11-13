@@ -5,11 +5,18 @@
  */
 package repairtracker.views;
 
+import guitypes.TabAbstractPanel;
+import guitypes.TabManager;
+import java.awt.Graphics;
+import javax.swing.Icon;
+import javax.swing.JMenu;
+import repairtracker.dialogs.Editor;
+
 /**
  *
  * @author user
  */
-public class IssueEditor extends javax.swing.JPanel {
+public class IssueEditor extends TabAbstractPanel {
 
     /**
      * Creates new form IssueEditor
@@ -27,6 +34,7 @@ public class IssueEditor extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        THIS_COMPONENT = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jComboBox2 = new javax.swing.JComboBox<>();
@@ -44,7 +52,7 @@ public class IssueEditor extends javax.swing.JPanel {
         jPanel4 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jTextField5 = new javax.swing.JTextField();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        DEVICE_TYPE = new javax.swing.JComboBox<>();
         jLabel12 = new javax.swing.JLabel();
         jTextField4 = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
@@ -85,6 +93,8 @@ public class IssueEditor extends javax.swing.JPanel {
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
+
+        THIS_COMPONENT.setText("jLabel17");
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Issue"));
 
@@ -180,7 +190,7 @@ public class IssueEditor extends javax.swing.JPanel {
             }
         });
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        DEVICE_TYPE.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel12.setText("Number#");
 
@@ -192,7 +202,7 @@ public class IssueEditor extends javax.swing.JPanel {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(DEVICE_TYPE, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -208,7 +218,7 @@ public class IssueEditor extends javax.swing.JPanel {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(DEVICE_TYPE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8)
                     .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel12)
@@ -262,6 +272,11 @@ public class IssueEditor extends javax.swing.JPanel {
         jScrollPane1.setViewportView(jList1);
 
         jButton9.setText("Edit");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -532,10 +547,16 @@ public class IssueEditor extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField5ActionPerformed
 
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        new Editor("EDIT: "+DEVICE_TYPE.getSelectedItem().toString(),"issueitems/"+DEVICE_TYPE.getSelectedItem().toString()+".txt");        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton9ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> DEVICE_TYPE;
     private com.toedter.calendar.JDateChooser FILTER_ENDDATE;
     private com.toedter.calendar.JDateChooser FILTER_STARTDATE;
+    private javax.swing.JLabel THIS_COMPONENT;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -547,7 +568,6 @@ public class IssueEditor extends javax.swing.JPanel {
     private javax.swing.JButton jButton9;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JComboBox<String> jComboBox5;
     private javax.swing.JFormattedTextField jFormattedTextField1;
@@ -593,4 +613,27 @@ public class IssueEditor extends javax.swing.JPanel {
     private javax.swing.JTextPane jTextPane1;
     private javax.swing.JTextPane jTextPane2;
     // End of variables declaration//GEN-END:variables
+
+
+    @Override
+    public void close() {
+        TabManager.removeTab(this);
+    }
+     @Override
+    public Icon getIcon() {
+        return THIS_COMPONENT.getIcon();
+    }
+    public static JMenu getMenu(){
+           return null; 
+    }
+    
+    @Override
+    public String toString() {
+        return THIS_COMPONENT.getText();
+    }
+    
+    
+    @Override
+    public void print(Graphics g){
+    }
 }

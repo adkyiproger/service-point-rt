@@ -15,7 +15,7 @@ import ehospital.model.Patient;
 import ehospital.model.Template;
 import helpers.PageDecorator;
 import helpers.TabManager;
-import helpers.TextPropsDecorator;
+import repairtracker.helpers.TextPropsDecorator;
 import java.awt.print.PageFormat;
 import java.awt.print.Paper;
 import java.awt.print.PrinterException;
