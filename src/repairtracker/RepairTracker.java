@@ -58,6 +58,7 @@ public class RepairTracker {
                     
                     LOG_FILE=RTProperties.APP_HOME+FS+"logs"+FS+RTProperties.APP_NAME+".log";
                 System.setProperty("logFilename", LOG_FILE);
+                System.setProperty("derby.stream.error.file", RTProperties.APP_HOME+FS+"logs"+FS+"derby.log");
                 //System.out.println("logFilename: "+LOG_FILE);
                 //org.apache.logging.log4j.core.LoggerContext ctx =
     //(org.apache.logging.log4j.core.LoggerContext) LogManager.getContext(false);
