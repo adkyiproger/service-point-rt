@@ -91,10 +91,10 @@ public class PropertiesReader {
 
         getFileAsList(file).forEach((l) -> {
             String item_name, price;
-            item_name=l.split(",")[0]; //NOI18N
-            if (l.split(",").length<2) { price="0"; //NOI18N
+            item_name=l.split("\\|")[0]; //NOI18N
+            if (l.split("\\|").length<2) { price="0"; //NOI18N
             } else {
-                price=l.split(",")[1]; //NOI18N
+                price=l.split("\\|")[1]; //NOI18N
             }
             _model.addRow(new Object[]{item_name,price});
             LOGGER.info("Property: " +l); //NOI18N
