@@ -24,8 +24,10 @@ import java.util.Locale;
 import java.util.logging.Level;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.table.DefaultTableModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import static repairtracker.helpers.PropertiesReader.FS;
 
 /**
  *
@@ -33,6 +35,7 @@ import org.apache.logging.log4j.Logger;
  */
 public class PropertiesReader {
     public static Logger LOGGER=LogManager.getLogger(PropertiesReader.class.getName());
+    public static String FS=System.getProperty("file.separator","/"); //NOI18N
     
     public static String[] getFileAsStringList(String file){
         List<String> list=getFileAsList(file);
@@ -57,46 +60,82 @@ public class PropertiesReader {
     
     public static String getFileAsString(String file) {
         StringBuilder sb = new StringBuilder();
-        String str="";
+        String str=""; //NOI18N
         List<String> list=getFileAsList(file);
         
-         for (String l : list) sb.append(l+"\n");
+         for (String l : list) sb.append(l).append("\n"); //NOI18N
         str=sb.toString();
         return str;
     }
     
+    public static List<String> getPropertiesFiles(){
+        File folder = new File(RTProperties.APP_HOME+FS);
+        File[] listOfFiles = folder.listFiles();
+        List<String> f= new ArrayList<>();
+        for (int i = 0; i < listOfFiles.length; i++) {
+        if (listOfFiles[i].isFile()) {
+        System.out.println("File " + listOfFiles[i].getName()); //NOI18N
+        f.add(listOfFiles[i].getName());
+       } else if (listOfFiles[i].isDirectory()) {
+        System.out.println("Directory " + listOfFiles[i].getName()); //NOI18N
+       }
+      }
+        return f;
+    }
+    
+    public static DefaultTableModel getTableModel(String file) {
+        Object[][] rowDATA = {};
+        String[] colNames = {java.util.ResourceBundle.getBundle("repairtracker/helpers/Bundle").getString("ITEMNAME"),java.util.ResourceBundle.getBundle("repairtracker/helpers/Bundle").getString("PRICE")};
+        
+        DefaultTableModel _model = new DefaultTableModel(rowDATA, colNames);
+
+        getFileAsList(file).forEach((l) -> {
+            String item_name, price;
+            item_name=l.split(",")[0]; //NOI18N
+            if (l.split(",").length<2) { price="0"; //NOI18N
+            } else {
+                price=l.split(",")[1]; //NOI18N
+            }
+            _model.addRow(new Object[]{item_name,price});
+            LOGGER.info("Property: " +l); //NOI18N
+        });
+        
+        return _model;
+    }
+    
+    
     public static List<String> getFileAsList(String file) {
         List<String> lst = new ArrayList<>();
 
-        String locale_file = file.replace(".txt", "_" + Locale.getDefault() + ".txt");
+        String locale_file = file.replace(".txt", "_" + Locale.getDefault() + ".txt"); //NOI18N //NOI18N
 
         try {
             InputStream ins = null;
-            File infile = new File(RTProperties.APP_HOME + "/"+locale_file);
+            File infile = new File(RTProperties.APP_HOME+FS+locale_file);
 
             if (infile.exists()) {
-                LOGGER.info("Reading "+locale_file+" from application directory");
+                LOGGER.info("Reading "+locale_file+" from application directory"); //NOI18N
                 ins = new FileInputStream(infile);
 //                file = locale_file;
-                LOGGER.info("File "+locale_file+" found");
+                LOGGER.info("File "+locale_file+" found"); //NOI18N
             } else {
                 
                 try {
                     
                 ins = RTProperties.class.getClassLoader().getResourceAsStream(locale_file);
                 if (ins==null) {
-                    LOGGER.info("Locale specific file "+locale_file+" not found using generic file. Trying to load "+file);
+                    LOGGER.info("Locale specific file "+locale_file+" not found using generic file. Trying to load "+file); //NOI18N
                     ins = RTProperties.class.getClassLoader().getResourceAsStream(file);
                 }
-                LOGGER.info("File "+locale_file+" found in embeded sources");
+                LOGGER.info("File "+locale_file+" found in embeded sources"); //NOI18N
                 } catch (Exception e) {
-                    LOGGER.error("Unable to read resource "+e.toString());
+                    LOGGER.error("Unable to read resource "+e.toString()); //NOI18N
                     
 //                    file=locale_file;
                 }
             }
   //          LOGGER.info("Reading file: " + file);
-            InputStreamReader ir = new InputStreamReader(ins,"utf8");
+            InputStreamReader ir = new InputStreamReader(ins,"utf8"); //NOI18N
             BufferedReader br = new BufferedReader(ir);
 
             String line = null;
@@ -129,38 +168,38 @@ class SaveFile implements Runnable {
    SaveFile(String filename, String str){
        fileName = filename;
        outStr=str;
-       LOGGER.info("Creating " +  fileName );
+       LOGGER.info("Creating " +  fileName ); //NOI18N
    }
    
    @Override
    public void run() {
        
-        String appDir="";
+        String appDir=""; //NOI18N
 
-        fileName=RTProperties.APP_HOME + "/"+ fileName.replace(".txt", "_" + Locale.getDefault() + ".txt");
+        fileName=RTProperties.APP_HOME +FS+ fileName.replace(".txt", "_" + Locale.getDefault() + ".txt"); //NOI18N //NOI18N
  
-        LOGGER.info("Init file object:"+fileName);
+        LOGGER.info("Init file object:"+fileName); //NOI18N
         File infile=new File(fileName);
         
             if(!infile.exists()) {
             try {
-                LOGGER.info("Trying to create new file");
+                LOGGER.info("Trying to create new file"); //NOI18N
                 infile.getParentFile().mkdirs();
                 
             } catch (Exception ex) {
-                LOGGER.error("Something critical happened: \n"+ex);
+                LOGGER.error("Something critical happened: \n"+ex); //NOI18N
             }
             }
 
-            LOGGER.info("Saving file:"+fileName);
+            LOGGER.info("Saving file:"+fileName); //NOI18N
                 
-        try (PrintStream out = new PrintStream(new FileOutputStream(fileName),true,"utf8")) {
+        try (PrintStream out = new PrintStream(new FileOutputStream(fileName),true,"utf8")) { //NOI18N
             
                 out.print(outStr);
                 out.close();
-            LOGGER.info("Properties file: "+fileName+" saved");
+            LOGGER.info("Properties file: "+fileName+" saved"); //NOI18N
         } catch (Exception e) {
-            LOGGER.error("Properties file: "+fileName+" not saved:");
+            LOGGER.error("Properties file: "+fileName+" not saved:"); //NOI18N
             LOGGER.error(e.toString());
         }
         
