@@ -17,6 +17,8 @@ import org.apache.logging.log4j.Logger;
 import repairtracker.RTProperties;
 import repairtracker.dialogs.Editor;
 import repairtracker.helpers.PropertiesReader;
+import repairtracker.models.Client;
+import repairtracker.models.Issue;
 
 /**
  *
@@ -25,12 +27,25 @@ import repairtracker.helpers.PropertiesReader;
 public class IssueEditor extends TabAbstractPanel {
     
     public static Logger LOGGER=LogManager.getLogger(IssueEditor.class.getName());
+    Issue ISSUE;
+    Client CLIENT;
+    
 
     /**
      * Creates new form IssueEditor
      */
     public IssueEditor() {
+      this(-1);
+    }
+    
+    public IssueEditor(int id) {
         initComponents();
+        ISSUE=new Issue(id);
+        CLIENT=new Client(ISSUE.clientId());
+        ISSUE_TYPE.setSelectedIndex(ISSUE.issueTypeId());
+        START_DATE.setDate(ISSUE.startDate());
+        END_DATE.setDate(ISSUE.endDate());
+        
         // load predifined model
         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
         for (String l : java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("IssueEditor.DEVICE_TYPE").split(","))
@@ -49,6 +64,7 @@ public class IssueEditor extends TabAbstractPanel {
         WORKLOG.getColumnModel().getColumn(1).setMaxWidth(120);
         
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -65,9 +81,9 @@ public class IssueEditor extends TabAbstractPanel {
         jPanel3 = new javax.swing.JPanel();
         ISSUE_TYPE = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
-        FILTER_ENDDATE = new com.toedter.calendar.JDateChooser();
+        END_DATE = new com.toedter.calendar.JDateChooser();
         jLabel6 = new javax.swing.JLabel();
-        FILTER_STARTDATE = new com.toedter.calendar.JDateChooser();
+        START_DATE = new com.toedter.calendar.JDateChooser();
         ISSUE_STATUS = new javax.swing.JComboBox<>();
         jLabel11 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -174,9 +190,9 @@ public class IssueEditor extends TabAbstractPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(FILTER_ENDDATE, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
+                        .addComponent(END_DATE, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
                         .addComponent(PREPAID))
-                    .addComponent(FILTER_STARTDATE, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(START_DATE, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(10, 10, 10))
         );
         jPanel3Layout.setVerticalGroup(
@@ -184,7 +200,7 @@ public class IssueEditor extends TabAbstractPanel {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(5, 5, 5)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(FILTER_STARTDATE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(START_DATE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(ISSUE_TYPE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -196,7 +212,7 @@ public class IssueEditor extends TabAbstractPanel {
                         .addComponent(jLabel11)
                         .addComponent(ISSUE_STATUS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel7))
-                    .addComponent(FILTER_ENDDATE, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(END_DATE, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
@@ -259,6 +275,11 @@ public class IssueEditor extends TabAbstractPanel {
         );
 
         BTN_SAVE.setText(bundle.getString("IssueEditor.BTN_SAVE.text")); // NOI18N
+        BTN_SAVE.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BTN_SAVEActionPerformed(evt);
+            }
+        });
 
         BTN_CANCEL.setText(bundle.getString("IssueEditor.BTN_CANCEL.text")); // NOI18N
 
@@ -674,6 +695,10 @@ public class IssueEditor extends TabAbstractPanel {
         if ((row>-1)&& (row<WORKLOG.getRowCount())) ((DefaultTableModel)WORKLOG.getModel()).removeRow(row);
     }//GEN-LAST:event_DELETE_WORKActionPerformed
 
+    private void BTN_SAVEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTN_SAVEActionPerformed
+//        save();
+    }//GEN-LAST:event_BTN_SAVEActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BTN_CANCEL;
@@ -688,8 +713,7 @@ public class IssueEditor extends TabAbstractPanel {
     private javax.swing.JButton DELETE_WORK;
     private javax.swing.JTextPane DESCRIPTION;
     private javax.swing.JComboBox<String> DEVICE_TYPE;
-    private com.toedter.calendar.JDateChooser FILTER_ENDDATE;
-    private com.toedter.calendar.JDateChooser FILTER_STARTDATE;
+    private com.toedter.calendar.JDateChooser END_DATE;
     private javax.swing.JTable ISSUE_ATTRIBUTES;
     private javax.swing.JComboBox<String> ISSUE_STATUS;
     private javax.swing.JComboBox<String> ISSUE_TYPE;
@@ -699,6 +723,7 @@ public class IssueEditor extends TabAbstractPanel {
     private javax.swing.JRadioButton RB_REPLACEMENT_PARTS;
     private javax.swing.JRadioButton RB_WORK;
     private javax.swing.JTable REPLACEMENT_PARTS;
+    private com.toedter.calendar.JDateChooser START_DATE;
     private javax.swing.JLabel THIS_COMPONENT;
     private javax.swing.JComboBox<String> WARRANTY_TYPE;
     private javax.swing.JTable WORKLOG;
@@ -750,7 +775,22 @@ public class IssueEditor extends TabAbstractPanel {
         ISSUE_ATTRIBUTES.getColumnModel().getColumn(1).setMaxWidth(120);
     }
     
-    
+    /*
+    public void save(){
+        //SAVED = true;
+        if (SAVED==false) {
+        TEMPLATE.setName(this.NAME.getText());
+        TEMPLATE.setContent(this.EDITOR.getText());
+      
+        TEMPLATE.save();
+        System.out.println("ConfiguratorTemplateBean::save(): "+TEMPLATE.id());
+        setEditable(false);
+        TABLE.setModel(Template.listTTemplates());
+        hideColumns();
+        SAVED=true;
+        }
+    }
+    */
     @Override
     public void close() {
         TabManager.removeTab(this);

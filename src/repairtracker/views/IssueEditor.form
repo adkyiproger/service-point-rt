@@ -130,10 +130,10 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="FILTER_ENDDATE" pref="123" max="32767" attributes="0"/>
+                              <Component id="END_DATE" pref="123" max="32767" attributes="0"/>
                               <Component id="PREPAID" max="32767" attributes="0"/>
                           </Group>
-                          <Component id="FILTER_STARTDATE" min="-2" pref="123" max="-2" attributes="0"/>
+                          <Component id="START_DATE" min="-2" pref="123" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                   </Group>
@@ -144,7 +144,7 @@
                   <Group type="102" attributes="0">
                       <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="FILTER_STARTDATE" min="-2" max="-2" attributes="0"/>
+                          <Component id="START_DATE" min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="ISSUE_TYPE" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -160,7 +160,7 @@
                               <Component id="ISSUE_STATUS" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="FILTER_ENDDATE" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="END_DATE" alignment="1" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -196,7 +196,7 @@
                 </Property>
               </Properties>
             </Component>
-            <Component class="com.toedter.calendar.JDateChooser" name="FILTER_ENDDATE">
+            <Component class="com.toedter.calendar.JDateChooser" name="END_DATE">
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel6">
               <Properties>
@@ -205,7 +205,7 @@
                 </Property>
               </Properties>
             </Component>
-            <Component class="com.toedter.calendar.JDateChooser" name="FILTER_STARTDATE">
+            <Component class="com.toedter.calendar.JDateChooser" name="START_DATE">
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new com.toedter.calendar.JDateChooser()"/>
               </AuxValues>
@@ -408,6 +408,9 @@
                   <ResourceString bundle="repairtracker/views/Bundle.properties" key="IssueEditor.BTN_SAVE.text" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BTN_SAVEActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="BTN_CANCEL">
               <Properties>

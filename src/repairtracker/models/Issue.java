@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import javax.swing.table.DefaultTableModel;
 import org.apache.logging.log4j.LogManager;
@@ -50,8 +51,8 @@ public class Issue {
     private String DEVICE_NUMBER = "";
     private String SHORTDESCRIPTION = "";
     private String COMMENTS = "";
-    private Date START_DATE;
-    private Date END_DATE;
+    private Date START_DATE=new Date();
+    private Date END_DATE=new Date();
     private Double TOTAL_COST=0.0;
     private Double PREPAY=0.0;
     
@@ -59,11 +60,19 @@ public class Issue {
     
 
     public Issue() {
+        
         this(-1);
+        
     }
 
     public Issue(Integer id) {
         LOGGER.info("Issue::Issue(" + id+")");
+        if (id == -1) {
+        Calendar c = Calendar.getInstance(); 
+        c.setTime(END_DATE); 
+        c.add(Calendar.DATE, 10);
+        END_DATE = c.getTime();
+        }
         this.ID = id;
         loadDB();
     }
@@ -176,7 +185,54 @@ public class Issue {
     public int id() {
         return ID;
     }
-     
+    
+    public int clientId() {
+        return CLIENT_ID;
+    }
+    
+    public int issueTypeId(){
+        return TYPE;
+    }
+    
+    public int deviceTypeId(){
+        return DEVTYPE;
+    }
+    
+    public int warrantyTypeId(){
+        return WARRANTY_ID;
+    }
+    public Date startDate(){
+        return START_DATE;
+    }
+    
+    public Date endDate(){
+        return END_DATE;
+    }
+    
+    public String deviceName(){
+        return DEVICE_NAME;
+    }
+    
+    public String deviceNumber(){
+        return DEVICE_NUMBER;
+    }
+    
+    public String comments(){
+        return COMMENTS;
+    }
+    
+    public String description(){
+        return SHORTDESCRIPTION;
+    }
+    
+    public Double totalCost(){
+        return TOTAL_COST;
+    }
+    
+    public Double prepayCost(){
+        return PREPAY;
+    }
+    
     public void save() {
         if (this.ID > 0) {
             this.saveDB("U");
