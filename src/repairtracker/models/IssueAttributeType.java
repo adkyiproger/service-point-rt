@@ -30,6 +30,12 @@ public class IssueAttributeType {
     public IssueAttributeType() {
         this(1);
     }
+    
+    public IssueAttributeType(String s) {
+        this.NAME = s;
+        loadDB();
+
+    }
 
     public IssueAttributeType(Integer id) {
         this.ID = id;
@@ -60,6 +66,16 @@ public class IssueAttributeType {
         if (ID >= 0) {
             try {
                 resultSet = DBDoor.executeSelect("select * from issueattrtypes where issueattrtype_id=" + this.ID);
+                resultSet.next();
+                ID = resultSet.getInt("issueattrtype_id");
+                NAME = resultSet.getString("name");
+            } catch (SQLException ex) {
+                LOGGER.error("IssueAttributeType::loadDB(): " + ex.getMessage());
+            }
+        }
+        if (NAME.equalsIgnoreCase("") == false) {
+            try {
+                resultSet = DBDoor.executeSelect("select * from issueattrtypes where name=" + this.NAME);
                 resultSet.next();
                 ID = resultSet.getInt("issueattrtype_id");
                 NAME = resultSet.getString("name");

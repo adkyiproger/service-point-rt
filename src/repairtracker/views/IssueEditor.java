@@ -17,6 +17,7 @@ import org.apache.logging.log4j.Logger;
 import repairtracker.RTProperties;
 import repairtracker.dialogs.Editor;
 import repairtracker.helpers.PropertiesReader;
+import repairtracker.models.Address;
 import repairtracker.models.Client;
 import repairtracker.models.Issue;
 
@@ -29,6 +30,7 @@ public class IssueEditor extends TabAbstractPanel {
     public static Logger LOGGER=LogManager.getLogger(IssueEditor.class.getName());
     Issue ISSUE;
     Client CLIENT;
+    Address CLIENT_ADDRESS;
     
 
     /**
@@ -42,9 +44,21 @@ public class IssueEditor extends TabAbstractPanel {
         initComponents();
         ISSUE=new Issue(id);
         CLIENT=new Client(ISSUE.clientId());
+        CLIENT_ADDRESS=new Address(CLIENT.id());
         ISSUE_TYPE.setSelectedIndex(ISSUE.issueTypeId());
         START_DATE.setDate(ISSUE.startDate());
         END_DATE.setDate(ISSUE.endDate());
+        PREPAID.setValue(ISSUE.prepayCost());
+        ISSUE_STATUS.setSelectedIndex(ISSUE.status());
+        WARRANTY_TYPE.setSelectedIndex(ISSUE.warrantyTypeId());
+        CLIENT_NAME.setText(CLIENT.firstName());
+        CLIENT_PHONE.setText(CLIENT_ADDRESS.phone());
+        CLIENT_EMAIL.setText(CLIENT_ADDRESS.email());
+        CLIENT_STREET.setText(CLIENT_ADDRESS.address1());
+        
+        DEVICE_MODEL.setText(ISSUE.deviceName());
+        DEVICE_NUMBER.setText(ISSUE.deviceNumber());
+        
         
         // load predifined model
         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
@@ -93,10 +107,10 @@ public class IssueEditor extends TabAbstractPanel {
         PREPAID = new javax.swing.JFormattedTextField();
         jPanel4 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
+        DEVICE_MODEL = new javax.swing.JTextField();
         DEVICE_TYPE = new javax.swing.JComboBox<>();
         jLabel12 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        DEVICE_NUMBER = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         BTN_SAVE = new javax.swing.JButton();
         BTN_CANCEL = new javax.swing.JButton();
@@ -111,7 +125,7 @@ public class IssueEditor extends TabAbstractPanel {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        CLIENT_ADDRESS = new javax.swing.JTextField();
+        CLIENT_STREET = new javax.swing.JTextField();
         CLIENT_PHONE = new javax.swing.JTextField();
         CLIENT_NAME = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
@@ -226,10 +240,10 @@ public class IssueEditor extends TabAbstractPanel {
 
         jLabel8.setText(bundle.getString("IssueEditor.jLabel8.text")); // NOI18N
 
-        jTextField5.setText(bundle.getString("IssueEditor.jTextField5.text")); // NOI18N
-        jTextField5.addActionListener(new java.awt.event.ActionListener() {
+        DEVICE_MODEL.setText(bundle.getString("IssueEditor.DEVICE_MODEL.text")); // NOI18N
+        DEVICE_MODEL.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField5ActionPerformed(evt);
+                DEVICE_MODELActionPerformed(evt);
             }
         });
 
@@ -242,7 +256,7 @@ public class IssueEditor extends TabAbstractPanel {
 
         jLabel12.setText(bundle.getString("IssueEditor.jLabel12.text")); // NOI18N
 
-        jTextField4.setText(bundle.getString("IssueEditor.jTextField4.text")); // NOI18N
+        DEVICE_NUMBER.setText(bundle.getString("IssueEditor.DEVICE_NUMBER.text")); // NOI18N
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -254,12 +268,12 @@ public class IssueEditor extends TabAbstractPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(DEVICE_MODEL)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel12)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(206, Short.MAX_VALUE))
+                .addComponent(DEVICE_NUMBER)
+                .addGap(206, 206, 206))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -268,9 +282,9 @@ public class IssueEditor extends TabAbstractPanel {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(DEVICE_TYPE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(DEVICE_MODEL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel12)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(DEVICE_NUMBER, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -389,7 +403,7 @@ public class IssueEditor extends TabAbstractPanel {
 
         jLabel3.setText(bundle.getString("IssueEditor.jLabel3.text")); // NOI18N
 
-        CLIENT_ADDRESS.setText(bundle.getString("IssueEditor.CLIENT_ADDRESS.text")); // NOI18N
+        CLIENT_STREET.setText(bundle.getString("IssueEditor.CLIENT_STREET.text")); // NOI18N
 
         CLIENT_PHONE.setText(bundle.getString("IssueEditor.CLIENT_PHONE.text")); // NOI18N
 
@@ -420,7 +434,7 @@ public class IssueEditor extends TabAbstractPanel {
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(CLIENT_ADDRESS)
+                    .addComponent(CLIENT_STREET)
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addComponent(CLIENT_PHONE, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))))
@@ -439,7 +453,7 @@ public class IssueEditor extends TabAbstractPanel {
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(CLIENT_ADDRESS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(CLIENT_STREET, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addGap(0, 11, Short.MAX_VALUE))
         );
@@ -645,9 +659,9 @@ public class IssueEditor extends TabAbstractPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
+    private void DEVICE_MODELActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DEVICE_MODELActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField5ActionPerformed
+    }//GEN-LAST:event_DEVICE_MODELActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         new Editor("EDIT: "+getIssueAttributesFileName(),getIssueAttributesFileName());        // TODO add your handling code here:
@@ -696,7 +710,7 @@ public class IssueEditor extends TabAbstractPanel {
     }//GEN-LAST:event_DELETE_WORKActionPerformed
 
     private void BTN_SAVEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTN_SAVEActionPerformed
-//        save();
+        save();
     }//GEN-LAST:event_BTN_SAVEActionPerformed
 
 
@@ -704,14 +718,16 @@ public class IssueEditor extends TabAbstractPanel {
     private javax.swing.JButton BTN_CANCEL;
     private javax.swing.JButton BTN_PRINT;
     private javax.swing.JButton BTN_SAVE;
-    private javax.swing.JTextField CLIENT_ADDRESS;
     private javax.swing.JTextField CLIENT_EMAIL;
     private javax.swing.JTextField CLIENT_NAME;
     private javax.swing.JTextField CLIENT_PHONE;
+    private javax.swing.JTextField CLIENT_STREET;
     private javax.swing.JTextPane COMMENTS;
     private javax.swing.JButton DELETE_REPLACEMENT;
     private javax.swing.JButton DELETE_WORK;
     private javax.swing.JTextPane DESCRIPTION;
+    private javax.swing.JTextField DEVICE_MODEL;
+    private javax.swing.JTextField DEVICE_NUMBER;
     private javax.swing.JComboBox<String> DEVICE_TYPE;
     private com.toedter.calendar.JDateChooser END_DATE;
     private javax.swing.JTable ISSUE_ATTRIBUTES;
@@ -759,8 +775,6 @@ public class IssueEditor extends TabAbstractPanel {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
     // End of variables declaration//GEN-END:variables
 
     private String getIssueAttributesFileName(){
@@ -775,22 +789,55 @@ public class IssueEditor extends TabAbstractPanel {
         ISSUE_ATTRIBUTES.getColumnModel().getColumn(1).setMaxWidth(120);
     }
     
-    /*
+    
+    
     public void save(){
-        //SAVED = true;
-        if (SAVED==false) {
-        TEMPLATE.setName(this.NAME.getText());
-        TEMPLATE.setContent(this.EDITOR.getText());
-      
-        TEMPLATE.save();
-        System.out.println("ConfiguratorTemplateBean::save(): "+TEMPLATE.id());
-        setEditable(false);
-        TABLE.setModel(Template.listTTemplates());
-        hideColumns();
-        SAVED=true;
+        
+        // Save Client
+        CLIENT.setFName(CLIENT_NAME.getText());
+      //  CLIENT.save();
+        // Save Address
+        CLIENT_ADDRESS.setPhone(CLIENT_PHONE.getText());
+        CLIENT_ADDRESS.setEmail(CLIENT_EMAIL.getText());
+        CLIENT_ADDRESS.setAddress(CLIENT_STREET.getText());
+       // CLIENT_ADDRESS.save();
+        
+        // Save Issue
+        ISSUE.setClientId(CLIENT.id());
+        ISSUE.setIssueTypeId(ISSUE_TYPE.getSelectedIndex());
+        ISSUE.setDeviceTypeId(DEVICE_TYPE.getSelectedIndex());
+        ISSUE.setDeviceName(DEVICE_MODEL.getText());
+        ISSUE.setDeviceNumber(DEVICE_NUMBER.getText());
+        ISSUE.setComments(COMMENTS.getText());
+        ISSUE.setDescription(DESCRIPTION.getText());
+        ISSUE.setStartDate(START_DATE.getDate());
+        ISSUE.setEndDate(END_DATE.getDate());
+        ISSUE.setEndDate(END_DATE.getDate());
+        ISSUE.setPrepayCost((Double) PREPAID.getValue());
+        ISSUE.setStatus(ISSUE_STATUS.getSelectedIndex());
+        ISSUE.setWarrantyTypeId(WARRANTY_TYPE.getSelectedIndex());
+     //   ISSUE.save();
+        
+       
+        int rc=REPLACEMENT_PARTS.getModel().getRowCount();
+        int wl=WORKLOG.getModel().getRowCount();
+        
+        for (int i=0;i<wl;i++) {
+            String item_name=String.valueOf(WORKLOG.getModel().getValueAt(i, 0));
+            String price=String.valueOf(WORKLOG.getModel().getValueAt(i, 1));
+            LOGGER.info("Got element: "+item_name+" -> "+price);
         }
+        
+        for (int i=0;i<rc;i++) {
+            String item_name=String.valueOf(REPLACEMENT_PARTS.getModel().getValueAt(i, 0));
+            String price=String.valueOf(REPLACEMENT_PARTS.getModel().getValueAt(i, 1));
+            LOGGER.info("Got element: "+item_name+" -> "+price);
+        }
+        
+       
+        
     }
-    */
+    
     @Override
     public void close() {
         TabManager.removeTab(this);

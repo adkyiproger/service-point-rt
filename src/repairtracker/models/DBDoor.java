@@ -216,6 +216,7 @@ public class DBDoor {
         RT_TABLES.put("issues", "CREATE TABLE issues (issue_id bigint NOT NULL, issuetype_id bigint NOT NULL, client_id bigint NOT NULL,"
                 + " devicetype_id bigint NOT NULL, warranty_id bigint NOT NULL,"
                 + "startdate date not null, enddate date not null,"
+                + "status int default 0,"
                 + "devicename varchar(128) DEFAULT NULL, devicenumber varchar(128) DEFAULT NULL, shortdescription varchar(256) DEFAULT NULL,  comments varchar(256) NOT NULL,"
                 + "totalcost double not null default 0, prepay double not null default 0,"
                 + "  PRIMARY KEY (issue_id), "

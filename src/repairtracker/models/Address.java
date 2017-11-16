@@ -76,7 +76,7 @@ public class Address {
         if (P_ID>0) {
         try {
             resultSet = DBDoor.getStatement()
-                    .executeQuery("select * from address where patient_id=" + this.P_ID);
+                    .executeQuery("select * from address where client_id=" + this.P_ID);
             if (resultSet.next()) {
            // System.out.println(resultSet.getShort("patient_id") + resultSet.getString("mname") + resultSet.getString("fname"));
             ID=resultSet.getInt("address_id");

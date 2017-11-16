@@ -23,9 +23,9 @@ public class IssueAttribute {
     /*issueattribute_id bigint NOT NULL, issue_id bigint NOT NULL,"
                 + " description varchar(128) NOT NULL, price double default null, issueattrtype_id bigint not null,
 */
-    private Integer ID = 1;
-    private Integer ISSUE_ID = 1;
-    private Integer TYPE=1;
+    private Integer ID = -1;
+    private Integer ISSUE_ID = -1;
+    private Integer TYPE=-1;
     private String DESCRIPTION = "";
     private Double PRICE=0.0;
     private Connection DB = DBDoor.getConn();
