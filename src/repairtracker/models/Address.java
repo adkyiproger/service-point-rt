@@ -23,10 +23,10 @@ import org.apache.logging.log4j.Logger;
 public class Address {
     private static Logger LOGGER=LogManager.getLogger(Address.class.getName()); 
     private Integer ID=-1;
-    private String REGION;
-    private String DISTRICT;
-    private String ZIP;
-    private String CITY;
+    private String REGION="";
+    private String DISTRICT="";
+    private String ZIP="";
+    private String CITY="";
     private String ADDRESS1;
     private String PHONE;
     private String EMAIL;

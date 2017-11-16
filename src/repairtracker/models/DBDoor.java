@@ -234,7 +234,9 @@ public class DBDoor {
                 + "CONSTRAINT FK_ISATY  FOREIGN KEY (issueattrtype_id)  REFERENCES issueattrtypes (issueattrtype_id)"
                 + " ) ");
         RT_DATA.put("issueattrtypes","insert into issueattrtypes values (0,'Work'), (1,'Parts')");
+        RT_DATA.put("issuetypes", "insert into issuetypes values (0,'Regular'), (1,'Warranty'), (2,'Consulting')");
         RT_DATA.put("devicetypes","insert into devicetypes values (0,'Phone'), (1,'Tablet'), (2,'Laptop'),(3,'PC'), (4,'Other')");
+        RT_DATA.put("WARRANTIES","insert into WARRANTIES values (0,'Regular new','Regular new'), (1,'Used parts','Used parts'), (2,'Regular repair','Regular repair')");
 
     }
     private static boolean createTables(){
@@ -244,8 +246,11 @@ public class DBDoor {
             if (checkTable(s)==false) {
                 LOGGER.error("Table: "+s+" does not exists");
                 try {
+                    LOGGER.info("SQL: "+RT_TABLES.get(s));
                 getStatement().execute(RT_TABLES.get(s));
-                getStatement().execute(RT_DATA.get(s));
+                LOGGER.info("SQL: "+RT_DATA.get(s));
+                if (RT_DATA.containsKey(s)) getStatement().execute(RT_DATA.get(s));
+                else LOGGER.info("SQL: Skip for table "+s);
                 LOGGER.info("Table "+s+" created");
                 } catch (SQLException ex) {
                  LOGGER.error("Table "+s+" was not created");   

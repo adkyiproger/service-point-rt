@@ -11,6 +11,7 @@ import java.awt.Graphics;
 import java.util.ResourceBundle;
 import javax.swing.Icon;
 import javax.swing.JMenu;
+import repairtracker.models.Issue;
 
 /**
  *
@@ -25,6 +26,8 @@ public class Dashboard extends TabAbstractPanel {
     public Dashboard() {
         
         initComponents();
+        LIST_ISSUES.setModel(Issue.getAsTable());
+        LIST_ISSUES.getColumnModel().removeColumn(LIST_ISSUES.getColumnModel().getColumn(0));
     }
 
     /**
@@ -48,7 +51,6 @@ public class Dashboard extends TabAbstractPanel {
         FILTER_ENDDATE = new com.toedter.calendar.JDateChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
         LIST_ISSUES = new javax.swing.JTable();
-        jPanel3 = new javax.swing.JPanel();
 
         THIS_COMPONENT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/16/window.png"))); // NOI18N
         THIS_COMPONENT.setText(bundle.getString("JLABEL1")); // NOI18N
@@ -82,7 +84,7 @@ public class Dashboard extends TabAbstractPanel {
                 .addComponent(FILTER_STARTDATE, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(FILTER_ENDDATE, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 9, Short.MAX_VALUE))
+                .addGap(0, 440, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -109,6 +111,11 @@ public class Dashboard extends TabAbstractPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        LIST_ISSUES.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                LIST_ISSUESMousePressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(LIST_ISSUES);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -123,21 +130,8 @@ public class Dashboard extends TabAbstractPanel {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE)
                 .addGap(0, 0, 0))
-        );
-
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Issue"));
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 259, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 279, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -146,13 +140,10 @@ public class Dashboard extends TabAbstractPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, 0)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(0, 0, 0))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -160,6 +151,12 @@ public class Dashboard extends TabAbstractPanel {
     private void SEARCH_FORActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SEARCH_FORActionPerformed
         TabManager.insertTab(this);
     }//GEN-LAST:event_SEARCH_FORActionPerformed
+
+    private void LIST_ISSUESMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LIST_ISSUESMousePressed
+        if (evt.getClickCount()==2) {
+            TabManager.insertTab(new IssueEditor((int) LIST_ISSUES.getModel().getValueAt(LIST_ISSUES.getSelectedRow(),0)));
+        }
+    }//GEN-LAST:event_LIST_ISSUESMousePressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -172,7 +169,6 @@ public class Dashboard extends TabAbstractPanel {
     private static javax.swing.JMenu MENU;
     private javax.swing.JMenuItem SEARCH_FOR;
     private javax.swing.JLabel THIS_COMPONENT;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;

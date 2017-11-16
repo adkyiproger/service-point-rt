@@ -77,6 +77,30 @@ public class Issue {
         this.ID = id;
         loadDB();
     }
+    public static DefaultTableModel getAsTable(){
+        String SQL = "select issue_id, shortdescription||'('||fname||')' as shortdescription from issues iss"
+                + " join clients cl on iss.client_id=cl.client_id";
+        return getListFromDB(SQL);
+    }
+    
+   private static DefaultTableModel getListFromDB(String sql) {
+        Object[][] rowDATA = {};
+        String[] colNames = {"#ID", "Name"};
+        DefaultTableModel _model = new DefaultTableModel(rowDATA, colNames);
+        try {
+        ResultSet resultSet = DBDoor.getStatement().executeQuery(sql);
+            while (resultSet.next()) {
+                    _model.addRow(new Object[]{resultSet.getInt("issue_id"),resultSet.getString("shortdescription")});
+                }
+        } catch (SQLException ex) {
+            LOGGER.error("Issue::getListFromDB(): "+ex.getMessage());
+        }
+       
+       return _model;
+    }
+    
+    
+    
     private void loadDB() {
         if (ID >= 0) {
             try {
@@ -181,6 +205,7 @@ public class Issue {
                 preparedStatement.setString(11, COMMENTS);
                 preparedStatement.setDouble(12, TOTAL_COST);
                 preparedStatement.setDouble(13, PREPAY);
+                preparedStatement.setInt(14, ID);
 
             }
             preparedStatement.executeUpdate();

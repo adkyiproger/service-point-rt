@@ -59,7 +59,8 @@ public class IssueEditor extends TabAbstractPanel {
         CLIENT_PHONE.setText(CLIENT_ADDRESS.phone());
         CLIENT_EMAIL.setText(CLIENT_ADDRESS.email());
         CLIENT_STREET.setText(CLIENT_ADDRESS.address1());
-        
+        COMMENTS.setText(ISSUE.comments());
+        DESCRIPTION.setText(ISSUE.description());
         DEVICE_MODEL.setText(ISSUE.deviceName());
         DEVICE_NUMBER.setText(ISSUE.deviceNumber());
         
@@ -76,6 +77,12 @@ public class IssueEditor extends TabAbstractPanel {
         String[] colNames = {"",java.util.ResourceBundle.getBundle("repairtracker/helpers/Bundle").getString("ITEMNAME"),java.util.ResourceBundle.getBundle("repairtracker/helpers/Bundle").getString("PRICE")};
         REPLACEMENT_PARTS.setModel(new DefaultTableModel(rowDATA, colNames));
         WORKLOG.setModel(new DefaultTableModel(rowDATA, colNames));
+        
+        if (ISSUE.id()>-1) {
+            WORKLOG.setModel(IssueAttribute.getAttributesAsTable(ISSUE.id(), 0));
+            REPLACEMENT_PARTS.setModel(IssueAttribute.getAttributesAsTable(ISSUE.id(), 1));
+        }
+        
         
         ISSUE_ATTRIBUTES.getColumnModel().getColumn(1).setMaxWidth(120);
         /*REPLACEMENT_PARTS.getColumnModel().getColumn(0).setMaxWidth(0);
@@ -183,7 +190,7 @@ public class IssueEditor extends TabAbstractPanel {
 
         jLabel16.setText(bundle.getString("IssueEditor.jLabel16.text")); // NOI18N
 
-        PREPAID.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
+        PREPAID.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("###0.##"))));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -805,12 +812,13 @@ public class IssueEditor extends TabAbstractPanel {
         
         // Save Client
         CLIENT.setFName(CLIENT_NAME.getText());
-      //  CLIENT.save();
+        CLIENT.save();
         // Save Address
+        CLIENT_ADDRESS.setPatientId(CLIENT.id());
         CLIENT_ADDRESS.setPhone(CLIENT_PHONE.getText());
         CLIENT_ADDRESS.setEmail(CLIENT_EMAIL.getText());
         CLIENT_ADDRESS.setAddress(CLIENT_STREET.getText());
-       // CLIENT_ADDRESS.save();
+        CLIENT_ADDRESS.save();
         
         // Save Issue
         ISSUE.setClientId(CLIENT.id());
@@ -823,10 +831,10 @@ public class IssueEditor extends TabAbstractPanel {
         ISSUE.setStartDate(START_DATE.getDate());
         ISSUE.setEndDate(END_DATE.getDate());
         ISSUE.setEndDate(END_DATE.getDate());
-        ISSUE.setPrepayCost((Double) PREPAID.getValue());
+        ISSUE.setPrepayCost(Double.parseDouble(PREPAID.getText()));
         ISSUE.setStatus(ISSUE_STATUS.getSelectedIndex());
         ISSUE.setWarrantyTypeId(WARRANTY_TYPE.getSelectedIndex());
-     //   ISSUE.save();
+        ISSUE.save();
         
        
         int rc=REPLACEMENT_PARTS.getModel().getRowCount();
@@ -840,6 +848,7 @@ public class IssueEditor extends TabAbstractPanel {
             ia.setName(item_name);
             ia.setIssueId(ISSUE.id());
             ia.setTypeId(0);
+            ia.setPrice(price);
             LOGGER.info("Save element: "+id+" : "+item_name+" -> "+price);
             ia.save();
         }
@@ -851,10 +860,10 @@ public class IssueEditor extends TabAbstractPanel {
             IssueAttribute ia=new IssueAttribute(id);
             ia.setName(item_name);
             ia.setIssueId(ISSUE.id());
-            ia.setTypeId(0);
+            ia.setPrice(price);
+            ia.setTypeId(1);
             LOGGER.info("Save element: "+id+" : "+item_name+" -> "+price);
             ia.save();
-            LOGGER.info("Save element: "+id+" : "+item_name+" -> "+price);
         }
         
        

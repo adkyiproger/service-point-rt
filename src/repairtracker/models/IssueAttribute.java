@@ -57,10 +57,10 @@ public class IssueAttribute {
         try {
         ResultSet resultSet = DBDoor.getStatement().executeQuery(sql);
             while (resultSet.next()) {
-                    _model.addRow(new Object[]{resultSet.getInt("issueattribute_id"),resultSet.getString("name"),resultSet.getDouble("price")});
+                    _model.addRow(new Object[]{resultSet.getInt("issueattribute_id"),resultSet.getString("description"),resultSet.getDouble("price")});
                 }
         } catch (SQLException ex) {
-            LOGGER.error("IssueAttributeType::getListFromDB(): "+ex.getMessage());
+            LOGGER.error("IssueAttribute::getListFromDB(): "+ex.getMessage());
         }
        
        return _model;
@@ -68,46 +68,52 @@ public class IssueAttribute {
    private void loadDB() {
         if (ID >= 0) {
             try {
-                resultSet = DBDoor.executeSelect("select * from issueattrtypes where issueattrtype_id=" + this.ID);
+                resultSet = DBDoor.executeSelect("select * from issueattributes where issueattribute_id=" + this.ID);
                 resultSet.next();
-                ID = resultSet.getInt("issueattrtype_id");
-                DESCRIPTION = resultSet.getString("name");
+                ID = resultSet.getInt("issueattribute_id");
+                DESCRIPTION = resultSet.getString("description");
             } catch (SQLException ex) {
-                LOGGER.error("IssueAttributeType::loadDB(): " + ex.getMessage());
+                LOGGER.error("IssueAttribute::loadDB(): " + ex.getMessage());
             }
         }
     }
     
     private void saveDB(String mode) {
-        LOGGER.info("IssueAttributeType::saveDB(): "+mode);
+        LOGGER.info("IssueAttribute::saveDB(): "+mode);
         try {
             if (mode.equals("I")) {
                 preparedStatement = DB
-                        .prepareStatement("insert into issueattrtypes values (?,?)");
+                        .prepareStatement("insert into issueattributes values (?,?,?,?,?)");
                 preparedStatement.setInt(1, this.ID);
-                preparedStatement.setString(2, this.DESCRIPTION);
+                preparedStatement.setInt(2, this.ISSUE_ID);
+                
+                preparedStatement.setString(3, this.DESCRIPTION);
+                preparedStatement.setDouble(4, this.PRICE);
+                preparedStatement.setInt(5, this.TYPE);
             }
             if (mode.equals("U")) {
                 preparedStatement = DB
-                        .prepareStatement("update issueattrtypes set "
-                                + "name=? "
-                                + "where issueattrtype_id=?");
+                        .prepareStatement("update issueattributes set "
+                                + "description=? ,"
+                                + "price=? "
+                                + "where issueattribute_id=?");
                 preparedStatement.setString(1, this.DESCRIPTION);
-                preparedStatement.setInt(2,this.ID);
+                preparedStatement.setDouble(2,this.PRICE);
+                preparedStatement.setInt(3, this.ID);
             }
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
-            LOGGER.error("IssueAttributeType::saveDB(): " + ex.getMessage());
+            LOGGER.error("IssueAttribute::saveDB(): " + ex.getMessage());
         }
    }
    private void resolveID() {
         try {
             resultSet = DBDoor.getStatement()
-                    .executeQuery("select max(issueattrtype_id)+1 as issueattrtype_id from issueattrtypes");
+                    .executeQuery("select max(issueattribute_id)+1 as issueattribute_id from issueattributes");
             resultSet.next();
-            ID = resultSet.getInt("issueattrtype_id");
+            ID = resultSet.getInt("issueattribute_id");
         } catch (SQLException ex) {
-            LOGGER.error("IssueAttributeType::resolveID(): " + ex.toString());
+            LOGGER.error("IssueAttribute::resolveID(): " + ex.toString());
         }
     }
     // Return methods
@@ -122,9 +128,16 @@ public class IssueAttribute {
     public int typeId() {
         return ID;
     }
+     public Double price() {
+        return PRICE;
+    }
+    
     // Set methods
     public void setName(String name) {
         this.DESCRIPTION = name;
+    }
+    public void setPrice(Double p) {
+        this.PRICE = p;
     }
     public void setTypeId(int id) {
         this.TYPE = id;
@@ -136,6 +149,7 @@ public class IssueAttribute {
     
     
     public void save() {
+        LOGGER.info("Saving attribute to DB");
         if (this.ID >= 0) {
             this.saveDB("U");
             
