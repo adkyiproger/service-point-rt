@@ -41,19 +41,23 @@ public class IssueAttribute {
         loadDB();
 
     }
-   public static DefaultTableModel getTypesAsTable(){
-        String SQL = "select issueattribute_id, description from issueattributes";
+   public static DefaultTableModel getAttributesAsTable(int id){
+        String SQL = "select issueattribute_id, description, price from issueattributes where issue_id="+id;
+        return getListFromDB(SQL);
+   }
+   public static DefaultTableModel getAttributesAsTable(int id, int type_id ){
+        String SQL = "select issueattribute_id, description, price from issueattributes where issue_id="+id+" and issueattrtype_id="+type_id;
         return getListFromDB(SQL);
     }
     
    private static DefaultTableModel getListFromDB(String sql) {
         Object[][] rowDATA = {};
-        String[] colNames = {"#ID", "Name"};
+        String[] colNames = {"#ID", "Name","Price"};
         DefaultTableModel _model = new DefaultTableModel(rowDATA, colNames);
         try {
         ResultSet resultSet = DBDoor.getStatement().executeQuery(sql);
             while (resultSet.next()) {
-                    _model.addRow(new Object[]{resultSet.getInt("issueattrtype_id"),resultSet.getString("name")});
+                    _model.addRow(new Object[]{resultSet.getInt("issueattribute_id"),resultSet.getString("name"),resultSet.getDouble("price")});
                 }
         } catch (SQLException ex) {
             LOGGER.error("IssueAttributeType::getListFromDB(): "+ex.getMessage());
@@ -107,7 +111,7 @@ public class IssueAttribute {
         }
     }
     // Return methods
-    public String getName() {
+    public String name() {
         return DESCRIPTION;
     }
 
@@ -115,11 +119,22 @@ public class IssueAttribute {
         return ID;
     }
     
+    public int typeId() {
+        return ID;
+    }
     // Set methods
     public void setName(String name) {
         this.DESCRIPTION = name;
     }
-
+    public void setTypeId(int id) {
+        this.TYPE = id;
+    }
+    
+    public void setIssueId(int id) {
+        this.ISSUE_ID = id;
+    }
+    
+    
     public void save() {
         if (this.ID >= 0) {
             this.saveDB("U");

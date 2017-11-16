@@ -44,7 +44,7 @@ public class DBDoor {
     
     //private static String[][] RT_TABLES = {"clients", "address", "issues", "issueattributes"};
     private static Map<String, String> RT_TABLES = new HashMap<String, String>();
-    
+    private static Map<String, String> RT_DATA = new HashMap<String, String>();
     
     
     
@@ -233,6 +233,8 @@ public class DBDoor {
                 + "CONSTRAINT FK_ISAIS  FOREIGN KEY (issue_id)  REFERENCES issues (issue_id),"
                 + "CONSTRAINT FK_ISATY  FOREIGN KEY (issueattrtype_id)  REFERENCES issueattrtypes (issueattrtype_id)"
                 + " ) ");
+        RT_DATA.put("issueattrtypes","insert into issueattrtypes values (0,'Work'), (1,'Parts')");
+        RT_DATA.put("devicetypes","insert into devicetypes values (0,'Phone'), (1,'Tablet'), (2,'Laptop'),(3,'PC'), (4,'Other')");
 
     }
     private static boolean createTables(){
@@ -243,6 +245,7 @@ public class DBDoor {
                 LOGGER.error("Table: "+s+" does not exists");
                 try {
                 getStatement().execute(RT_TABLES.get(s));
+                getStatement().execute(RT_DATA.get(s));
                 LOGGER.info("Table "+s+" created");
                 } catch (SQLException ex) {
                  LOGGER.error("Table "+s+" was not created");   

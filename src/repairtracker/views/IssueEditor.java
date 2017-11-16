@@ -8,6 +8,7 @@ package repairtracker.views;
 import guitypes.TabAbstractPanel;
 import guitypes.TabManager;
 import java.awt.Graphics;
+import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
 import javax.swing.JMenu;
@@ -20,6 +21,8 @@ import repairtracker.helpers.PropertiesReader;
 import repairtracker.models.Address;
 import repairtracker.models.Client;
 import repairtracker.models.Issue;
+import repairtracker.models.IssueAttribute;
+import repairtracker.models.IssueAttributeType;
 
 /**
  *
@@ -32,6 +35,7 @@ public class IssueEditor extends TabAbstractPanel {
     Client CLIENT;
     Address CLIENT_ADDRESS;
     
+    ArrayList<IssueAttribute> ISSUE_ATTRIBETES;
 
     /**
      * Creates new form IssueEditor
@@ -69,11 +73,17 @@ public class IssueEditor extends TabAbstractPanel {
         //ISSUE_ATTRIBUTES.getColumnModel().getColumn(1).setWidth(50);
         
         Object[][] rowDATA = {};
-        String[] colNames = {java.util.ResourceBundle.getBundle("repairtracker/helpers/Bundle").getString("ITEMNAME"),java.util.ResourceBundle.getBundle("repairtracker/helpers/Bundle").getString("PRICE")};
+        String[] colNames = {"",java.util.ResourceBundle.getBundle("repairtracker/helpers/Bundle").getString("ITEMNAME"),java.util.ResourceBundle.getBundle("repairtracker/helpers/Bundle").getString("PRICE")};
         REPLACEMENT_PARTS.setModel(new DefaultTableModel(rowDATA, colNames));
         WORKLOG.setModel(new DefaultTableModel(rowDATA, colNames));
         
         ISSUE_ATTRIBUTES.getColumnModel().getColumn(1).setMaxWidth(120);
+        /*REPLACEMENT_PARTS.getColumnModel().getColumn(0).setMaxWidth(0);
+        REPLACEMENT_PARTS.getColumnModel().getColumn(0).setPreferredWidth(0);
+        REPLACEMENT_PARTS.getColumnModel().getColumn(0).setWidth(0);
+        REPLACEMENT_PARTS.getColumnModel().getColumn(0).setMinWidth(0);*/
+        REPLACEMENT_PARTS.getColumnModel().removeColumn(REPLACEMENT_PARTS.getColumnModel().getColumn(0));
+        WORKLOG.getColumnModel().removeColumn(WORKLOG.getColumnModel().getColumn(0));
         REPLACEMENT_PARTS.getColumnModel().getColumn(1).setMaxWidth(120);
         WORKLOG.getColumnModel().getColumn(1).setMaxWidth(120);
         
@@ -686,13 +696,13 @@ public class IssueEditor extends TabAbstractPanel {
             String item_name=String.valueOf(ISSUE_ATTRIBUTES.getModel().getValueAt(ISSUE_ATTRIBUTES.getSelectedRow(), 0));
             String price=String.valueOf(ISSUE_ATTRIBUTES.getModel().getValueAt(ISSUE_ATTRIBUTES.getSelectedRow(), 1));
             LOGGER.info("Got element: "+item_name+" -> "+price);
-            if (RB_REPLACEMENT_PARTS.isSelected()) ((DefaultTableModel)REPLACEMENT_PARTS.getModel()).addRow(new Object[]{item_name,price});
-            if (RB_WORK.isSelected()) ((DefaultTableModel)WORKLOG.getModel()).addRow(new Object[]{item_name,price});
+            if (RB_REPLACEMENT_PARTS.isSelected()) ((DefaultTableModel)REPLACEMENT_PARTS.getModel()).addRow(new Object[]{"-1",item_name,price});
+            if (RB_WORK.isSelected()) ((DefaultTableModel)WORKLOG.getModel()).addRow(new Object[]{"-1",item_name,price});
         }
     }//GEN-LAST:event_ISSUE_ATTRIBUTESMousePressed
 
     private void NEW_REPLACEMENTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NEW_REPLACEMENTActionPerformed
-        ((DefaultTableModel)REPLACEMENT_PARTS.getModel()).addRow(new Object[]{"",""});
+        ((DefaultTableModel)REPLACEMENT_PARTS.getModel()).addRow(new Object[]{"-1","",""});
     }//GEN-LAST:event_NEW_REPLACEMENTActionPerformed
 
     private void DELETE_REPLACEMENTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DELETE_REPLACEMENTActionPerformed
@@ -701,7 +711,7 @@ public class IssueEditor extends TabAbstractPanel {
     }//GEN-LAST:event_DELETE_REPLACEMENTActionPerformed
 
     private void NEW_WORKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NEW_WORKActionPerformed
-        ((DefaultTableModel)WORKLOG.getModel()).addRow(new Object[]{"",""});
+        ((DefaultTableModel)WORKLOG.getModel()).addRow(new Object[]{"-1","",""});
     }//GEN-LAST:event_NEW_WORKActionPerformed
 
     private void DELETE_WORKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DELETE_WORKActionPerformed
@@ -823,15 +833,28 @@ public class IssueEditor extends TabAbstractPanel {
         int wl=WORKLOG.getModel().getRowCount();
         
         for (int i=0;i<wl;i++) {
-            String item_name=String.valueOf(WORKLOG.getModel().getValueAt(i, 0));
-            String price=String.valueOf(WORKLOG.getModel().getValueAt(i, 1));
-            LOGGER.info("Got element: "+item_name+" -> "+price);
+            int id=Integer.parseInt(String.valueOf(WORKLOG.getModel().getValueAt(i, 0)));
+            String item_name=String.valueOf(WORKLOG.getModel().getValueAt(i, 1));
+            Double price=Double.parseDouble(String.valueOf(WORKLOG.getModel().getValueAt(i, 2)));
+            IssueAttribute ia=new IssueAttribute(id);
+            ia.setName(item_name);
+            ia.setIssueId(ISSUE.id());
+            ia.setTypeId(0);
+            LOGGER.info("Save element: "+id+" : "+item_name+" -> "+price);
+            ia.save();
         }
         
         for (int i=0;i<rc;i++) {
-            String item_name=String.valueOf(REPLACEMENT_PARTS.getModel().getValueAt(i, 0));
-            String price=String.valueOf(REPLACEMENT_PARTS.getModel().getValueAt(i, 1));
-            LOGGER.info("Got element: "+item_name+" -> "+price);
+            int id=Integer.parseInt(String.valueOf(REPLACEMENT_PARTS.getModel().getValueAt(i, 0)));
+            String item_name=String.valueOf(REPLACEMENT_PARTS.getModel().getValueAt(i, 1));
+            Double price=Double.parseDouble(String.valueOf(REPLACEMENT_PARTS.getModel().getValueAt(i, 2)));
+            IssueAttribute ia=new IssueAttribute(id);
+            ia.setName(item_name);
+            ia.setIssueId(ISSUE.id());
+            ia.setTypeId(0);
+            LOGGER.info("Save element: "+id+" : "+item_name+" -> "+price);
+            ia.save();
+            LOGGER.info("Save element: "+id+" : "+item_name+" -> "+price);
         }
         
        
