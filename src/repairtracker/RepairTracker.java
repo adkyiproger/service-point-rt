@@ -72,26 +72,31 @@ LOGGER.info("Repair Tracker started!");
     } 
     catch (UnsupportedLookAndFeelException e) {
        // handle exception
-        e.printStackTrace();
+        LOGGER.error(e.getMessage(),e);
+        
     }
     catch (ClassNotFoundException e) {
        // handle exception
-        e.printStackTrace();
+        LOGGER.error(e.getMessage(),e);
     }
     catch (InstantiationException e) {
        // handle exception
-        e.printStackTrace();
+        LOGGER.error(e.getMessage(),e);
     }
     catch (IllegalAccessException e) {
        // handle exception
-        e.printStackTrace();
+        LOGGER.error(e.getMessage(),e);
     }
+         try {
                 DBDoor.setupMyConnection();
+         
                 //   LogonForm LF = new LogonForm();
                 //   LogManager.getLogger(EHospital.class.getName()).info("Application initialized");
                 RepairTrackerGUI rt=new RepairTrackerGUI();
                 rt.setVisible(true);
-    
+            } catch (Exception e) {
+            LOGGER.error(e.getMessage(),e);
+         }
     }
     
 }

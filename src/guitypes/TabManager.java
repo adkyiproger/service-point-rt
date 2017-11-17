@@ -24,10 +24,15 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import org.apache.logging.log4j.LogManager;
+
 
 
 public class TabManager {
+
+    
     ResourceBundle LANG=java.util.ResourceBundle.getBundle("guitypes/Bundle"); 
+    private static org.apache.logging.log4j.Logger LOGGER=LogManager.getLogger(TabManager.class.getName()); 
     static JMenu MENU;
     static List<JMenuItem> M_ITEMS;
     static JTabbedPane PANEL;
@@ -68,7 +73,7 @@ private static void addMenuItem(){
             } });
         MENU.add(main_item);
     } catch (Exception e) {
-        System.out.println("Could not insert new menu item"+e.toString());
+        System.out.println("Could not insert new menu item"+e.toString()); //NOI18N
     }
     }
 }
@@ -85,6 +90,13 @@ public static void removeTab(Component cmp){
         }
     PANEL.remove(cmp);
 }
+
+public static void updateTitle(TabAbstractPanel cmp) {
+        PANEL.setSelectedComponent(cmp);
+        PANEL.setTitleAt(PANEL.getSelectedIndex(),cmp.toString());
+        LOGGER.info("Title updated: "+cmp.toString());
+    }
+
 public static void insertTab(String classname)  {
      try {
           insertTab((TabAbstractPanel)Class.forName(classname).newInstance());
@@ -101,7 +113,7 @@ public static void insertTab(TabAbstractPanel usf)  {
     String title = usf.toString();
     int cnt=PANEL.getTabCount();
     int index=-1;
-    RepairTrackerGUI.STATUS.setText("Inserted: "+title);
+    RepairTrackerGUI.STATUS.setText(java.util.ResourceBundle.getBundle("guitypes/Bundle").getString("INSERTED")+": "+title);
     if (cnt>0) index = PANEL.indexOfTab(title);
     if (index==-1) {
             PANEL.insertTab( title, usf.getIcon(), usf, null, cnt);

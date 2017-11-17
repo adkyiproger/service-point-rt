@@ -75,11 +75,11 @@ public class DBDoor {
         try {
             res=InetAddress.getByName(DBHOST).isReachable(5000);
             
-        } catch (UnknownHostException e) {
-            LOGGER.error("UnknownHost connection error:"+e.toString());
+        } catch (UnknownHostException ex) {
+            LOGGER.error(ex.getMessage(),ex);
         
-        } catch (IOException e) {
-            LOGGER.error(" Generic connection error:"+e.toString());
+        } catch (IOException ex) {
+            LOGGER.error(ex.getMessage(),ex);
         }
         
         
@@ -108,7 +108,7 @@ public class DBDoor {
             
               
         } catch ( SQLException ex) {
-            LOGGER.error(ex.toString());
+            LOGGER.error(ex.getMessage(),ex);
             CONN_STATE=false;
         }
         if (CONN_STATE==true) {
@@ -151,7 +151,7 @@ public class DBDoor {
                     list.add(resultSet.getString(1));
                 }
         } catch (SQLException ex) {
-            LOGGER.error("private static String[] sqlToList(String sql): "+ex.toString());
+            LOGGER.error(ex.getMessage(),ex);
             list.add("NA");
         }
        }
@@ -172,7 +172,7 @@ public class DBDoor {
             LOGGER.info(rs.getString(3));
         }
         } catch (SQLException ex) {
-            LOGGER.error(ex.toString());
+            LOGGER.error(ex.getMessage(),ex);
         }
     }
     public static boolean checkTable(String tbl_name) {
@@ -187,7 +187,7 @@ public class DBDoor {
             }
         }
         } catch (SQLException ex) {
-            LOGGER.error(ex.toString());
+            LOGGER.error(ex.getMessage(),ex);
         }
         return flag;
     }

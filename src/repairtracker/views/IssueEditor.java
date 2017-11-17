@@ -876,7 +876,8 @@ public class IssueEditor extends TabAbstractPanel {
             ia.save();
         }
         
-       
+        THIS_COMPONENT.setText(ISSUE.toString());
+        TabManager.updateTitle(this);
         
     }
     

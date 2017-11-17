@@ -141,7 +141,7 @@ public class Issue {
     
    private static DefaultTableModel getListFromDB(PreparedStatement ps) {
         Object[][] rowDATA = {};
-        String[] colNames = {"#ID", "Name","Phone"};
+        String[] colNames = {"#ID", java.util.ResourceBundle.getBundle("repairtracker/models/Bundle").getString("ISSUE"),java.util.ResourceBundle.getBundle("repairtracker/models/Bundle").getString("PHONE")};
         DefaultTableModel _model = new DefaultTableModel(rowDATA, colNames);
         
         try {
