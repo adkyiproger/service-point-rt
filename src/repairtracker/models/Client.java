@@ -122,15 +122,15 @@ private String toUpper(String str){
     }
      
     public void setLName(String name) {
-        this.LNAME = name;
+        this.LNAME = name.toLowerCase();
     }
 
     public void setFName(String name) {
-        this.FNAME = name;
+        this.FNAME = name.toLowerCase();
     }
 
     public void setMName(String name) {
-        this.MNAME = name;
+        this.MNAME = name.toLowerCase();
     }
 
     public void save() {
@@ -143,6 +143,10 @@ private String toUpper(String str){
     }
     @Override
     public String toString() {
-        return this.lastName() + " " + this.firstName().substring(0, 1) + ". " + this.middleName().substring(0, 1) + ".";
+        String s="";
+        if ((LNAME.length()>2) && FNAME.length()>2 && MNAME.length()>2)
+            s=LNAME + " " + FNAME.substring(0, 1) + ". " + MNAME.substring(0, 1) + ".";
+        else s=FNAME;
+        return s;
     }
 }

@@ -13,6 +13,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
 import javax.swing.table.DefaultTableModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -78,19 +79,75 @@ public class Issue {
         loadDB();
     }
     public static DefaultTableModel getAsTable(){
-        String SQL = "select issue_id, shortdescription||'('||fname||')' as shortdescription from issues iss"
-                + " join clients cl on iss.client_id=cl.client_id";
-        return getListFromDB(SQL);
+        String SQL = "select issue_id, devicename||'('||fname||')' as devicename, phone from issues iss"
+                + " join clients cl on iss.client_id=cl.client_id"
+                + " join address ad on iss.client_id=ad.client_id";
+        try {
+            return getListFromDB(DBDoor.getConn().prepareStatement(SQL));
+        } catch (SQLException ex) {
+            LOGGER.error(ex.getMessage(), ex);
+            return null;
+        }
+    }
+   
+
+    
+    public static DefaultTableModel getAsTable(int status, int issue_id, String client_name){
+        try {
+            LOGGER.info("getAsTable("+status+", "+issue_id+", "+client_name+")");
+            String SQL = "select issue_id, devicename||'('||fname||')' as devicename, phone from issues iss"
+                    + " join clients cl on iss.client_id=cl.client_id"
+                    + " join address ad on iss.client_id=ad.client_id"
+                    + " where 1=1";
+            if (status>-1) SQL+=(" and status="+String.valueOf(status));
+            if (issue_id>0) SQL=SQL+" and issue_id="+issue_id;
+            if (client_name.equalsIgnoreCase("")==false) SQL=SQL+" and lower(fname) like '%"+client_name.toLowerCase()+"%'";
+            PreparedStatement ps=DBDoor.getConn().prepareStatement(SQL);
+            LOGGER.info("Filter results by SQL: "+SQL);
+            return getListFromDB(ps);
+        } catch (SQLException ex) {
+            LOGGER.error(ex.getMessage(), ex);
+            return null;
+        }
+    }
+   
+    public static DefaultTableModel getAsTable(int status, int issue_id, String client_name, Date st_date, Date en_date){
+
+        String DATE_COND=" and startdate>=? and enddate<=? ";
+        
+        LOGGER.info("getAsTable("+status+", "+issue_id+", "+client_name+")");
+        String SQL = "select issue_id, devicename||'('||fname||')' as devicename, phone from issues iss"
+                + " join clients cl on iss.client_id=cl.client_id"
+                + " join address ad on iss.client_id=ad.client_id"
+                + " where 1=1";
+                if (status>-1) SQL+=(" and status="+String.valueOf(status));
+                if (issue_id>0) SQL=SQL+" and issue_id="+issue_id;
+                if (client_name.equalsIgnoreCase("")==false) 
+                    SQL=SQL+" and lower(fname) like '%"+client_name.toLowerCase()+"%'";
+        try {
+            PreparedStatement ps=DBDoor.getConn().prepareStatement(SQL+=DATE_COND);
+            ps.setDate(1, new java.sql.Date(st_date.getTime()));
+            ps.setDate(2, new java.sql.Date(en_date.getTime()));
+            LOGGER.info("Filter results by SQL: "+SQL);
+            return getListFromDB(ps);
+        } catch (SQLException ex) {
+            LOGGER.error(ex.getMessage(), ex);
+            return null;
+        }
+
+        
+        
     }
     
-   private static DefaultTableModel getListFromDB(String sql) {
+   private static DefaultTableModel getListFromDB(PreparedStatement ps) {
         Object[][] rowDATA = {};
-        String[] colNames = {"#ID", "Name"};
+        String[] colNames = {"#ID", "Name","Phone"};
         DefaultTableModel _model = new DefaultTableModel(rowDATA, colNames);
+        
         try {
-        ResultSet resultSet = DBDoor.getStatement().executeQuery(sql);
+        ResultSet resultSet = ps.executeQuery();
             while (resultSet.next()) {
-                    _model.addRow(new Object[]{resultSet.getInt("issue_id"),resultSet.getString("shortdescription")});
+                    _model.addRow(new Object[]{resultSet.getInt("issue_id"),resultSet.getString("devicename"),resultSet.getString("phone")});
                 }
         } catch (SQLException ex) {
             LOGGER.error("Issue::getListFromDB(): "+ex.getMessage());

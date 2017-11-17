@@ -46,7 +46,11 @@ public class IssueEditor extends TabAbstractPanel {
     
     public IssueEditor(int id) {
         initComponents();
+        
+        
+        
         ISSUE=new Issue(id);
+        THIS_COMPONENT.setText(ISSUE.toString());
         CLIENT=new Client(ISSUE.clientId());
         CLIENT_ADDRESS=new Address(CLIENT.id());
         ISSUE_TYPE.setSelectedIndex(ISSUE.issueTypeId());
@@ -66,10 +70,16 @@ public class IssueEditor extends TabAbstractPanel {
         
         
         // load predifined model
-        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+        DefaultComboBoxModel<String> model1 = new DefaultComboBoxModel<>();
         for (String l : java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("IssueEditor.DEVICE_TYPE").split(","))
-            model.addElement(l);
-        DEVICE_TYPE.setModel(model);
+            model1.addElement(l);
+        DEVICE_TYPE.setModel(model1);
+        DefaultComboBoxModel<String> model2 = new DefaultComboBoxModel<>();
+        for (String l : java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("ISSUE_STATUS").split(","))
+            model2.addElement(l);
+        ISSUE_STATUS.setModel(model2);
+        
+        
         ISSUE_ATTRIBUTES.setModel(PropertiesReader.getTableModel(getIssueAttributesFileName()));
         //ISSUE_ATTRIBUTES.getColumnModel().getColumn(1).setWidth(50);
         
