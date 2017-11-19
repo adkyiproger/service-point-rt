@@ -5,6 +5,7 @@
  */
 package repairtracker.views;
 
+import guitypes.TabAbstractPanel;
 import guitypes.TabManager;
 
 /**
@@ -41,8 +42,9 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         MAIN_MENU = new javax.swing.JMenuBar();
         MENU_FILE = new javax.swing.JMenu();
-        MENU_EXIT = new javax.swing.JMenuItem();
+        MENU_SAVE = new javax.swing.JMenuItem();
         MENU_SETTINGS = new javax.swing.JMenuItem();
+        MENU_EXIT = new javax.swing.JMenuItem();
         MENU_ISSUES = new javax.swing.JMenu();
         MENU_NEWISSUE = new javax.swing.JMenuItem();
         MENU_HELP = new javax.swing.JMenu();
@@ -84,11 +86,24 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
 
         MENU_FILE.setText(bundle.getString("RepairTrackerGUI.MENU_FILE.text")); // NOI18N
 
-        MENU_EXIT.setText(bundle.getString("RepairTrackerGUI.MENU_EXIT.text")); // NOI18N
-        MENU_FILE.add(MENU_EXIT);
+        MENU_SAVE.setText(bundle.getString("RepairTrackerGUI.MENU_SAVE.text")); // NOI18N
+        MENU_SAVE.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MENU_SAVEActionPerformed(evt);
+            }
+        });
+        MENU_FILE.add(MENU_SAVE);
 
         MENU_SETTINGS.setText(bundle.getString("RepairTrackerGUI.MENU_SETTINGS.text")); // NOI18N
         MENU_FILE.add(MENU_SETTINGS);
+
+        MENU_EXIT.setText(bundle.getString("RepairTrackerGUI.MENU_EXIT.text")); // NOI18N
+        MENU_EXIT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MENU_EXITActionPerformed(evt);
+            }
+        });
+        MENU_FILE.add(MENU_EXIT);
 
         MAIN_MENU.add(MENU_FILE);
 
@@ -139,6 +154,14 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
         MENU_NEWISSUEActionPerformed(evt);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void MENU_EXITActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MENU_EXITActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_MENU_EXITActionPerformed
+
+    private void MENU_SAVEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MENU_SAVEActionPerformed
+        ((TabAbstractPanel)MAIN_PANEL.getSelectedComponent()).save();
+    }//GEN-LAST:event_MENU_SAVEActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -182,6 +205,7 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
     private javax.swing.JMenu MENU_HELP;
     private javax.swing.JMenu MENU_ISSUES;
     private javax.swing.JMenuItem MENU_NEWISSUE;
+    private javax.swing.JMenuItem MENU_SAVE;
     private javax.swing.JMenuItem MENU_SETTINGS;
     public static javax.swing.JLabel STATUS;
     private javax.swing.JButton jButton1;

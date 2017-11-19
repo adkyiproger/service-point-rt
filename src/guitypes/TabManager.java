@@ -92,9 +92,12 @@ public static void removeTab(Component cmp){
 }
 
 public static void updateTitle(TabAbstractPanel cmp) {
+        LOGGER.info("Title updated: "+cmp.toString()+" : "+PANEL.getSelectedIndex());    
         PANEL.setSelectedComponent(cmp);
+        
+        PANEL.setTabComponentAt(PANEL.getSelectedIndex(), new CloseComponent(cmp.toString(),cmp.getIcon()));
         PANEL.setTitleAt(PANEL.getSelectedIndex(),cmp.toString());
-        LOGGER.info("Title updated: "+cmp.toString());
+        //LOGGER.info("Title updated: "+cmp.toString()+" : "+PANEL.getSelectedIndex());
     }
 
 public static void insertTab(String classname)  {
@@ -119,7 +122,7 @@ public static void insertTab(TabAbstractPanel usf)  {
             PANEL.insertTab( title, usf.getIcon(), usf, null, cnt);
             
             PANEL.setSelectedIndex(cnt);
-            
+            //PANEL.getTabComponentAt(1).getC
             PANEL.setTabComponentAt(cnt, new CloseComponent(title,usf.getIcon()));
       
             PANEL.setSelectedIndex(cnt);

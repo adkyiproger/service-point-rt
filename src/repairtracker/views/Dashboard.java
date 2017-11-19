@@ -338,4 +338,9 @@ public class Dashboard extends TabAbstractPanel {
     @Override
     public void print(Graphics g){
     }
+    
+    @Override
+    public void save(){
+    LOGGER.info("Save pressed");
+    }
 }
