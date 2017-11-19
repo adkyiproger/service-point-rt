@@ -48,7 +48,7 @@ public class IssueEditor extends TabAbstractPanel {
         initComponents();
         
         
-        
+        LOGGER.info("Opening issue: "+id);
         ISSUE=new Issue(id);
         THIS_COMPONENT.setText(ISSUE.toString());
         CLIENT=new Client(ISSUE.clientId());

@@ -79,7 +79,7 @@ public class Issue {
         loadDB();
     }
     public static DefaultTableModel getAsTable(){
-        String SQL = "select issue_id, devicename||'('||fname||')' as devicename, phone from issues iss"
+        String SQL = "select issue_id, devicename||' ('||fname||')' as devicename, phone from issues iss"
                 + " join clients cl on iss.client_id=cl.client_id"
                 + " join address ad on iss.client_id=ad.client_id";
         try {
@@ -95,7 +95,7 @@ public class Issue {
     public static DefaultTableModel getAsTable(int status, int issue_id, String client_name){
         try {
             LOGGER.info("getAsTable("+status+", "+issue_id+", "+client_name+")");
-            String SQL = "select issue_id, devicename||'('||fname||')' as devicename, phone from issues iss"
+            String SQL = "select issue_id, devicename||' ('||fname||')' as devicename, phone from issues iss"
                     + " join clients cl on iss.client_id=cl.client_id"
                     + " join address ad on iss.client_id=ad.client_id"
                     + " where 1=1";
@@ -116,7 +116,7 @@ public class Issue {
         String DATE_COND=" and startdate>=? and enddate<=? ";
         
         LOGGER.info("getAsTable("+status+", "+issue_id+", "+client_name+")");
-        String SQL = "select issue_id, devicename||'('||fname||')' as devicename, phone from issues iss"
+        String SQL = "select issue_id, devicename||' ('||fname||')' as devicename, phone from issues iss"
                 + " join clients cl on iss.client_id=cl.client_id"
                 + " join address ad on iss.client_id=ad.client_id"
                 + " where 1=1";
@@ -377,7 +377,7 @@ public class Issue {
     }
     
     public void save() {
-        if (this.ID > 0) {
+        if (this.ID > -1) {
             this.saveDB("U");
         } else {
             this.resolveID();
@@ -386,6 +386,13 @@ public class Issue {
     }
     @Override
     public String toString() {
-        return new Client(this.CLIENT_ID).toString()+" : "+this.DEVICE_NAME+" ("+this.DEVICE_NUMBER+")";
+        String s = new Client(this.CLIENT_ID).toString();
+        if (DEVICE_NAME.length() > 0) {
+            s += " / " + DEVICE_NAME;
+        }
+        if (DEVICE_NUMBER.length() > 0) {
+            s += " (" + this.DEVICE_NUMBER + ")";
+        }
+        return s;
     }
 }

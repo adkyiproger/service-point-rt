@@ -7,6 +7,7 @@ package repairtracker.views;
 
 import guitypes.TabAbstractPanel;
 import guitypes.TabManager;
+import repairtracker.RTProperties;
 
 /**
  *
@@ -24,6 +25,8 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
         initComponents();
         tabManager=new TabManager(MAIN_PANEL);
         TabManager.insertTab(DASHBOARD);
+        setTitle(RTProperties.APP_NAME+" "+RTProperties.APP_VERSION);
+        setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
     }
 
     /**
@@ -43,6 +46,7 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
         MAIN_MENU = new javax.swing.JMenuBar();
         MENU_FILE = new javax.swing.JMenu();
         MENU_SAVE = new javax.swing.JMenuItem();
+        MENU_SAVEALL = new javax.swing.JMenuItem();
         MENU_SETTINGS = new javax.swing.JMenuItem();
         MENU_EXIT = new javax.swing.JMenuItem();
         MENU_ISSUES = new javax.swing.JMenu();
@@ -93,6 +97,9 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
             }
         });
         MENU_FILE.add(MENU_SAVE);
+
+        MENU_SAVEALL.setText(bundle.getString("RepairTrackerGUI.MENU_SAVEALL.text")); // NOI18N
+        MENU_FILE.add(MENU_SAVEALL);
 
         MENU_SETTINGS.setText(bundle.getString("RepairTrackerGUI.MENU_SETTINGS.text")); // NOI18N
         MENU_FILE.add(MENU_SETTINGS);
@@ -206,6 +213,7 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
     private javax.swing.JMenu MENU_ISSUES;
     private javax.swing.JMenuItem MENU_NEWISSUE;
     private javax.swing.JMenuItem MENU_SAVE;
+    private javax.swing.JMenuItem MENU_SAVEALL;
     private javax.swing.JMenuItem MENU_SETTINGS;
     public static javax.swing.JLabel STATUS;
     private javax.swing.JButton jButton1;

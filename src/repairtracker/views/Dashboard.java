@@ -33,7 +33,7 @@ public class Dashboard extends TabAbstractPanel {
     public Dashboard() {
         
         initComponents();
-        //LIST_ISSUES.setModel(Issue.getAsTable());
+        LIST_ISSUES.setModel(Issue.getAsTable());
         LIST_ISSUES.getColumnModel().removeColumn(LIST_ISSUES.getColumnModel().getColumn(0));
         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
         model.addElement(java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("ISSUE_STATUS_SELECT"));
