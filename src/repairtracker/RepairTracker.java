@@ -97,7 +97,7 @@ public class RepairTracker {
                 @Override
                 public void windowClosing(WindowEvent winEvt) {
                     
-                        int dialogResult=JOptionPane.showConfirmDialog(rt,java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("CLOSE_MESSAGE"),java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("CLOSE_TITLE"),JOptionPane.WARNING_MESSAGE);
+                        int dialogResult=JOptionPane.showConfirmDialog(rt,java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("EXIT_MESSAGE"),java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("EXIT_TITLE"),JOptionPane.WARNING_MESSAGE);
                         
                         if(dialogResult == JOptionPane.YES_OPTION){
                             if (DBDoor.shutdown()) {

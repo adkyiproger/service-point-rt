@@ -14,7 +14,7 @@ import ehospital.model.Measurement;
 import ehospital.model.Patient;
 import ehospital.model.Template;
 */
-import helpers.PageDecorator;
+import repairtracker.helpers.PageDecorator;
 import guitypes.TabManager;
 import guitypes.TabAbstractPanel;
 import repairtracker.helpers.TextPropsDecorator;
@@ -25,6 +25,8 @@ import java.awt.print.PrinterJob;
 import java.util.Iterator;
 import java.util.Map;
 import javax.swing.Icon;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import repairtracker.RTProperties;
@@ -33,6 +35,7 @@ import repairtracker.helpers.PropertiesReader;
 import repairtracker.models.Address;
 import repairtracker.models.Client;
 import repairtracker.models.Issue;
+import repairtracker.models.IssueAttribute;
 import repairtracker.models.Warranty;
 
 /**
@@ -54,7 +57,22 @@ private static Logger LOGGER=LogManager.getLogger(PrinterBean.class.getName());
     CLIENT= new Client(ISSUE.clientId());
     
     LOGGER.info("Initializing printer form");
-    initForm();
+        ADDRESS=new Address(CLIENT.id());
+        initComponents();
+        //TEMPLATE_BOX.setModel(PropertiesReader.getFilesAsComboboxModel("templates"+RTProperties.FS));
+        
+       // TextPropsDecorator.printDecorate(EDITOR);
+      FORM_NAME.setText(FORM_NAME.getText()+": "+CLIENT.toString());
+      
+        if (RepairTracker.PROPERTIES.getProperty("TEMPLATE_INDEX")==null) {
+         LOGGER.warn("RepairTracker.PROPERTIES.getProperty(TEMPLATE_INDEX) is empty or null: "+RepairTracker.PROPERTIES.getProperty("TEMPLATE_INDEX"));
+         TEMPLATE_BOX.setSelectedIndex(0);
+        } else {
+            TEMPLATE_BOX.setSelectedItem(RepairTracker.PROPERTIES.getProperty("TEMPLATE_INDEX"));
+        }
+        SELECT_PRINTER.setSelected(Boolean.valueOf(RepairTracker.PROPERTIES.getProperty("SELECT_PRINTER", "false")));
+//        EDITOR.setText(PropertiesReader.getFileAsString("templates"+RTProperties.FS+TEMPLATE_BOX.getSelectedItem().toString()));
+        
     
 }
 
@@ -95,7 +113,8 @@ public void save(){
                 pj.print();
 
             } catch (PrinterException e) {
-                LOGGER.info(e);
+                JOptionPane.showMessageDialog(this, java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("PRINTER_NOT_FOUND"), java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("PRINTER_NOT_FOUND_DIALOG"), JOptionPane.ERROR_MESSAGE);
+                LOGGER.error(e);
             }
         }
         RepairTracker.PROPERTIES.setProperty("TEMPLATE", TEMPLATE_BOX.getSelectedItem().toString());
@@ -108,22 +127,18 @@ public void save(){
         print();
     }
     
-    private void initForm() {
-    ADDRESS=new Address(CLIENT.id());
-        initComponents();
-        TEMPLATE_BOX.setModel(PropertiesReader.getFilesAsComboboxModel("templates"+RTProperties.FS));
-        TextPropsDecorator.printDecorate(EDITOR);
-      FORM_NAME.setText(FORM_NAME.getText()+": "+CLIENT.toString());
-      
+    private String tableModelToHTMLTable(DefaultTableModel model){
+        String OUT=java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("PRINT_TABLE_HEADER");
         
+        int wl=model.getRowCount();
         
-        TEMPLATE_BOX.setSelectedItem(RepairTracker.PROPERTIES.getProperty("TEMPLATE"));
-        SELECT_PRINTER.setSelected(Boolean.valueOf(RepairTracker.PROPERTIES.getProperty("SELECT_PRINTER", "false")));
-//        EDITOR.setText(PropertiesReader.getFileAsString("templates"+RTProperties.FS+TEMPLATE_BOX.getSelectedItem().toString()));
+        for (int i=0;i<wl;i++) {
+            OUT+="<tr><td>"+model.getValueAt(i, 1).toString()+"</td><td>"+model.getValueAt(i, 2).toString()+"</td></tr>";
+            
+        }
         
-        
+        return OUT+="</table>";
     }
-
     
     private String replaceValues(String input){
         String OUT=input;
@@ -139,12 +154,27 @@ public void save(){
         if (ISSUE != null) {
             OUT=OUT.replaceAll("DEVICE_NAME", ISSUE.deviceName());
             OUT=OUT.replaceAll("DEVICE_NUMBER", ISSUE.deviceNumber());
+            
+            
+                 
+            
+            OUT=OUT.replaceAll("DEVICE_TYPE",String.valueOf(
+                java.util.ResourceBundle.getBundle("repairtracker/views/Bundle")
+                        .getString("IssueEditor.DEVICE_TYPE").split(",")[ISSUE.deviceTypeId()]
+            ));
+            OUT=OUT.replaceAll("ISSUE_ID",String.valueOf(ISSUE.id()));
+            
             OUT=OUT.replaceAll("START_DATE", ISSUE.startDate().toString());
             OUT=OUT.replaceAll("END_DATE", ISSUE.endDate().toString());
             OUT=OUT.replaceAll("COMMENTS", ISSUE.comments());
             OUT=OUT.replaceAll("DESCRIPTION", ISSUE.description());
             OUT=OUT.replaceAll("WARRANTY", new Warranty(ISSUE.warrantyTypeId()).getName());
             OUT=OUT.replaceAll("WARRANTY_TEXT", new Warranty(ISSUE.warrantyTypeId()).getDescription());
+            
+            
+            OUT=OUT.replaceAll("WORKLOG", tableModelToHTMLTable(IssueAttribute.getAttributesAsTable(ISSUE.id(), 0)));
+            OUT=OUT.replaceAll("REPLACEMENT", tableModelToHTMLTable(IssueAttribute.getAttributesAsTable(ISSUE.id(), 1)));
+            
         }
         
         return OUT;
@@ -165,14 +195,15 @@ public void save(){
         TEMPLATE_BOX = new javax.swing.JComboBox();
         FORM_ = new javax.swing.JLabel();
         PRINTER = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        EDITOR = new javax.swing.JTextArea();
         jButton3 = new javax.swing.JButton();
         SELECT_PRINTER = new javax.swing.JCheckBox();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        EDITOR = new javax.swing.JEditorPane();
 
-        FORM_NAME.setText(null);
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("repairtracker/views/Bundle"); // NOI18N
+        FORM_NAME.setText(bundle.getString("PrinterBean.FORM_NAME.text")); // NOI18N
 
-        TEMPLATE_BOX.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Select..." }));
+        TEMPLATE_BOX.setModel(PropertiesReader.getFilesAsComboboxModel("templates"+RTProperties.FS));
         TEMPLATE_BOX.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 TEMPLATE_BOXItemStateChanged(evt);
@@ -189,7 +220,6 @@ public void save(){
             }
         });
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("repairtracker/views/Bundle"); // NOI18N
         FORM_.setText(bundle.getString("PrinterBean.FORM_.text")); // NOI18N
 
         PRINTER.setText(bundle.getString("PrinterBean.PRINTER.text")); // NOI18N
@@ -198,13 +228,6 @@ public void save(){
                 PRINTERActionPerformed(evt);
             }
         });
-
-        EDITOR.setColumns(20);
-        EDITOR.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
-        EDITOR.setLineWrap(true);
-        EDITOR.setRows(5);
-        EDITOR.setWrapStyleWord(true);
-        jScrollPane2.setViewportView(EDITOR);
 
         jButton3.setText(bundle.getString("PrinterBean.jButton3.text")); // NOI18N
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -215,6 +238,10 @@ public void save(){
 
         SELECT_PRINTER.setText(bundle.getString("PrinterBean.SELECT_PRINTER.text")); // NOI18N
 
+        EDITOR.setContentType("text/html"); // NOI18N
+        EDITOR.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        jScrollPane1.setViewportView(EDITOR);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -222,7 +249,6 @@ public void save(){
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(FORM_)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -230,11 +256,12 @@ public void save(){
                         .addGap(93, 93, 93))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 483, Short.MAX_VALUE)
                         .addComponent(SELECT_PRINTER)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(PRINTER)))
                 .addContainerGap())
+            .addComponent(jScrollPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -244,8 +271,8 @@ public void save(){
                     .addComponent(TEMPLATE_BOX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(FORM_))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(PRINTER)
                     .addComponent(jButton3)
@@ -273,19 +300,24 @@ public void save(){
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void TEMPLATE_BOXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TEMPLATE_BOXActionPerformed
-              //  EDITOR.setText(replaceValues(PropertiesReader.getFileAsString("templates"+RTProperties.FS+TEMPLATE_BOX.getSelectedItem().toString())));
+              
+        if (TEMPLATE_BOX.getItemCount()>0) { 
+            //TEMPLATE_BOX.setSelectedIndex(0);
+            
+            LOGGER.info("TEMPLATE_BOX.getItemCount(): "+TEMPLATE_BOX.getItemCount());
+        EDITOR.setText(replaceValues(PropertiesReader.getFileAsString("templates"+RTProperties.FS+TEMPLATE_BOX.getSelectedItem().toString()))); }
     }//GEN-LAST:event_TEMPLATE_BOXActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextArea EDITOR;
+    private javax.swing.JEditorPane EDITOR;
     private javax.swing.JLabel FORM_;
     private javax.swing.JLabel FORM_NAME;
     private javax.swing.JButton PRINTER;
     private javax.swing.JCheckBox SELECT_PRINTER;
     private javax.swing.JComboBox TEMPLATE_BOX;
     private javax.swing.JButton jButton3;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 
 

@@ -42,17 +42,19 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
         STATUS = new javax.swing.JLabel();
         MAIN_PANEL = new javax.swing.JTabbedPane();
         jToolBar1 = new javax.swing.JToolBar();
-        jButton1 = new javax.swing.JButton();
+        TB_NEW = new javax.swing.JButton();
+        TB_SAVE = new javax.swing.JButton();
+        TB_PRINT = new javax.swing.JButton();
+        TB_TEMPLATES = new javax.swing.JButton();
         MAIN_MENU = new javax.swing.JMenuBar();
         MENU_FILE = new javax.swing.JMenu();
         MENU_PRINT = new javax.swing.JMenuItem();
         MENU_SAVE = new javax.swing.JMenuItem();
         MENU_SAVEALL = new javax.swing.JMenuItem();
-        MENU_SETTINGS = new javax.swing.JMenuItem();
+        MENU_TEMPLATES = new javax.swing.JMenuItem();
         MENU_EXIT = new javax.swing.JMenuItem();
         MENU_ISSUES = new javax.swing.JMenu();
         MENU_NEWISSUE = new javax.swing.JMenuItem();
-        MENU_TEMPLATES = new javax.swing.JMenuItem();
         MENU_HELP = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -79,16 +81,49 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
 
         jToolBar1.setRollover(true);
 
-        jButton1.setText(bundle.getString("RepairTrackerGUI.jButton1.text")); // NOI18N
-        jButton1.setFocusable(false);
-        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        TB_NEW.setText(bundle.getString("RepairTrackerGUI.TB_NEW.text")); // NOI18N
+        TB_NEW.setFocusable(false);
+        TB_NEW.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        TB_NEW.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        TB_NEW.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                TB_NEWActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton1);
+        jToolBar1.add(TB_NEW);
+
+        TB_SAVE.setText(bundle.getString("RepairTrackerGUI.TB_SAVE.text")); // NOI18N
+        TB_SAVE.setFocusable(false);
+        TB_SAVE.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        TB_SAVE.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        TB_SAVE.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TB_SAVEActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(TB_SAVE);
+
+        TB_PRINT.setText(bundle.getString("RepairTrackerGUI.TB_PRINT.text")); // NOI18N
+        TB_PRINT.setFocusable(false);
+        TB_PRINT.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        TB_PRINT.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        TB_PRINT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TB_PRINTActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(TB_PRINT);
+
+        TB_TEMPLATES.setText(bundle.getString("RepairTrackerGUI.TB_TEMPLATES.text")); // NOI18N
+        TB_TEMPLATES.setFocusable(false);
+        TB_TEMPLATES.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        TB_TEMPLATES.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        TB_TEMPLATES.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TB_TEMPLATESActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(TB_TEMPLATES);
 
         MENU_FILE.setText(bundle.getString("RepairTrackerGUI.MENU_FILE.text")); // NOI18N
 
@@ -111,8 +146,13 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
         MENU_SAVEALL.setText(bundle.getString("RepairTrackerGUI.MENU_SAVEALL.text")); // NOI18N
         MENU_FILE.add(MENU_SAVEALL);
 
-        MENU_SETTINGS.setText(bundle.getString("RepairTrackerGUI.MENU_SETTINGS.text")); // NOI18N
-        MENU_FILE.add(MENU_SETTINGS);
+        MENU_TEMPLATES.setText(bundle.getString("RepairTrackerGUI.MENU_TEMPLATES.text")); // NOI18N
+        MENU_TEMPLATES.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MENU_TEMPLATESActionPerformed(evt);
+            }
+        });
+        MENU_FILE.add(MENU_TEMPLATES);
 
         MENU_EXIT.setText(bundle.getString("RepairTrackerGUI.MENU_EXIT.text")); // NOI18N
         MENU_EXIT.addActionListener(new java.awt.event.ActionListener() {
@@ -133,14 +173,6 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
             }
         });
         MENU_ISSUES.add(MENU_NEWISSUE);
-
-        MENU_TEMPLATES.setText(bundle.getString("RepairTrackerGUI.MENU_TEMPLATES.text")); // NOI18N
-        MENU_TEMPLATES.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MENU_TEMPLATESActionPerformed(evt);
-            }
-        });
-        MENU_ISSUES.add(MENU_TEMPLATES);
 
         MAIN_MENU.add(MENU_ISSUES);
 
@@ -175,9 +207,9 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
         TabManager.insertTab(new IssueEditor());
     }//GEN-LAST:event_MENU_NEWISSUEActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void TB_NEWActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TB_NEWActionPerformed
         MENU_NEWISSUEActionPerformed(evt);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_TB_NEWActionPerformed
 
     private void MENU_EXITActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MENU_EXITActionPerformed
         // TODO add your handling code here:
@@ -194,6 +226,18 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
     private void MENU_PRINTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MENU_PRINTActionPerformed
         ((TabAbstractPanel)MAIN_PANEL.getSelectedComponent()).print();
     }//GEN-LAST:event_MENU_PRINTActionPerformed
+
+    private void TB_SAVEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TB_SAVEActionPerformed
+        MENU_SAVEActionPerformed(evt);
+    }//GEN-LAST:event_TB_SAVEActionPerformed
+
+    private void TB_PRINTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TB_PRINTActionPerformed
+        MENU_PRINTActionPerformed(evt);
+    }//GEN-LAST:event_TB_PRINTActionPerformed
+
+    private void TB_TEMPLATESActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TB_TEMPLATESActionPerformed
+        MENU_TEMPLATESActionPerformed(evt);
+    }//GEN-LAST:event_TB_TEMPLATESActionPerformed
 
     /**
      * @param args the command line arguments
@@ -241,10 +285,12 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem MENU_PRINT;
     private javax.swing.JMenuItem MENU_SAVE;
     private javax.swing.JMenuItem MENU_SAVEALL;
-    private javax.swing.JMenuItem MENU_SETTINGS;
     private javax.swing.JMenuItem MENU_TEMPLATES;
     public static javax.swing.JLabel STATUS;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton TB_NEW;
+    private javax.swing.JButton TB_PRINT;
+    private javax.swing.JButton TB_SAVE;
+    private javax.swing.JButton TB_TEMPLATES;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables

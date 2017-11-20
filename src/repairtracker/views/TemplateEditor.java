@@ -212,8 +212,8 @@ public class TemplateEditor extends TabAbstractPanel {
     private void BTN_SAVEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTN_SAVEActionPerformed
         if (TEMPLATE_NAME.getText().length()>0) {
             PropertiesReader.savePropertiesFile("templates"+RTProperties.FS+TEMPLATE_CURRENT, TEMPLATE_EDITOR.getText());
-            if (TEMPLATE_CURRENT.equalsIgnoreCase(LIST_TEMPLATES.getSelectedValue().toString()) &&
-                    TEMPLATE_CURRENT.equalsIgnoreCase(TEMPLATE_NAME.getText())) {
+            if (TEMPLATE_CURRENT.equalsIgnoreCase(LIST_TEMPLATES.getSelectedValue()) &&
+                    !TEMPLATE_CURRENT.equalsIgnoreCase(TEMPLATE_NAME.getText())) {
                 PropertiesReader.renameFile("templates"+RTProperties.FS+TEMPLATE_CURRENT, "templates"+RTProperties.FS+TEMPLATE_NAME.getText());
                 
             }
