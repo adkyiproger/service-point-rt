@@ -52,6 +52,22 @@ public class PropertiesReader {
         return model;
     }
     
+    public static DefaultListModel<String> getFilesAsListModel(String path){
+        DefaultListModel<String> model = new DefaultListModel<>();
+        listFiles(path).forEach((l) -> {
+            model.addElement(l);
+        });
+        return model;
+    }
+    
+        public static DefaultComboBoxModel<String> getFilesAsComboboxModel(String path){
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+        listFiles(path).forEach((l) -> {
+            model.addElement(l);
+        });
+        return model;
+    }
+    
     public static DefaultComboBoxModel<String> getComboboxModel(String file){
         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
         for (String l : getFileAsList(file)) model.addElement(l);
@@ -60,12 +76,27 @@ public class PropertiesReader {
     
     public static String getFileAsString(String file) {
         StringBuilder sb = new StringBuilder();
-        String str=""; //NOI18N
         List<String> list=getFileAsList(file);
         
-         for (String l : list) sb.append(l).append("\n"); //NOI18N
-        str=sb.toString();
+        list.forEach((l) -> {
+            sb.append(l).append("\n"); //NOI18N
+        });
+        String str=sb.toString();
         return str;
+    }
+    
+    public static Boolean renameFile(String src_path, String dest_path){
+        File infile = new File(RTProperties.APP_HOME+FS+src_path);
+        File dest_file=new File(RTProperties.APP_HOME+FS+dest_path);
+
+            if (infile.exists()) {
+                LOGGER.info("Rename file "+src_path+" => "+dest_path); //NOI18N
+                infile.renameTo(dest_file);
+              //  infile.delete();
+              
+            }
+            
+        return true;    
     }
     
     public static List<String> getPropertiesFiles(){
@@ -103,12 +134,38 @@ public class PropertiesReader {
         return _model;
     }
     
+    public static List<String> listFiles(String path){
+        List<String> lst = new ArrayList<>();
+        File folder = new File(RTProperties.APP_HOME+FS+path);
+        File[] listOfFiles = folder.listFiles();
+        LOGGER.info("Init file object:"+path); //NOI18N
+        
+        
+            if(!folder.exists()) {
+            try {
+                LOGGER.info("Trying to create new file"); //NOI18N
+                folder.mkdirs();
+                
+            } catch (Exception ex) {
+                LOGGER.error("Something critical happened: \n"+ex.getMessage(),ex); //NOI18N
+            }
+            }
+        for (File file : listOfFiles) {
+        if (file.isFile()) {
+            lst.add(file.getName());
+        }
+}
+    
+    return lst;
+        
+    }
+    
     
     public static List<String> getFileAsList(String file) {
         List<String> lst = new ArrayList<>();
 
-        String locale_file = file.replace(".txt", "_" + Locale.getDefault() + ".txt"); //NOI18N //NOI18N
-
+        //String locale_file = file.replace(".txt", "_" + Locale.getDefault() + ".txt"); //NOI18N //NOI18N
+        String locale_file=file;
         try {
             InputStream ins = null;
             File infile = new File(RTProperties.APP_HOME+FS+locale_file);
@@ -176,7 +233,8 @@ class SaveFile implements Runnable {
        
         String appDir=""; //NOI18N
 
-        fileName=RTProperties.APP_HOME +FS+ fileName.replace(".txt", "_" + Locale.getDefault() + ".txt"); //NOI18N //NOI18N
+        //fileName=RTProperties.APP_HOME +FS+ fileName.replace(".txt", "_" + Locale.getDefault() + ".txt"); //NOI18N //NOI18N
+        fileName=RTProperties.APP_HOME +FS+ fileName; //NOI18N //NOI18N
  
         LOGGER.info("Init file object:"+fileName); //NOI18N
         File infile=new File(fileName);
@@ -187,7 +245,7 @@ class SaveFile implements Runnable {
                 infile.getParentFile().mkdirs();
                 
             } catch (Exception ex) {
-                LOGGER.error("Something critical happened: \n"+ex); //NOI18N
+                LOGGER.error("Something critical happened: \n"+ex.getMessage(),ex); //NOI18N
             }
             }
 

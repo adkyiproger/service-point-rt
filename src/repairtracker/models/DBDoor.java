@@ -119,6 +119,17 @@ public class DBDoor {
             
         }
     }
+    
+    public static Boolean shutdown() {
+        try {
+            if (JDBCTYPE.equalsIgnoreCase("derby")) DriverManager.getConnection("jdbc:derby:;shutdown=true");
+            return true;
+        } catch (SQLException ex) {
+            LOGGER.error(ex.getMessage(), ex);
+            return true;
+        }
+    }
+    
     public static int checkDBAccess(){
         return 0;
     }

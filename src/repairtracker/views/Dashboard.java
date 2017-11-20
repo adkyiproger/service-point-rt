@@ -336,7 +336,7 @@ public class Dashboard extends TabAbstractPanel {
     
     
     @Override
-    public void print(Graphics g){
+    public void print(){
     }
     
     @Override

@@ -8,7 +8,7 @@ package genericdep.forms;
 
 import ultrasound.forms.*;
 import repairtracker.dialogs.Editor;
-import dialogs.PrinterBean;
+import repairtracker.views.PrinterBean;
 import ehospital.code.EHospital;
 import ehospital.code.EHospitalProperties;
 import ehospital.model.Department;

@@ -3,8 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dialogs;
-import ehospital.code.EHospital;
+package repairtracker.views;
+/* import ehospital.code.EHospital;
 import ehospital.code.EHospitalProperties;
 import ehospital.code.TabAbstractPanel;
 import ehospital.model.Address;
@@ -13,8 +13,10 @@ import ehospital.model.Epicrisis;
 import ehospital.model.Measurement;
 import ehospital.model.Patient;
 import ehospital.model.Template;
+*/
 import helpers.PageDecorator;
-import helpers.TabManager;
+import guitypes.TabManager;
+import guitypes.TabAbstractPanel;
 import repairtracker.helpers.TextPropsDecorator;
 import java.awt.print.PageFormat;
 import java.awt.print.Paper;
@@ -25,6 +27,13 @@ import java.util.Map;
 import javax.swing.Icon;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import repairtracker.RTProperties;
+import repairtracker.RepairTracker;
+import repairtracker.helpers.PropertiesReader;
+import repairtracker.models.Address;
+import repairtracker.models.Client;
+import repairtracker.models.Issue;
+import repairtracker.models.Warranty;
 
 /**
  *
@@ -32,48 +41,24 @@ import org.apache.logging.log4j.Logger;
  */
 public class PrinterBean extends TabAbstractPanel {
 //private JTabbedPane PARENT_TAB=EHospitalGUI.PANEL;
-private Measurement MEASUREMENT;
-private Epicrisis EPICRISIS;
-private Patient PATIENT;
+private Issue ISSUE;
+private Client CLIENT;
 private Address ADDRESS;
-private Map<String,String> TEMPLATES=Template.listTemplates();
 private static Logger LOGGER=LogManager.getLogger(PrinterBean.class.getName());
 
-
-    /**
-     * Creates new form PrinterForm
-     * @param parent 
-     * @param meas 
-     */
-
-    /**
-     * Creates new form PrinterForm
-     * @param parent
-     * @param ep
-     */
-
-    public PrinterBean(Epicrisis ep) {
+    public PrinterBean(Issue iss) {
     //PARENT_TAB=;
-    EPICRISIS=ep;
+    ISSUE=iss;
     
 //        System.out.println("Getting getPatientId");
-    PATIENT= new Patient(EPICRISIS.getPatientId());
+    CLIENT= new Client(ISSUE.clientId());
     
-        LOGGER.info("Initializing printer form");
+    LOGGER.info("Initializing printer form");
     initForm();
     
 }
 
-
-    public PrinterBean(Measurement meas) {
-        //PARENT_TAB=parent;
-        MEASUREMENT=meas;
-        PATIENT= new Patient(MEASUREMENT.getPatientId());
-        
-        initForm();
-        
-    }
-    
+  
 @Override
     public String toString(){
     
@@ -81,12 +66,17 @@ private static Logger LOGGER=LogManager.getLogger(PrinterBean.class.getName());
     }
 @Override
       public Icon getIcon() {
-        return FORM_.getIcon();
+        return FORM_NAME.getIcon();
     }
        @Override
     public void close() {
         TabManager.removeTab(this);
     }
+    
+@Override
+public void save(){
+}    
+
     
     public void print(){
         PrinterJob pj = PrinterJob.getPrinterJob();
@@ -108,10 +98,10 @@ private static Logger LOGGER=LogManager.getLogger(PrinterBean.class.getName());
                 LOGGER.info(e);
             }
         }
-        EHospital.PROPERTIES.setProperty("TEMPLATE", TEMPLATE_BOX.getSelectedItem().toString());
-        EHospitalProperties.SaveProperties(EHospital.PROPERTIES);
-        EHospital.PROPERTIES.setProperty("SELECT_PRINTER", String.valueOf(SELECT_PRINTER.isSelected()));
-        EHospitalProperties.SaveProperties(EHospital.PROPERTIES);
+        RepairTracker.PROPERTIES.setProperty("TEMPLATE", TEMPLATE_BOX.getSelectedItem().toString());
+        //RTProperties.SaveProperties(RepairTracker.PROPERTIES);
+        RepairTracker.PROPERTIES.setProperty("SELECT_PRINTER", String.valueOf(SELECT_PRINTER.isSelected()));
+        RTProperties.SaveProperties(RepairTracker.PROPERTIES);
     }
     public void printAll(){
         SELECT_PRINTER.setSelected(false);
@@ -119,67 +109,42 @@ private static Logger LOGGER=LogManager.getLogger(PrinterBean.class.getName());
     }
     
     private void initForm() {
-    ADDRESS=new Address(PATIENT.id());
+    ADDRESS=new Address(CLIENT.id());
         initComponents();
+        TEMPLATE_BOX.setModel(PropertiesReader.getFilesAsComboboxModel("templates"+RTProperties.FS));
         TextPropsDecorator.printDecorate(EDITOR);
-      FORM_NAME.setText(FORM_NAME.getText()+": "+PATIENT.toString());
-        Iterator it;
-        it = TEMPLATES.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pairs = (Map.Entry) it.next();
-            //System.out.println(pairs.getKey() + " = " + pairs.getValue());
-            TEMPLATE_BOX.addItem(pairs.getKey());
-        }
+      FORM_NAME.setText(FORM_NAME.getText()+": "+CLIENT.toString());
+      
         
         
-        TEMPLATE_BOX.setSelectedItem(EHospital.PROPERTIES.getProperty("TEMPLATE"));
-        SELECT_PRINTER.setSelected(Boolean.valueOf(EHospital.PROPERTIES.getProperty("SELECT_PRINTER", "false")));
-        loadTemplate();
+        TEMPLATE_BOX.setSelectedItem(RepairTracker.PROPERTIES.getProperty("TEMPLATE"));
+        SELECT_PRINTER.setSelected(Boolean.valueOf(RepairTracker.PROPERTIES.getProperty("SELECT_PRINTER", "false")));
+//        EDITOR.setText(PropertiesReader.getFileAsString("templates"+RTProperties.FS+TEMPLATE_BOX.getSelectedItem().toString()));
         
         
     }
 
-    private void loadTemplate(){
-     
-         if (TEMPLATE_BOX.getSelectedIndex()>0) {
-             String selected_temp=TEMPLATE_BOX.getSelectedItem().toString();
-             selected_temp=selected_temp.replaceAll("[^\\p{Alpha}\\p{Digit}]+","");
-             for (Map.Entry pairs : TEMPLATES.entrySet()) {
-                 System.out.println(pairs.getKey().toString() + " = " + selected_temp);
-                 
-                 if (pairs.getKey().toString().replaceAll("[^\\p{Alpha}\\p{Digit}]+","").matches(selected_temp)) {
-//                     System.out.println("Template text: " + selected_temp );
-                     EDITOR.setText(replaceValues(pairs.getValue().toString()));
-  //                   System.out.println(replaceValues(pairs.getValue().toString()));
-                 }}
-            
-         }
-    }
-         
     
     private String replaceValues(String input){
         String OUT=input;
 //        System.err.println("Hello");
-        OUT=OUT.replaceAll("FNAME", PATIENT.firstName());
-        OUT=OUT.replaceAll("LNAME", PATIENT.lastName());
-        OUT=OUT.replaceAll("MNAME", PATIENT.middleName());
-        OUT=OUT.replaceAll("BIRTHDATE", PATIENT.dataOfBirth().toString());
+        OUT=OUT.replaceAll("FNAME", CLIENT.firstName());
+        OUT=OUT.replaceAll("LNAME", CLIENT.lastName());
+        OUT=OUT.replaceAll("MNAME", CLIENT.middleName());
         if (ADDRESS!= null ) {
-        OUT=OUT.replaceAll("TOWN", ADDRESS.city());
         OUT=OUT.replaceAll("STREET", ADDRESS.address1());
+        OUT=OUT.replaceAll("PHONE", ADDRESS.phone());
         }
         //getName
-        if (EPICRISIS != null) {
-            OUT=OUT.replaceAll("EPICRISIS_NAME", EPICRISIS.epiName());
-            OUT=OUT.replaceAll("EPICRISIS", EPICRISIS.epiDescription());
-            OUT=OUT.replaceAll("DATE", EPICRISIS.getDate().toString());
-            OUT=OUT.replaceAll("DOCTOR", Doctor.getShortName(EPICRISIS.getDocId()));
-        }
-        if (MEASUREMENT != null ) {
-            OUT=OUT.replaceAll("MEASUREDATE", MEASUREMENT.getDate().toString());
-        OUT=OUT.replaceAll("DOCTOR", Doctor.getShortName(MEASUREMENT.getDocId()));
-        OUT=OUT.replaceAll("WEIGHT", String.valueOf(MEASUREMENT.getDouble("WEIGHT")));
-        OUT=OUT.replaceAll("HEIGHT", String.valueOf(MEASUREMENT.getDouble("HEIGHT")));
+        if (ISSUE != null) {
+            OUT=OUT.replaceAll("DEVICE_NAME", ISSUE.deviceName());
+            OUT=OUT.replaceAll("DEVICE_NUMBER", ISSUE.deviceNumber());
+            OUT=OUT.replaceAll("START_DATE", ISSUE.startDate().toString());
+            OUT=OUT.replaceAll("END_DATE", ISSUE.endDate().toString());
+            OUT=OUT.replaceAll("COMMENTS", ISSUE.comments());
+            OUT=OUT.replaceAll("DESCRIPTION", ISSUE.description());
+            OUT=OUT.replaceAll("WARRANTY", new Warranty(ISSUE.warrantyTypeId()).getName());
+            OUT=OUT.replaceAll("WARRANTY_TEXT", new Warranty(ISSUE.warrantyTypeId()).getDescription());
         }
         
         return OUT;
@@ -205,9 +170,7 @@ private static Logger LOGGER=LogManager.getLogger(PrinterBean.class.getName());
         jButton3 = new javax.swing.JButton();
         SELECT_PRINTER = new javax.swing.JCheckBox();
 
-        FORM_NAME.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ehospital/images/must_have_icon_set/Print/Print_24x24.png"))); // NOI18N
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("dialogs/Bundle"); // NOI18N
-        FORM_NAME.setText(bundle.getString("PrinterBean.FORM_NAME.text")); // NOI18N
+        FORM_NAME.setText(null);
 
         TEMPLATE_BOX.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Select..." }));
         TEMPLATE_BOX.addItemListener(new java.awt.event.ItemListener() {
@@ -226,10 +189,9 @@ private static Logger LOGGER=LogManager.getLogger(PrinterBean.class.getName());
             }
         });
 
-        FORM_.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ehospital/images/must_have_icon_set/Print/Print_24x24.png"))); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("repairtracker/views/Bundle"); // NOI18N
         FORM_.setText(bundle.getString("PrinterBean.FORM_.text")); // NOI18N
 
-        PRINTER.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ehospital/images/must_have_icon_set/Print/Print_32x32.png"))); // NOI18N
         PRINTER.setText(bundle.getString("PrinterBean.PRINTER.text")); // NOI18N
         PRINTER.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -244,7 +206,6 @@ private static Logger LOGGER=LogManager.getLogger(PrinterBean.class.getName());
         EDITOR.setWrapStyleWord(true);
         jScrollPane2.setViewportView(EDITOR);
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ehospital/images/exit.png"))); // NOI18N
         jButton3.setText(bundle.getString("PrinterBean.jButton3.text")); // NOI18N
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -265,7 +226,7 @@ private static Logger LOGGER=LogManager.getLogger(PrinterBean.class.getName());
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(FORM_)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(TEMPLATE_BOX, 0, 279, Short.MAX_VALUE)
+                        .addComponent(TEMPLATE_BOX, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(93, 93, 93))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jButton3)
@@ -312,7 +273,7 @@ private static Logger LOGGER=LogManager.getLogger(PrinterBean.class.getName());
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void TEMPLATE_BOXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TEMPLATE_BOXActionPerformed
-                loadTemplate();
+              //  EDITOR.setText(replaceValues(PropertiesReader.getFileAsString("templates"+RTProperties.FS+TEMPLATE_BOX.getSelectedItem().toString())));
     }//GEN-LAST:event_TEMPLATE_BOXActionPerformed
 
 

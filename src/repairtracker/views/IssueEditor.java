@@ -900,6 +900,7 @@ public class IssueEditor extends TabAbstractPanel {
     
     
     @Override
-    public void print(Graphics g){
+    public void print(){
+        TabManager.insertTab(new PrinterBean(ISSUE));
     }
 }

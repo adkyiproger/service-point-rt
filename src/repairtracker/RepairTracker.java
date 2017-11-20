@@ -4,8 +4,14 @@
  * and open the template in the editor.
  */
 package repairtracker;
+import java.awt.event.WindowEvent;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Locale;
 import java.util.Properties;
+import java.util.logging.Level;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import org.apache.logging.log4j.LogManager;
@@ -49,54 +55,69 @@ public class RepairTracker {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        
-        String lc=LOCALE.substring(0,2), lm=LOCALE.substring(3,5);
-                
-                Locale.setDefault(new Locale(lc,lm));
-                
-                if (LOG_FILE=="NA")
+
+        String lc = LOCALE.substring(0, 2), lm = LOCALE.substring(3, 5);
+
+        Locale.setDefault(new Locale(lc, lm));
+
+        if (LOG_FILE == "NA") {
+            LOG_FILE = RTProperties.APP_HOME + FS + "logs" + FS + RTProperties.APP_NAME + ".log";
+        }
+        System.setProperty("logFilename", LOG_FILE);
+        System.setProperty("derby.stream.error.file", RTProperties.APP_HOME + FS + "logs" + FS + "derby.log");
+        LOGGER = LogManager.getLogger();
+        LOGGER.info("Repair Tracker started!");
+        try {
+
+            //new McWinLookAndFeel();
+            UIManager.setLookAndFeel(THEME_CLASS);
+        } catch (UnsupportedLookAndFeelException e) {
+            // handle exception
+            LOGGER.error(e.getMessage(), e);
+
+        } catch (ClassNotFoundException e) {
+            // handle exception
+            LOGGER.error(e.getMessage(), e);
+        } catch (InstantiationException e) {
+            // handle exception
+            LOGGER.error(e.getMessage(), e);
+        } catch (IllegalAccessException e) {
+            // handle exception
+            LOGGER.error(e.getMessage(), e);
+        }
+        try {
+            DBDoor.setupMyConnection();
+
+            //   LogonForm LF = new LogonForm();
+            //   LogManager.getLogger(EHospital.class.getName()).info("Application initialized");
+            RepairTrackerGUI rt = new RepairTrackerGUI();
+            rt.setVisible(true);
+            rt.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            rt.addWindowListener(new java.awt.event.WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent winEvt) {
                     
-                    LOG_FILE=RTProperties.APP_HOME+FS+"logs"+FS+RTProperties.APP_NAME+".log";
-                System.setProperty("logFilename", LOG_FILE);
-                System.setProperty("derby.stream.error.file", RTProperties.APP_HOME+FS+"logs"+FS+"derby.log");
-                //System.out.println("logFilename: "+LOG_FILE);
-                //org.apache.logging.log4j.core.LoggerContext ctx =
-    //(org.apache.logging.log4j.core.LoggerContext) LogManager.getContext(false);
-//ctx.reconfigure();
-LOGGER=LogManager.getLogger();
-LOGGER.info("Repair Tracker started!");
-         try {
-             
-             //new McWinLookAndFeel();
-             UIManager.setLookAndFeel(THEME_CLASS);
-    } 
-    catch (UnsupportedLookAndFeelException e) {
-       // handle exception
-        LOGGER.error(e.getMessage(),e);
-        
+                        int dialogResult=JOptionPane.showConfirmDialog(rt,java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("CLOSE_MESSAGE"),java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("CLOSE_TITLE"),JOptionPane.WARNING_MESSAGE);
+                        
+                        if(dialogResult == JOptionPane.YES_OPTION){
+                            if (DBDoor.shutdown()) {
+                                
+                                
+                                LOGGER.info("Exit application completely");
+                                
+                                System.exit(0);
+                            }
+                            
+                        } else {
+                            LOGGER.error("Something went wrong with database");
+                        }
+                }
+            }
+            );
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+
     }
-    catch (ClassNotFoundException e) {
-       // handle exception
-        LOGGER.error(e.getMessage(),e);
-    }
-    catch (InstantiationException e) {
-       // handle exception
-        LOGGER.error(e.getMessage(),e);
-    }
-    catch (IllegalAccessException e) {
-       // handle exception
-        LOGGER.error(e.getMessage(),e);
-    }
-         try {
-                DBDoor.setupMyConnection();
-         
-                //   LogonForm LF = new LogonForm();
-                //   LogManager.getLogger(EHospital.class.getName()).info("Application initialized");
-                RepairTrackerGUI rt=new RepairTrackerGUI();
-                rt.setVisible(true);
-            } catch (Exception e) {
-            LOGGER.error(e.getMessage(),e);
-         }
-    }
-    
+
 }

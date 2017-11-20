@@ -24,5 +24,6 @@ public abstract class TabAbstractPanel extends javax.swing.JPanel {
     public abstract void close();
     
     public abstract void save();
+    public abstract void print();
     
 }
