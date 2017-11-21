@@ -1,0 +1,68 @@
+
+
+Version:	3.10
+CmdLine:	E:\doc-rep1\work\repair-tracker\service-point-rt\RepairTracker-1.0.exe --l4j-debug
+WOW64:		yes
+Working dir:	E:\doc-rep1\work\repair-tracker\service-point-rt\.
+Java min ver:	1.8.0
+Java max ver:	
+64-bit search:	SOFTWARE\JavaSoft\Java Runtime Environment...
+Check:		SOFTWARE\JavaSoft\Java Runtime Environment\1.8
+Ignore:		1.8
+Check:		SOFTWARE\JavaSoft\Java Runtime Environment\1.8.0_151
+Check launcher:	C:\Program Files\Java\jre1.8.0_151\bin\javaw.exe (OK)
+Match:		1.8.0_151
+64-bit search:	SOFTWARE\JavaSoft\Java Development Kit...
+Check:		SOFTWARE\JavaSoft\Java Development Kit\1.8
+Ignore:		1.8
+Check:		SOFTWARE\JavaSoft\Java Development Kit\1.8.0_151
+Ignore:		1.8.0_151
+64-bit search:	SOFTWARE\JavaSoft\JRE...
+64-bit search:	SOFTWARE\JavaSoft\JDK...
+Runtime used:	1.8.0_151 (64-bit)
+Main class:	repairtracker.RepairTracker
+Add classpath:	lib\derby.jar
+Add classpath:	lib\derbyclient.jar
+Add classpath:	lib\derbynet.jar
+Add classpath:	lib\jcalendar-1.4.jar
+Add classpath:	lib\log4j-api-2.1.jar
+Add classpath:	lib\log4j-core-2.1.jar
+Add classpath:	lib\beansbinding-1.2.1.jar
+Launcher:	C:\Program Files\Java\jre1.8.0_151\bin\javaw.exe
+Launcher args:	-classpath "E:\doc-rep1\work\repair-tracker\service-point-rt\RepairTracker-1.0.exe;lib\derby.jar;lib\derbyclient.jar;lib\derbynet.jar;lib\jcalendar-1.4.jar;lib\log4j-api-2.1.jar;lib\log4j-core-2.1.jar;lib\beansbinding-1.2.1.jar" repairtracker.RepairTracker
+Args length:	256/32768 chars
+Exit code:	0
+
+
+Version:	3.10
+CmdLine:	E:\doc-rep1\work\repair-tracker\service-point-rt\RepairTracker-1.0.exe --l4j-debug
+WOW64:		yes
+Working dir:	E:\doc-rep1\work\repair-tracker\service-point-rt\.
+Java min ver:	1.8.0
+Java max ver:	
+64-bit search:	SOFTWARE\JavaSoft\Java Runtime Environment...
+Check:		SOFTWARE\JavaSoft\Java Runtime Environment\1.8
+Ignore:		1.8
+Check:		SOFTWARE\JavaSoft\Java Runtime Environment\1.8.0_151
+Check launcher:	C:\Program Files\Java\jre1.8.0_151\bin\javaw.exe (OK)
+Match:		1.8.0_151
+64-bit search:	SOFTWARE\JavaSoft\Java Development Kit...
+Check:		SOFTWARE\JavaSoft\Java Development Kit\1.8
+Ignore:		1.8
+Check:		SOFTWARE\JavaSoft\Java Development Kit\1.8.0_151
+Ignore:		1.8.0_151
+64-bit search:	SOFTWARE\JavaSoft\JRE...
+64-bit search:	SOFTWARE\JavaSoft\JDK...
+Runtime used:	1.8.0_151 (64-bit)
+Main class:	repairtracker.RepairTracker
+Add classpath:	lib\derby.jar
+Add classpath:	lib\derbyclient.jar
+Add classpath:	lib\derbynet.jar
+Add classpath:	lib\jcalendar-1.4.jar
+Add classpath:	lib\log4j-api-2.1.jar
+Add classpath:	lib\log4j-core-2.1.jar
+Add classpath:	lib\beansbinding-1.2.1.jar
+Launcher:	C:\Program Files\Java\jre1.8.0_151\bin\javaw.exe
+Launcher args:	-classpath "E:\doc-rep1\work\repair-tracker\service-point-rt\RepairTracker-1.0.exe;lib\derby.jar;lib\derbyclient.jar;lib\derbynet.jar;lib\jcalendar-1.4.jar;lib\log4j-api-2.1.jar;lib\log4j-core-2.1.jar;lib\beansbinding-1.2.1.jar" repairtracker.RepairTracker
+Args length:	256/32768 chars
+Exit code:	0

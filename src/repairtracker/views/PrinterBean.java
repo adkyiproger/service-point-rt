@@ -211,6 +211,7 @@ private static Logger LOGGER=LogManager.getLogger(PrinterBean.class.getName());
         jScrollPane1 = new javax.swing.JScrollPane();
         EDITOR = new javax.swing.JEditorPane();
 
+        FORM_NAME.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/16/icons8-send-to-printer-16.png"))); // NOI18N
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("repairtracker/views/Bundle"); // NOI18N
         FORM_NAME.setText(bundle.getString("PrinterBean.FORM_NAME.text")); // NOI18N
 

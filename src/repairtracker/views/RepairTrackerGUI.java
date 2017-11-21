@@ -5,8 +5,10 @@
  */
 package repairtracker.views;
 
+import guitypes.IconFactory;
 import guitypes.TabAbstractPanel;
 import guitypes.TabManager;
+import javax.swing.ImageIcon;
 import repairtracker.RTProperties;
 
 /**
@@ -21,6 +23,7 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
     TabManager tabManager;
     Dashboard DASHBOARD;
     public RepairTrackerGUI() {
+        setIconImage(IconFactory.createImage("/images/app-logo.png"));
         DASHBOARD=new Dashboard();
         initComponents();
         tabManager=new TabManager(MAIN_PANEL);

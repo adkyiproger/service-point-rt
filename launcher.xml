@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch4jConfig>
+  <dontWrapJar>false</dontWrapJar>
+  <headerType>gui</headerType>
+  <jar>E:\doc-rep1\work\repair-tracker\service-point-rt\dist\RepairTracker.jar</jar>
+  <outfile>E:\doc-rep1\work\repair-tracker\service-point-rt\RepairTracker-1.0.exe</outfile>
+  <errTitle></errTitle>
+  <cmdLine></cmdLine>
+  <chdir>.</chdir>
+  <priority>normal</priority>
+  <downloadUrl>http://java.com/download</downloadUrl>
+  <supportUrl></supportUrl>
+  <stayAlive>false</stayAlive>
+  <restartOnCrash>false</restartOnCrash>
+  <manifest></manifest>
+  <icon>E:\doc-rep1\work\repair-tracker\service-point-rt\dist\app-logo.ico</icon>
+  <classPath>
+    <mainClass>repairtracker.RepairTracker</mainClass>
+    <cp>lib/derby.jar</cp>
+    <cp>lib/derbyclient.jar</cp>
+    <cp>lib/derbynet.jar</cp>
+    <cp>lib/jcalendar-1.4.jar</cp>
+    <cp>lib/log4j-api-2.1.jar</cp>
+    <cp>lib/log4j-core-2.1.jar</cp>
+    <cp>lib/beansbinding-1.2.1.jar</cp>
+  </classPath>
+  <jre>
+    <path></path>
+    <bundledJre64Bit>false</bundledJre64Bit>
+    <bundledJreAsFallback>false</bundledJreAsFallback>
+    <minVersion>1.8.0</minVersion>
+    <maxVersion></maxVersion>
+    <jdkPreference>preferJre</jdkPreference>
+    <runtimeBits>64/32</runtimeBits>
+  </jre>
+  <splash>
+    <file>E:\doc-rep1\work\repair-tracker\service-point-rt\dist\Splash.bmp</file>
+    <waitForWindow>true</waitForWindow>
+    <timeout>60</timeout>
+    <timeoutErr>true</timeoutErr>
+  </splash>
+</launch4jConfig>

@@ -137,10 +137,7 @@ public class PropertiesReader {
     public static List<String> listFiles(String path){
         List<String> lst = new ArrayList<>();
         File folder = new File(RTProperties.APP_HOME+FS+path);
-        File[] listOfFiles = folder.listFiles();
         LOGGER.info("Init file object:"+path); //NOI18N
-        
-        
             if(!folder.exists()) {
             try {
                 LOGGER.info("Trying to create new file"); //NOI18N
@@ -150,6 +147,7 @@ public class PropertiesReader {
                 LOGGER.error("Something critical happened: \n"+ex.getMessage(),ex); //NOI18N
             }
             }
+            File[] listOfFiles = folder.listFiles();
             if (listOfFiles.length>0) {
         for (File file : listOfFiles) {
         if (file.isFile()) {

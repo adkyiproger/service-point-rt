@@ -80,9 +80,11 @@ public class TemplateEditor extends TabAbstractPanel {
         TEMPLATE_NAME = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
 
-        THIS_COMPONENT.setText("Templates Editor");
+        THIS_COMPONENT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/16/icons8-web-design-16.png"))); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("repairtracker/views/Bundle"); // NOI18N
+        THIS_COMPONENT.setText(bundle.getString("TemplateEditor.THIS_COMPONENT.text")); // NOI18N
 
-        MENU.setText("jMenu1");
+        MENU.setText(bundle.getString("TemplateEditor.MENU.text")); // NOI18N
 
         LIST_TEMPLATES.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -112,7 +114,7 @@ public class TemplateEditor extends TabAbstractPanel {
                 .addGap(0, 0, 0))
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Editor"));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("TemplateEditor.jPanel2.border.title"))); // NOI18N
 
         TEMPLATE_EDITOR.setColumns(20);
         TEMPLATE_EDITOR.setRows(5);
@@ -134,7 +136,7 @@ public class TemplateEditor extends TabAbstractPanel {
             }
         });
 
-        jLabel1.setText("Name");
+        jLabel1.setText(bundle.getString("TemplateEditor.jLabel1.text")); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
