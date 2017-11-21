@@ -217,7 +217,7 @@ public class DBDoor {
         // -- DEVICETYPES
         RT_TABLES.put("devicetypes", "CREATE TABLE devicetypes (devicetype_id bigint NOT NULL, name varchar(128) NOT NULL, PRIMARY KEY(devicetype_id) ) ");
         // -- WARRANTIES
-        RT_TABLES.put("WARRANTIES", "CREATE TABLE WARRANTIES (warranty_id bigint NOT NULL, name varchar(128) NOT NULL, description varchar(4096) NOT NULL, PRIMARY KEY(warranty_id) ) ");
+        RT_TABLES.put("WARRANTIES", "CREATE TABLE WARRANTIES (warranty_id bigint NOT NULL, name varchar(256) NOT NULL, description varchar(20000) NOT NULL, local_path varchar(1024) DEFAULT NULL, PRIMARY KEY(warranty_id) ) ");
         
         // -- ISSUETYPES
         // http://sc24.su/pages/
@@ -247,7 +247,7 @@ public class DBDoor {
         RT_DATA.put("issueattrtypes","insert into issueattrtypes values (0,'Work'), (1,'Parts')");
         RT_DATA.put("issuetypes", "insert into issuetypes values (0,'Regular'), (1,'Warranty'), (2,'Consulting')");
         RT_DATA.put("devicetypes","insert into devicetypes values (0,'Phone'), (1,'Tablet'), (2,'Laptop'),(3,'PC'), (4,'Other')");
-        RT_DATA.put("WARRANTIES","insert into WARRANTIES values (0,'Regular new','Regular new'), (1,'Used parts','Used parts'), (2,'Regular repair','Regular repair')");
+        //RT_DATA.put("WARRANTIES","insert into WARRANTIES values (0,'Regular new','Regular new'), (1,'Used parts','Used parts'), (2,'Regular repair','Regular repair')");
 
     }
     private static boolean createTables(){

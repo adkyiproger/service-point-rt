@@ -77,24 +77,35 @@ private static Logger LOGGER=LogManager.getLogger(PrinterBean.class.getName());
 }
 
   
-@Override
-    public String toString(){
-    
-    return FORM_NAME.getText();
+    @Override
+    public String toString() {
+
+        return FORM_NAME.getText();
     }
-@Override
-      public Icon getIcon() {
+
+    @Override
+    public Icon getIcon() {
         return FORM_NAME.getIcon();
     }
-       @Override
+
+    @Override
     public void close() {
         TabManager.removeTab(this);
     }
-    
-@Override
-public void save(){
-}    
 
+    @Override
+    public void save() {
+    }
+
+    @Override
+    public Boolean isSaved() {
+        return true;
+    }
+
+    @Override
+    public void newItem() {
+    //    TabManager.insertTab(new IssueEditor());
+    }
     
     public void print(){
         PrinterJob pj = PrinterJob.getPrinterJob();

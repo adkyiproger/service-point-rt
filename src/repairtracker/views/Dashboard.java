@@ -69,7 +69,7 @@ public class Dashboard extends TabAbstractPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         LIST_ISSUES = new javax.swing.JTable();
 
-        THIS_COMPONENT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/16/window.png"))); // NOI18N
+        THIS_COMPONENT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/16/icons8-search-16.png"))); // NOI18N
         THIS_COMPONENT.setText(bundle.getString("JLABEL1")); // NOI18N
 
         SEARCH_FOR.addActionListener(new java.awt.event.ActionListener() {
@@ -342,5 +342,15 @@ public class Dashboard extends TabAbstractPanel {
     @Override
     public void save(){
     LOGGER.info("Save pressed");
+    }
+    
+    @Override
+    public Boolean isSaved() {
+        return true;
+    }
+    
+    @Override
+    public void newItem() {
+        TabManager.insertTab(new IssueEditor());
     }
 }

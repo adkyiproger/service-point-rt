@@ -150,10 +150,11 @@ public class PropertiesReader {
                 LOGGER.error("Something critical happened: \n"+ex.getMessage(),ex); //NOI18N
             }
             }
+            if (listOfFiles.length>0) {
         for (File file : listOfFiles) {
         if (file.isFile()) {
             lst.add(file.getName());
-        }
+        } }
 }
     
     return lst;

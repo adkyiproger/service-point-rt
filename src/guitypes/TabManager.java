@@ -91,13 +91,21 @@ public static void removeTab(Component cmp){
     PANEL.remove(cmp);
 }
 
-public static void updateTitle(TabAbstractPanel cmp) {
-        LOGGER.info("Title updated: "+cmp.toString()+" : "+PANEL.getSelectedIndex());    
-        PANEL.setSelectedComponent(cmp);
-        
-        PANEL.setTabComponentAt(PANEL.getSelectedIndex(), new CloseComponent(cmp.toString(),cmp.getIcon()));
-        PANEL.setTitleAt(PANEL.getSelectedIndex(),cmp.toString());
-        //LOGGER.info("Title updated: "+cmp.toString()+" : "+PANEL.getSelectedIndex());
+    public static void updateTitle(TabAbstractPanel cmp) {
+        LOGGER.info("Updating title: " + cmp.toString() + " : " + PANEL.getSelectedIndex());
+        try {
+            PANEL.setSelectedComponent(cmp);
+
+            if (cmp.isSaved()) {
+                PANEL.setTitleAt(PANEL.getSelectedIndex(), cmp.toString());
+                PANEL.setTabComponentAt(PANEL.getSelectedIndex(), new CloseComponent(cmp.toString(), cmp.getIcon()));
+            } else {
+                PANEL.setTitleAt(PANEL.getSelectedIndex(), cmp.toString() + "*");
+                PANEL.setTabComponentAt(PANEL.getSelectedIndex(), new CloseComponent(cmp.toString()+ "*", cmp.getIcon()));
+            }
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage(), ex);
+        }
     }
 
 public static void insertTab(String classname)  {

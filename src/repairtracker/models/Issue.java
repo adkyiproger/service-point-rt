@@ -150,7 +150,7 @@ public class Issue {
                     _model.addRow(new Object[]{resultSet.getInt("issue_id"),resultSet.getString("devicename"),resultSet.getString("phone")});
                 }
         } catch (SQLException ex) {
-            LOGGER.error("Issue::getListFromDB(): "+ex.getMessage());
+            LOGGER.error("Issue::getListFromDB(): "+ex.getMessage(),ex);
         }
        
        return _model;
@@ -180,7 +180,7 @@ public class Issue {
                 LOGGER.info("Loaded information from database: "
                         + resultSet.toString());
             } catch (SQLException ex) {
-                LOGGER.error("Issue::loadDB(): " + ex.getMessage());
+                LOGGER.error("Issue::loadDB(): " + ex.getMessage(),ex);
             }
         }
 }
@@ -190,7 +190,7 @@ public class Issue {
             resultSet.next();
             ID = resultSet.getInt("issue_id");
         } catch (SQLException ex) {
-            LOGGER.error("Issue::resolveID(): " + ex.toString());
+            LOGGER.error("Issue::resolveID(): " + ex.toString(),ex);
         }
     }
 
@@ -267,7 +267,7 @@ public class Issue {
             }
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
-            LOGGER.error("Issue::saveDB(): " + ex.toString());
+            LOGGER.error("Issue::saveDB(): " + ex.toString(),ex);
         }
 
     }

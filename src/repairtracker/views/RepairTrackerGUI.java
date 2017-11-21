@@ -45,17 +45,16 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
         TB_NEW = new javax.swing.JButton();
         TB_SAVE = new javax.swing.JButton();
         TB_PRINT = new javax.swing.JButton();
-        TB_TEMPLATES = new javax.swing.JButton();
         MAIN_MENU = new javax.swing.JMenuBar();
         MENU_FILE = new javax.swing.JMenu();
-        MENU_PRINT = new javax.swing.JMenuItem();
+        MENU_NEWISSUE = new javax.swing.JMenuItem();
         MENU_SAVE = new javax.swing.JMenuItem();
         MENU_SAVEALL = new javax.swing.JMenuItem();
-        MENU_TEMPLATES = new javax.swing.JMenuItem();
+        MENU_PRINT = new javax.swing.JMenuItem();
         MENU_EXIT = new javax.swing.JMenuItem();
         MENU_ISSUES = new javax.swing.JMenu();
-        MENU_NEWISSUE = new javax.swing.JMenuItem();
-        MENU_HELP = new javax.swing.JMenu();
+        MENU_TEMPLATES = new javax.swing.JMenuItem();
+        MENU_WARRANTIES = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -81,8 +80,11 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
 
         jToolBar1.setRollover(true);
 
+        TB_NEW.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/30/icons8-add-file-30.png"))); // NOI18N
         TB_NEW.setText(bundle.getString("RepairTrackerGUI.TB_NEW.text")); // NOI18N
+        TB_NEW.setToolTipText(bundle.getString("RepairTrackerGUI.TB_NEW.toolTipText")); // NOI18N
         TB_NEW.setFocusable(false);
+        TB_NEW.setHideActionText(true);
         TB_NEW.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         TB_NEW.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         TB_NEW.addActionListener(new java.awt.event.ActionListener() {
@@ -92,8 +94,11 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
         });
         jToolBar1.add(TB_NEW);
 
+        TB_SAVE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/30/icons8-save-30.png"))); // NOI18N
         TB_SAVE.setText(bundle.getString("RepairTrackerGUI.TB_SAVE.text")); // NOI18N
+        TB_SAVE.setToolTipText(bundle.getString("RepairTrackerGUI.TB_SAVE.toolTipText")); // NOI18N
         TB_SAVE.setFocusable(false);
+        TB_SAVE.setHideActionText(true);
         TB_SAVE.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         TB_SAVE.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         TB_SAVE.addActionListener(new java.awt.event.ActionListener() {
@@ -103,8 +108,11 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
         });
         jToolBar1.add(TB_SAVE);
 
+        TB_PRINT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/30/icons8-send-to-printer-30.png"))); // NOI18N
         TB_PRINT.setText(bundle.getString("RepairTrackerGUI.TB_PRINT.text")); // NOI18N
+        TB_PRINT.setToolTipText(bundle.getString("RepairTrackerGUI.TB_PRINT.toolTipText")); // NOI18N
         TB_PRINT.setFocusable(false);
+        TB_PRINT.setHideActionText(true);
         TB_PRINT.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         TB_PRINT.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         TB_PRINT.addActionListener(new java.awt.event.ActionListener() {
@@ -114,27 +122,18 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
         });
         jToolBar1.add(TB_PRINT);
 
-        TB_TEMPLATES.setText(bundle.getString("RepairTrackerGUI.TB_TEMPLATES.text")); // NOI18N
-        TB_TEMPLATES.setFocusable(false);
-        TB_TEMPLATES.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        TB_TEMPLATES.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        TB_TEMPLATES.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TB_TEMPLATESActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(TB_TEMPLATES);
-
         MENU_FILE.setText(bundle.getString("RepairTrackerGUI.MENU_FILE.text")); // NOI18N
 
-        MENU_PRINT.setText(bundle.getString("RepairTrackerGUI.MENU_PRINT.text")); // NOI18N
-        MENU_PRINT.addActionListener(new java.awt.event.ActionListener() {
+        MENU_NEWISSUE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/16/icons8-add-file-16.png"))); // NOI18N
+        MENU_NEWISSUE.setText(bundle.getString("RepairTrackerGUI.MENU_NEWISSUE.text")); // NOI18N
+        MENU_NEWISSUE.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MENU_PRINTActionPerformed(evt);
+                MENU_NEWISSUEActionPerformed(evt);
             }
         });
-        MENU_FILE.add(MENU_PRINT);
+        MENU_FILE.add(MENU_NEWISSUE);
 
+        MENU_SAVE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/16/icons8-save-16.png"))); // NOI18N
         MENU_SAVE.setText(bundle.getString("RepairTrackerGUI.MENU_SAVE.text")); // NOI18N
         MENU_SAVE.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -143,17 +142,20 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
         });
         MENU_FILE.add(MENU_SAVE);
 
+        MENU_SAVEALL.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/16/icons8-save-all-16.png"))); // NOI18N
         MENU_SAVEALL.setText(bundle.getString("RepairTrackerGUI.MENU_SAVEALL.text")); // NOI18N
         MENU_FILE.add(MENU_SAVEALL);
 
-        MENU_TEMPLATES.setText(bundle.getString("RepairTrackerGUI.MENU_TEMPLATES.text")); // NOI18N
-        MENU_TEMPLATES.addActionListener(new java.awt.event.ActionListener() {
+        MENU_PRINT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/16/icons8-send-to-printer-16.png"))); // NOI18N
+        MENU_PRINT.setText(bundle.getString("RepairTrackerGUI.MENU_PRINT.text")); // NOI18N
+        MENU_PRINT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MENU_TEMPLATESActionPerformed(evt);
+                MENU_PRINTActionPerformed(evt);
             }
         });
-        MENU_FILE.add(MENU_TEMPLATES);
+        MENU_FILE.add(MENU_PRINT);
 
+        MENU_EXIT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/16/icons8-shutdown-16.png"))); // NOI18N
         MENU_EXIT.setText(bundle.getString("RepairTrackerGUI.MENU_EXIT.text")); // NOI18N
         MENU_EXIT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -166,18 +168,25 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
 
         MENU_ISSUES.setText(bundle.getString("RepairTrackerGUI.MENU_ISSUES.text")); // NOI18N
 
-        MENU_NEWISSUE.setText(bundle.getString("RepairTrackerGUI.MENU_NEWISSUE.text")); // NOI18N
-        MENU_NEWISSUE.addActionListener(new java.awt.event.ActionListener() {
+        MENU_TEMPLATES.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/16/icons8-web-design-16.png"))); // NOI18N
+        MENU_TEMPLATES.setText(bundle.getString("RepairTrackerGUI.MENU_TEMPLATES.text")); // NOI18N
+        MENU_TEMPLATES.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MENU_NEWISSUEActionPerformed(evt);
+                MENU_TEMPLATESActionPerformed(evt);
             }
         });
-        MENU_ISSUES.add(MENU_NEWISSUE);
+        MENU_ISSUES.add(MENU_TEMPLATES);
+
+        MENU_WARRANTIES.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/16/icons8-quality-16.png"))); // NOI18N
+        MENU_WARRANTIES.setText(bundle.getString("RepairTrackerGUI.MENU_WARRANTIES.text")); // NOI18N
+        MENU_WARRANTIES.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MENU_WARRANTIESActionPerformed(evt);
+            }
+        });
+        MENU_ISSUES.add(MENU_WARRANTIES);
 
         MAIN_MENU.add(MENU_ISSUES);
-
-        MENU_HELP.setText(bundle.getString("RepairTrackerGUI.MENU_HELP.text")); // NOI18N
-        MAIN_MENU.add(MENU_HELP);
 
         setJMenuBar(MAIN_MENU);
 
@@ -204,7 +213,7 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void MENU_NEWISSUEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MENU_NEWISSUEActionPerformed
-        TabManager.insertTab(new IssueEditor());
+        ((TabAbstractPanel)MAIN_PANEL.getSelectedComponent()).newItem();
     }//GEN-LAST:event_MENU_NEWISSUEActionPerformed
 
     private void TB_NEWActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TB_NEWActionPerformed
@@ -235,9 +244,9 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
         MENU_PRINTActionPerformed(evt);
     }//GEN-LAST:event_TB_PRINTActionPerformed
 
-    private void TB_TEMPLATESActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TB_TEMPLATESActionPerformed
-        MENU_TEMPLATESActionPerformed(evt);
-    }//GEN-LAST:event_TB_TEMPLATESActionPerformed
+    private void MENU_WARRANTIESActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MENU_WARRANTIESActionPerformed
+        TabManager.insertTab(new TemplateEditor("Warranties Editor","warranties"));
+    }//GEN-LAST:event_MENU_WARRANTIESActionPerformed
 
     /**
      * @param args the command line arguments
@@ -279,18 +288,17 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
     private javax.swing.JTabbedPane MAIN_PANEL;
     private javax.swing.JMenuItem MENU_EXIT;
     private javax.swing.JMenu MENU_FILE;
-    private javax.swing.JMenu MENU_HELP;
     private javax.swing.JMenu MENU_ISSUES;
     private javax.swing.JMenuItem MENU_NEWISSUE;
     private javax.swing.JMenuItem MENU_PRINT;
     private javax.swing.JMenuItem MENU_SAVE;
     private javax.swing.JMenuItem MENU_SAVEALL;
     private javax.swing.JMenuItem MENU_TEMPLATES;
+    private javax.swing.JMenuItem MENU_WARRANTIES;
     public static javax.swing.JLabel STATUS;
     private javax.swing.JButton TB_NEW;
     private javax.swing.JButton TB_PRINT;
     private javax.swing.JButton TB_SAVE;
-    private javax.swing.JButton TB_TEMPLATES;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables

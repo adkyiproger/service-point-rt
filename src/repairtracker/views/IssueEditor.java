@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
 import javax.swing.JMenu;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,6 +24,7 @@ import repairtracker.models.Client;
 import repairtracker.models.Issue;
 import repairtracker.models.IssueAttribute;
 import repairtracker.models.IssueAttributeType;
+import repairtracker.models.Warranty;
 
 /**
  *
@@ -50,7 +52,8 @@ public class IssueEditor extends TabAbstractPanel {
         
         LOGGER.info("Opening issue: "+id);
         ISSUE=new Issue(id);
-        THIS_COMPONENT.setText(ISSUE.toString());
+        if (ISSUE.id()>-1) THIS_COMPONENT.setText(ISSUE.toString());
+        else THIS_COMPONENT.setText("Unnamed");
         CLIENT=new Client(ISSUE.clientId());
         CLIENT_ADDRESS=new Address(CLIENT.id());
         ISSUE_TYPE.setSelectedIndex(ISSUE.issueTypeId());
@@ -80,6 +83,8 @@ public class IssueEditor extends TabAbstractPanel {
         ISSUE_STATUS.setModel(model2);
         
         
+        if (PropertiesReader.getFilesAsComboboxModel("warranties").getSize()>0) WARRANTY_TYPE.setModel(PropertiesReader.getFilesAsComboboxModel("warranties"));
+        
         ISSUE_ATTRIBUTES.setModel(PropertiesReader.getTableModel(getIssueAttributesFileName()));
         //ISSUE_ATTRIBUTES.getColumnModel().getColumn(1).setWidth(50);
         
@@ -91,6 +96,7 @@ public class IssueEditor extends TabAbstractPanel {
         if (ISSUE.id()>-1) {
             WORKLOG.setModel(IssueAttribute.getAttributesAsTable(ISSUE.id(), 0));
             REPLACEMENT_PARTS.setModel(IssueAttribute.getAttributesAsTable(ISSUE.id(), 1));
+            WARRANTY_TYPE.setSelectedItem(new Warranty(ISSUE.warrantyTypeId()).getName());
         }
         
         
@@ -138,10 +144,6 @@ public class IssueEditor extends TabAbstractPanel {
         DEVICE_TYPE = new javax.swing.JComboBox<>();
         jLabel12 = new javax.swing.JLabel();
         DEVICE_NUMBER = new javax.swing.JTextField();
-        jPanel6 = new javax.swing.JPanel();
-        BTN_SAVE = new javax.swing.JButton();
-        BTN_CANCEL = new javax.swing.JButton();
-        BTN_PRINT = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
         jButton9 = new javax.swing.JButton();
         RB_REPLACEMENT_PARTS = new javax.swing.JRadioButton();
@@ -177,6 +179,7 @@ public class IssueEditor extends TabAbstractPanel {
         DELETE_WORK = new javax.swing.JButton();
         NEW_WORK = new javax.swing.JButton();
 
+        THIS_COMPONENT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/16/icons8-scorecard-16.png"))); // NOI18N
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("repairtracker/views/Bundle"); // NOI18N
         THIS_COMPONENT.setText(bundle.getString("IssueEditor.THIS_COMPONENT.text")); // NOI18N
 
@@ -313,40 +316,6 @@ public class IssueEditor extends TabAbstractPanel {
                     .addComponent(jLabel12)
                     .addComponent(DEVICE_NUMBER, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        BTN_SAVE.setText(bundle.getString("IssueEditor.BTN_SAVE.text")); // NOI18N
-        BTN_SAVE.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BTN_SAVEActionPerformed(evt);
-            }
-        });
-
-        BTN_CANCEL.setText(bundle.getString("IssueEditor.BTN_CANCEL.text")); // NOI18N
-
-        BTN_PRINT.setText(bundle.getString("IssueEditor.BTN_PRINT.text")); // NOI18N
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addComponent(BTN_SAVE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(BTN_PRINT)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 453, Short.MAX_VALUE)
-                .addComponent(BTN_CANCEL)
-                .addContainerGap())
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap(15, Short.MAX_VALUE)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(BTN_SAVE)
-                    .addComponent(BTN_CANCEL)
-                    .addComponent(BTN_PRINT))
-                .addContainerGap())
         );
 
         jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("IssueEditor.jPanel7.border.title"))); // NOI18N
@@ -492,7 +461,6 @@ public class IssueEditor extends TabAbstractPanel {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -501,13 +469,12 @@ public class IssueEditor extends TabAbstractPanel {
                 .addGap(5, 5, 5))
         );
 
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jPanel3, jPanel4, jPanel6, jPanel7});
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jPanel3, jPanel4, jPanel7});
 
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(5, 5, 5)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -736,15 +703,8 @@ public class IssueEditor extends TabAbstractPanel {
         if ((row>-1)&& (row<WORKLOG.getRowCount())) ((DefaultTableModel)WORKLOG.getModel()).removeRow(row);
     }//GEN-LAST:event_DELETE_WORKActionPerformed
 
-    private void BTN_SAVEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTN_SAVEActionPerformed
-        save();
-    }//GEN-LAST:event_BTN_SAVEActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BTN_CANCEL;
-    private javax.swing.JButton BTN_PRINT;
-    private javax.swing.JButton BTN_SAVE;
     private javax.swing.JTextField CLIENT_EMAIL;
     private javax.swing.JTextField CLIENT_NAME;
     private javax.swing.JTextField CLIENT_PHONE;
@@ -793,7 +753,6 @@ public class IssueEditor extends TabAbstractPanel {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane2;
@@ -843,7 +802,15 @@ public class IssueEditor extends TabAbstractPanel {
         ISSUE.setEndDate(END_DATE.getDate());
         ISSUE.setPrepayCost(Double.parseDouble(PREPAID.getText()));
         ISSUE.setStatus(ISSUE_STATUS.getSelectedIndex());
-        ISSUE.setWarrantyTypeId(WARRANTY_TYPE.getSelectedIndex());
+        
+        // Set Warranty
+        Warranty w=new Warranty(WARRANTY_TYPE.getSelectedItem().toString());
+        if (w.id()==-1) { 
+            w.setContent(PropertiesReader.getFileAsString("warranties"+RTProperties.FS+WARRANTY_TYPE.getSelectedItem().toString()));
+            w.save();
+        } 
+        ISSUE.setWarrantyTypeId(w.id());
+        
         ISSUE.save();
         
        
@@ -883,6 +850,13 @@ public class IssueEditor extends TabAbstractPanel {
     
     @Override
     public void close() {
+        int dialogResult=JOptionPane.showConfirmDialog(this,"Do you want to save changes?","Save changes: "+THIS_COMPONENT.getText(),JOptionPane.WARNING_MESSAGE);
+                        
+                        if(dialogResult == JOptionPane.YES_OPTION){
+                            save();
+                           
+                        } 
+        
         TabManager.removeTab(this);
     }
      @Override
@@ -902,5 +876,15 @@ public class IssueEditor extends TabAbstractPanel {
     @Override
     public void print(){
         TabManager.insertTab(new PrinterBean(ISSUE));
+    }
+
+    @Override
+    public Boolean isSaved() {
+        return true;
+    }
+    
+    @Override
+    public void newItem() {
+        TabManager.insertTab(new IssueEditor());
     }
 }

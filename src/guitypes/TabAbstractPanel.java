@@ -22,8 +22,9 @@ public abstract class TabAbstractPanel extends javax.swing.JPanel {
     public abstract String toString();
     public abstract Icon getIcon();
     public abstract void close();
-    
+    public abstract void newItem();
     public abstract void save();
+    public abstract Boolean isSaved();
     public abstract void print();
     
 }
