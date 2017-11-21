@@ -53,7 +53,7 @@ public class IssueEditor extends TabAbstractPanel {
         LOGGER.info("Opening issue: "+id);
         ISSUE=new Issue(id);
         if (ISSUE.id()>-1) THIS_COMPONENT.setText(ISSUE.toString());
-        else THIS_COMPONENT.setText("Unnamed");
+        else THIS_COMPONENT.setText(java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("UNNAMED"));
         CLIENT=new Client(ISSUE.clientId());
         CLIENT_ADDRESS=new Address(CLIENT.id());
         ISSUE_TYPE.setSelectedIndex(ISSUE.issueTypeId());
@@ -850,7 +850,7 @@ public class IssueEditor extends TabAbstractPanel {
     
     @Override
     public void close() {
-        int dialogResult=JOptionPane.showConfirmDialog(this,"Do you want to save changes?","Save changes: "+THIS_COMPONENT.getText(),JOptionPane.WARNING_MESSAGE);
+        int dialogResult=JOptionPane.showConfirmDialog(this,java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("DO YOU WANT TO SAVE CHANGES?"),java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("SAVE CHANGES: ")+THIS_COMPONENT.getText(),JOptionPane.WARNING_MESSAGE);
                         
                         if(dialogResult == JOptionPane.YES_OPTION){
                             save();

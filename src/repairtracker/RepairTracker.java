@@ -31,7 +31,7 @@ public class RepairTracker {
     // System properties
     public static String FS=System.getProperty("file.separator","/");
     public static Properties PROPERTIES=RTProperties.ReadProperties();
-    public static String LOCALE = PROPERTIES.getProperty("LOCALE_CODE", "ru_RU");
+    public static String LOCALE = PROPERTIES.getProperty("LOCALE_CODE", "uk_UA");
     public static String LOG_FILE = PROPERTIES.getProperty("LOG_FILE", "NA");
     
     // Database connection properties
@@ -74,9 +74,9 @@ public class RepairTracker {
             //UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             System.out.print(System.getProperty("os.name"));
             String os=System.getProperty("os.name");
-            if (os.equalsIgnoreCase("windows")) {
+            if (os.split(" ")[0].equalsIgnoreCase("linux")) {
                 UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
-            } else if (os.equalsIgnoreCase("linux")) {
+            } else if (os.split(" ")[0].equalsIgnoreCase("windows")) {
                 System.out.println("repairtracker.RepairTracker.main()");
                 UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
             } else {
@@ -107,27 +107,7 @@ public class RepairTracker {
             RepairTrackerGUI rt = new RepairTrackerGUI();
             rt.setVisible(true);
             rt.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-            rt.addWindowListener(new java.awt.event.WindowAdapter() {
-                @Override
-                public void windowClosing(WindowEvent winEvt) {
-                    
-                        int dialogResult=JOptionPane.showConfirmDialog(rt,java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("EXIT_MESSAGE"),java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("EXIT_TITLE"),JOptionPane.WARNING_MESSAGE);
-                        
-                        if(dialogResult == JOptionPane.YES_OPTION){
-                            if (DBDoor.shutdown()) {
-                                
-                                
-                                LOGGER.info("Exit application completely");
-                                
-                                System.exit(0);
-                            }
-                            
-                        } else {
-                            LOGGER.error("Something went wrong with database");
-                        }
-                }
-            }
-            );
+
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
         }

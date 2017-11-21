@@ -9,7 +9,11 @@ import guitypes.IconFactory;
 import guitypes.TabAbstractPanel;
 import guitypes.TabManager;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import repairtracker.RTProperties;
+import repairtracker.models.DBDoor;
 
 /**
  *
@@ -20,6 +24,8 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
     /**
      * Creates new form RepairTrackerGUI
      */
+    
+    private static Logger LOGGER=LogManager.getLogger(RepairTrackerGUI.class.getName());
     TabManager tabManager;
     Dashboard DASHBOARD;
     public RepairTrackerGUI() {
@@ -60,6 +66,11 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
         MENU_WARRANTIES = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                WindowClosing(evt);
+            }
+        });
 
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("repairtracker/views/Bundle"); // NOI18N
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("RepairTrackerGUI.jPanel2.border.title"))); // NOI18N
@@ -224,7 +235,7 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_TB_NEWActionPerformed
 
     private void MENU_EXITActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MENU_EXITActionPerformed
-        // TODO add your handling code here:
+        WindowClosing(new java.awt.event.WindowEvent(this,0) );
     }//GEN-LAST:event_MENU_EXITActionPerformed
 
     private void MENU_SAVEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MENU_SAVEActionPerformed
@@ -250,6 +261,23 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
     private void MENU_WARRANTIESActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MENU_WARRANTIESActionPerformed
         TabManager.insertTab(new TemplateEditor("Warranties Editor","warranties"));
     }//GEN-LAST:event_MENU_WARRANTIESActionPerformed
+
+    private void WindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_WindowClosing
+        int dialogResult=JOptionPane.showConfirmDialog(this,java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("EXIT_MESSAGE"),java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("EXIT_TITLE"),JOptionPane.WARNING_MESSAGE);
+                        
+                        if(dialogResult == JOptionPane.YES_OPTION){
+                            if (DBDoor.shutdown()) {
+                                
+                                
+                                LOGGER.info("Exit application completely");
+                                
+                                System.exit(0);
+                            }
+                            
+                        } else {
+                            LOGGER.error("Something went wrong with database");
+                        }
+    }//GEN-LAST:event_WindowClosing
 
     /**
      * @param args the command line arguments

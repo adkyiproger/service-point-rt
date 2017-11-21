@@ -9,6 +9,7 @@ package repairtracker.helpers;
 import repairtracker.RepairTracker;
 import javax.swing.JList;
 import javax.swing.JTextArea;
+import repairtracker.RTProperties;
 
 /**
  *
@@ -30,6 +31,7 @@ public class TextPropsDecorator {
         EDITOR.setLineWrap(true);
 
         EDITOR.setWrapStyleWord(true);
+        RTProperties.SaveProperties(RepairTracker.PROPERTIES);
     }
     
     public static void printDecorate(JTextArea ta) {

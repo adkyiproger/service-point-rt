@@ -18,6 +18,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import repairtracker.RTProperties;
 import repairtracker.helpers.PropertiesReader;
+import repairtracker.helpers.TextPropsDecorator;
 
 
 
@@ -36,11 +37,12 @@ public class TemplateEditor extends TabAbstractPanel {
      * Creates new form TemplateEditor
      */
     public TemplateEditor() {
-        this("Templates Editor","templates");
+        this(java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("TEMPLATES EDITOR"),"templates");
     }
     
     public TemplateEditor(String name, String tpl_path) {
         initComponents();
+        TextPropsDecorator.decorate(TEMPLATE_EDITOR);
         TPL_PATH=tpl_path;
         TPL_NAME=name;
         if (name.length()>0) THIS_COMPONENT.setText(TPL_NAME+" ("+TEMPLATE_CURRENT+")");
@@ -224,7 +226,7 @@ public class TemplateEditor extends TabAbstractPanel {
     private Boolean askForSave(){
         Boolean ask=true;
     if (SAVED==false) {
-            int dialogResult=JOptionPane.showConfirmDialog(this,"Do you want to save changes?","Save changes: "+THIS_COMPONENT.getText(),JOptionPane.WARNING_MESSAGE);
+            int dialogResult=JOptionPane.showConfirmDialog(this,java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("DO YOU WANT TO SAVE CHANGES?"),java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("SAVE CHANGES: ")+THIS_COMPONENT.getText(),JOptionPane.WARNING_MESSAGE);
                         
                         if(dialogResult == JOptionPane.YES_OPTION){
                             save();
@@ -272,7 +274,7 @@ public class TemplateEditor extends TabAbstractPanel {
             LIST_TEMPLATES.setModel(PropertiesReader.getFilesAsListModel(TPL_PATH));
             TEMPLATE_CURRENT="";
             TEMPLATE_EDITOR.setText("");
-            TEMPLATE_NAME.setText("Unnamed");
+            TEMPLATE_NAME.setText(java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("UNNAMED"));
             THIS_COMPONENT.setText(TPL_NAME+" ("+TEMPLATE_CURRENT+")");
             SAVED=true;
         }
