@@ -33,6 +33,7 @@ public class TemplateEditor extends TabAbstractPanel {
     String TPL_PATH="";
     String TPL_NAME="";
     Boolean SAVED=true;
+    Boolean LOADED=false;
     /**
      * Creates new form TemplateEditor
      */
@@ -56,11 +57,13 @@ public class TemplateEditor extends TabAbstractPanel {
     
     private void loadTemplate() {
     TEMPLATE_EDITOR.setText(PropertiesReader.getFileAsString(TPL_PATH+RTProperties.FS+LIST_TEMPLATES.getSelectedValue()));
+    TEMPLATE_VIEW.setText(PropertiesReader.getFileAsString(TPL_PATH+RTProperties.FS+LIST_TEMPLATES.getSelectedValue()));
             TEMPLATE_NAME.setText(LIST_TEMPLATES.getSelectedValue());
             TEMPLATE_CURRENT=LIST_TEMPLATES.getSelectedValue();
             SAVED=true;
             THIS_COMPONENT.setText(TPL_NAME+" ("+TEMPLATE_CURRENT+")");
             TabManager.updateTitle(this);
+            LOADED=true;
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -81,6 +84,8 @@ public class TemplateEditor extends TabAbstractPanel {
         TEMPLATE_EDITOR = new javax.swing.JTextArea();
         TEMPLATE_NAME = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        TEMPLATE_VIEW = new javax.swing.JEditorPane();
 
         THIS_COMPONENT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/16/icons8-web-design-16.png"))); // NOI18N
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("repairtracker/views/Bundle"); // NOI18N
@@ -112,7 +117,7 @@ public class TemplateEditor extends TabAbstractPanel {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(5, 5, 5)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 581, Short.MAX_VALUE)
+                .addComponent(jScrollPane1)
                 .addGap(0, 0, 0))
         );
 
@@ -120,6 +125,11 @@ public class TemplateEditor extends TabAbstractPanel {
 
         TEMPLATE_EDITOR.setColumns(20);
         TEMPLATE_EDITOR.setRows(5);
+        TEMPLATE_EDITOR.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                TEMPLATE_EDITORCaretUpdate(evt);
+            }
+        });
         TEMPLATE_EDITOR.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 TEMPLATE_EDITORFocusLost(evt);
@@ -140,16 +150,26 @@ public class TemplateEditor extends TabAbstractPanel {
 
         jLabel1.setText(bundle.getString("TemplateEditor.jLabel1.text")); // NOI18N
 
+        TEMPLATE_VIEW.setContentType("text/html"); // NOI18N
+        TEMPLATE_VIEW.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                TEMPLATE_VIEWCaretUpdate(evt);
+            }
+        });
+        jScrollPane3.setViewportView(TEMPLATE_VIEW);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 575, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jLabel1)
                 .addGap(10, 10, 10)
-                .addComponent(TEMPLATE_NAME, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(TEMPLATE_NAME, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -158,8 +178,9 @@ public class TemplateEditor extends TabAbstractPanel {
                     .addComponent(TEMPLATE_NAME, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 527, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 527, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -208,18 +229,28 @@ public class TemplateEditor extends TabAbstractPanel {
         TEMPLATE_NAMEFocusLost(evt);
     }//GEN-LAST:event_TEMPLATE_EDITORFocusLost
 
+    private void TEMPLATE_EDITORCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_TEMPLATE_EDITORCaretUpdate
+        if (LOADED) TEMPLATE_VIEW.setText(TEMPLATE_EDITOR.getText());
+    }//GEN-LAST:event_TEMPLATE_EDITORCaretUpdate
+
+    private void TEMPLATE_VIEWCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_TEMPLATE_VIEWCaretUpdate
+       //if (LOADED) TEMPLATE_EDITOR.setText(TEMPLATE_VIEW.getText());
+    }//GEN-LAST:event_TEMPLATE_VIEWCaretUpdate
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList<String> LIST_TEMPLATES;
     public static javax.swing.JMenu MENU;
     private javax.swing.JTextArea TEMPLATE_EDITOR;
     private javax.swing.JTextField TEMPLATE_NAME;
+    private javax.swing.JEditorPane TEMPLATE_VIEW;
     private javax.swing.JLabel THIS_COMPONENT;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     // End of variables declaration//GEN-END:variables
 
 

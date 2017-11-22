@@ -238,7 +238,8 @@ public class DBDoor {
                 + ")");
         // -- issueattributes types
         RT_TABLES.put("issueattrtypes", "CREATE TABLE issueattrtypes (issueattrtype_id bigint NOT NULL, name varchar(128) NOT NULL, PRIMARY KEY(issueattrtype_id) ) ");
-        
+        RT_TABLES.put("discount", "CREATE TABLE discount (issue_id bigint NOT NULL, discount_type bigint NOT NULL, value double not null,"
+                + "CONSTRAINT FK_ISADI  FOREIGN KEY (issue_id)  REFERENCES issues (issue_id))");
         RT_TABLES.put("issueattributes", "CREATE TABLE issueattributes (issueattribute_id bigint NOT NULL, issue_id bigint NOT NULL,"
                 + " description varchar(128) NOT NULL, price double default null, issueattrtype_id bigint not null, PRIMARY KEY(issueattribute_id),"
                 + "CONSTRAINT FK_ISAIS  FOREIGN KEY (issue_id)  REFERENCES issues (issue_id),"
@@ -246,6 +247,7 @@ public class DBDoor {
                 + " ) ");
         RT_DATA.put("issueattrtypes","insert into issueattrtypes values (0,'Work'), (1,'Parts')");
         RT_DATA.put("issuetypes", "insert into issuetypes values (0,'Regular'), (1,'Warranty'), (2,'Consulting')");
+        
         RT_DATA.put("devicetypes","insert into devicetypes values (0,'Phone'), (1,'Tablet'), (2,'Laptop'),(3,'PC'), (4,'Other')");
         //RT_DATA.put("WARRANTIES","insert into WARRANTIES values (0,'Regular new','Regular new'), (1,'Used parts','Used parts'), (2,'Regular repair','Regular repair')");
 

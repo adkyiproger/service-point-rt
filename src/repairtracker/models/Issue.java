@@ -27,8 +27,8 @@ public class Issue {
     private static Logger LOGGER=LogManager.getLogger(Issue.class.getName()); 
     private Connection DB = DBDoor.getConn();
     private Statement statement = null;
-    private PreparedStatement preparedStatement = null;
-    private ResultSet resultSet = null;
+    private PreparedStatement preparedStatement = null, discount=null;
+    private ResultSet resultSet = null, discount_rs=null;
     
     private Integer ID = -1;
     // Issue ID
@@ -56,6 +56,8 @@ public class Issue {
     private Date END_DATE=new Date();
     private Double TOTAL_COST=0.0;
     private Double PREPAY=0.0;
+    private Double DISCOUNT_VALUE=0.0;
+    private int DISCOUNT_TYPE=0;
     private int STATUS=0;
     
             
@@ -179,6 +181,13 @@ public class Issue {
                 PREPAY = resultSet.getDouble("prepay");
                 LOGGER.info("Loaded information from database: "
                         + resultSet.toString());
+                
+                discount_rs=DBDoor.executeSelect("select * from discount where issue_id=" + this.ID);
+                if (discount_rs.next()) {
+                DISCOUNT_TYPE=discount_rs.getInt("discount_type");
+                DISCOUNT_VALUE=discount_rs.getDouble("value");
+               
+                }
             } catch (SQLException ex) {
                 LOGGER.error("Issue::loadDB(): " + ex.getMessage(),ex);
             }
@@ -211,7 +220,9 @@ public class Issue {
         prepay double not null default 0,
         
         */
+    
         try {
+           
             if (mode.equals("I")) {
                 preparedStatement = DB
                         .prepareStatement("insert into issues values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
@@ -227,8 +238,19 @@ public class Issue {
                 preparedStatement.setString(10, DEVICE_NUMBER);
                 preparedStatement.setString(11, SHORTDESCRIPTION);
                 preparedStatement.setString(12, COMMENTS);
+                
                 preparedStatement.setDouble(13, TOTAL_COST);
                 preparedStatement.setDouble(14, PREPAY);
+                
+                if (DISCOUNT_VALUE>0.0) {
+                discount = DB
+                        .prepareStatement("insert into discount values (?,?,?)");
+                discount.setInt(1, ID);
+                discount.setInt(2, DISCOUNT_TYPE);
+                discount.setDouble(2, DISCOUNT_VALUE);
+                discount.executeUpdate();
+                
+                }
             }
             if (mode.equals("U")) {
 
@@ -263,12 +285,38 @@ public class Issue {
                 preparedStatement.setDouble(12, TOTAL_COST);
                 preparedStatement.setDouble(13, PREPAY);
                 preparedStatement.setInt(14, ID);
-
+                if (DISCOUNT_VALUE>0.0) {
+                    LOGGER.info("Discount DISCOUNT_VALUE>0.0 value: "+DISCOUNT_VALUE);
+                    discount_rs=DBDoor.executeSelect("select * from discount where issue_id=" + this.ID);
+                
+                   if(discount_rs.next()) {
+                discount = DB
+                        .prepareStatement("update discount set"
+                                + " discount_type=?,"
+                                + " value=?"
+                                + " where issue_id=?");
+                discount.setInt(1, DISCOUNT_TYPE);
+                discount.setDouble(2, DISCOUNT_VALUE);
+                discount.setInt(3, ID);
+                LOGGER.info("Update discount value: "+DISCOUNT_VALUE);
+                
+                } else {
+                    discount = DB
+                        .prepareStatement("insert into discount values (?,?,?)");
+                discount.setInt(1, ID);
+                discount.setInt(2, DISCOUNT_TYPE);
+                discount.setDouble(3, DISCOUNT_VALUE);
+                LOGGER.info("Insert discount value: "+DISCOUNT_VALUE);
+                }
+                discount.executeUpdate();
+                }
             }
             preparedStatement.executeUpdate();
+            
         } catch (SQLException ex) {
             LOGGER.error("Issue::saveDB(): " + ex.toString(),ex);
         }
+        LOGGER.info("Discount value: "+DISCOUNT_VALUE);
 
     }
     public int id() {
@@ -325,6 +373,13 @@ public class Issue {
         return STATUS;
     }
     
+    public Double discount(){
+        return DISCOUNT_VALUE;
+    }
+    public int discountType(){
+        return DISCOUNT_TYPE;
+    }
+    
     // Set methods
     public void setClientId(int id) {
         CLIENT_ID=id;
@@ -374,6 +429,13 @@ public class Issue {
     }
     public void setStatus(int s){
         STATUS=s;
+    }
+    
+    public void setDiscount(Double c){
+        DISCOUNT_VALUE=c;
+    }
+    public void setDiscountType(int s){
+        DISCOUNT_TYPE=s;
     }
     
     public void save() {

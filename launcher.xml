@@ -3,7 +3,7 @@
   <dontWrapJar>false</dontWrapJar>
   <headerType>gui</headerType>
   <jar>E:\doc-rep1\work\repair-tracker\service-point-rt\dist\RepairTracker.jar</jar>
-  <outfile>E:\doc-rep1\work\repair-tracker\service-point-rt\RepairTracker-1.0.exe</outfile>
+  <outfile>E:\doc-rep1\work\repair-tracker\service-point-rt\standalone\RepairTracker-1.0.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
   <chdir>.</chdir>

@@ -41,6 +41,14 @@ public class IssueAttribute {
         loadDB();
 
     }
+    
+   public static void  deleteById(Integer id){
+       try {
+       DBDoor.getConn().prepareStatement("delete from issueattributes where issueattribute_id="+String.valueOf(id)).execute();
+       } catch (SQLException ex) {
+           LOGGER.error(ex.getMessage(),ex);
+       }
+   }
    public static DefaultTableModel getAttributesAsTable(int id){
         String SQL = "select issueattribute_id, description, price from issueattributes where issue_id="+id;
         return getListFromDB(SQL);
@@ -60,20 +68,50 @@ public class IssueAttribute {
                     _model.addRow(new Object[]{resultSet.getInt("issueattribute_id"),resultSet.getString("description"),resultSet.getDouble("price")});
                 }
         } catch (SQLException ex) {
-            LOGGER.error("IssueAttribute::getListFromDB(): "+ex.getMessage());
+            LOGGER.error("IssueAttribute::getListFromDB(): "+ex.getMessage(),ex);
         }
        
        return _model;
     }
+   
+   public static Double getTotalCost(int issueId){
+       Double total_cost=0.0;
+       try {
+       ResultSet rs = DBDoor.getStatement().executeQuery("select sum(price) as total_cost from issueattributes where issue_id="+issueId);
+       rs.next();
+       total_cost=rs.getDouble("total_cost");
+       } catch (SQLException ex)
+       {
+           LOGGER.error("IssueAttribute::getListFromDB(): "+ex.getMessage(),ex);
+       }
+   return total_cost;
+           
+   }
+   
+   public static Double getTotalCost(int issueId, int issueAttrTypeId){
+       Double total_cost=0.0;
+       try {
+       ResultSet rs = DBDoor.getStatement().executeQuery("select sum(price) as total_cost from issueattributes where issue_id="+issueId+" and issueattrtype_id="+issueAttrTypeId);
+       rs.next();
+       total_cost=rs.getDouble("total_cost");
+       } catch (SQLException ex)
+       {
+           LOGGER.error("IssueAttribute::getListFromDB(): "+ex.getMessage(),ex);
+       }
+   return total_cost;
+           
+   }
+   
    private void loadDB() {
-        if (ID >= 0) {
+        if (ID >-1) {
             try {
                 resultSet = DBDoor.executeSelect("select * from issueattributes where issueattribute_id=" + this.ID);
                 resultSet.next();
                 ID = resultSet.getInt("issueattribute_id");
                 DESCRIPTION = resultSet.getString("description");
+                LOGGER.info("IssueAttribute::loadDB(): id=>"+ID+" description=>"+DESCRIPTION);
             } catch (SQLException ex) {
-                LOGGER.error("IssueAttribute::loadDB(): " + ex.getMessage());
+                LOGGER.error("IssueAttribute::loadDB(): " + ex.getMessage(),ex);
             }
         }
     }
