@@ -7,8 +7,8 @@ Originally developed for [Service Point Korosten](https://service-point.in.ua) c
 
 # Features
 
-1. Track repair process status
+1. Track computer device repair process status
 2. Print invoice or any other document for client using HTML templates
 3. Track income and outcome (not implemented)
 4. Synchronize changes with online website (not implemented)
-5. Multilanguage support ( currently only English and Russian, planned Ukrainian)
+5. Multilanguage support ( English, Russian and Ukrainian)
