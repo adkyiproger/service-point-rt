@@ -117,7 +117,7 @@
                           <Component id="ISSUE_TYPE" max="32767" attributes="0"/>
                           <Component id="WARRANTY_TYPE" pref="158" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="256" max="32767" attributes="0"/>
+                      <EmptySpace pref="260" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel16" min="-2" max="-2" attributes="0"/>

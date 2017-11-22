@@ -49,6 +49,23 @@ public class IssueEditor extends TabAbstractPanel {
     public IssueEditor(int id) {
         initComponents();
         
+        // load predifined model
+        DefaultComboBoxModel<String> model0 = new DefaultComboBoxModel<>();
+        for (String l : java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("IssueEditor.ISSUE_TYPE").split(","))
+            model0.addElement(l);
+        ISSUE_TYPE.setModel(model0);
+        DefaultComboBoxModel<String> model1 = new DefaultComboBoxModel<>();
+        for (String l : java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("IssueEditor.DEVICE_TYPE").split(","))
+            model1.addElement(l);
+        DEVICE_TYPE.setModel(model1);
+        DefaultComboBoxModel<String> model2 = new DefaultComboBoxModel<>();
+        for (String l : java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("ISSUE_STATUS").split(","))
+            model2.addElement(l);
+        ISSUE_STATUS.setModel(model2);
+        
+        
+        if (PropertiesReader.getFilesAsComboboxModel("warranties").getSize()>0) WARRANTY_TYPE.setModel(PropertiesReader.getFilesAsComboboxModel("warranties"));
+        
         
         LOGGER.info("Opening issue: "+id);
         ISSUE=new Issue(id);
@@ -68,22 +85,11 @@ public class IssueEditor extends TabAbstractPanel {
         CLIENT_STREET.setText(CLIENT_ADDRESS.address1());
         COMMENTS.setText(ISSUE.comments());
         DESCRIPTION.setText(ISSUE.description());
+        DEVICE_TYPE.setSelectedIndex(ISSUE.deviceTypeId());
         DEVICE_MODEL.setText(ISSUE.deviceName());
         DEVICE_NUMBER.setText(ISSUE.deviceNumber());
         
         
-        // load predifined model
-        DefaultComboBoxModel<String> model1 = new DefaultComboBoxModel<>();
-        for (String l : java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("IssueEditor.DEVICE_TYPE").split(","))
-            model1.addElement(l);
-        DEVICE_TYPE.setModel(model1);
-        DefaultComboBoxModel<String> model2 = new DefaultComboBoxModel<>();
-        for (String l : java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("ISSUE_STATUS").split(","))
-            model2.addElement(l);
-        ISSUE_STATUS.setModel(model2);
-        
-        
-        if (PropertiesReader.getFilesAsComboboxModel("warranties").getSize()>0) WARRANTY_TYPE.setModel(PropertiesReader.getFilesAsComboboxModel("warranties"));
         
         ISSUE_ATTRIBUTES.setModel(PropertiesReader.getTableModel(getIssueAttributesFileName()));
         //ISSUE_ATTRIBUTES.getColumnModel().getColumn(1).setWidth(50);
@@ -805,10 +811,10 @@ public class IssueEditor extends TabAbstractPanel {
         
         // Set Warranty
         Warranty w=new Warranty(WARRANTY_TYPE.getSelectedItem().toString());
-        if (w.id()==-1) { 
+
             w.setContent(PropertiesReader.getFileAsString("warranties"+RTProperties.FS+WARRANTY_TYPE.getSelectedItem().toString()));
             w.save();
-        } 
+
         ISSUE.setWarrantyTypeId(w.id());
         
         ISSUE.save();

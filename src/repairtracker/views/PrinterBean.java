@@ -27,6 +27,11 @@ import java.util.Map;
 import javax.swing.Icon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.Element;
+import javax.swing.text.View;
+import javax.swing.text.ViewFactory;
+import javax.swing.text.html.HTMLEditorKit;
+import javax.swing.text.html.ImageView;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import repairtracker.RTProperties;
@@ -73,7 +78,24 @@ private static Logger LOGGER=LogManager.getLogger(PrinterBean.class.getName());
         SELECT_PRINTER.setSelected(Boolean.valueOf(RepairTracker.PROPERTIES.getProperty("SELECT_PRINTER", "false")));
 //        EDITOR.setText(PropertiesReader.getFileAsString("templates"+RTProperties.FS+TEMPLATE_BOX.getSelectedItem().toString()));
         
-    
+        EDITOR.setEditorKit(new HTMLEditorKit() {
+
+            @Override
+            public ViewFactory getViewFactory() {
+                return new HTMLFactory() {
+
+                    @Override
+                    public View create(Element elem) {
+                        View view = super.create(elem);
+                        if (view instanceof ImageView) {
+                            ((ImageView) view).setLoadsSynchronously(true);
+                        }
+                        return view;
+                    }
+                };
+            }
+        });
+
 }
 
   
@@ -179,10 +201,9 @@ private static Logger LOGGER=LogManager.getLogger(PrinterBean.class.getName());
             OUT=OUT.replaceAll("END_DATE", ISSUE.endDate().toString());
             OUT=OUT.replaceAll("COMMENTS", ISSUE.comments());
             OUT=OUT.replaceAll("DESCRIPTION", ISSUE.description());
-            OUT=OUT.replaceAll("WARRANTY", new Warranty(ISSUE.warrantyTypeId()).getName());
+            OUT=OUT.replaceAll("WARRANTY_NAME", new Warranty(ISSUE.warrantyTypeId()).getName());
             OUT=OUT.replaceAll("WARRANTY_TEXT", new Warranty(ISSUE.warrantyTypeId()).getDescription());
-            
-            
+
             OUT=OUT.replaceAll("WORKLOG", tableModelToHTMLTable(IssueAttribute.getAttributesAsTable(ISSUE.id(), 0)));
             OUT=OUT.replaceAll("REPLACEMENT", tableModelToHTMLTable(IssueAttribute.getAttributesAsTable(ISSUE.id(), 1)));
             
@@ -190,7 +211,6 @@ private static Logger LOGGER=LogManager.getLogger(PrinterBean.class.getName());
         
         return OUT;
     }
-    
     
 
     /**
@@ -265,7 +285,7 @@ private static Logger LOGGER=LogManager.getLogger(PrinterBean.class.getName());
                         .addComponent(FORM_)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(TEMPLATE_BOX, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(93, 93, 93))
+                        .addGap(10, 10, 10))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jButton3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 483, Short.MAX_VALUE)
@@ -283,12 +303,15 @@ private static Logger LOGGER=LogManager.getLogger(PrinterBean.class.getName());
                     .addComponent(TEMPLATE_BOX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(FORM_))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(PRINTER)
-                    .addComponent(jButton3)
-                    .addComponent(SELECT_PRINTER)))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(PRINTER)
+                        .addComponent(SELECT_PRINTER))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButton3)
+                        .addContainerGap())))
         );
     }// </editor-fold>//GEN-END:initComponents
 

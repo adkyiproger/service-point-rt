@@ -114,7 +114,7 @@ public class Warranty {
                         .prepareStatement("update warranties set "
                                 + "name=?, "
                                 + "description=?,"
-                                + "local_path=?,"
+                                + "local_path=?"
                                 + "where warranty_id=?");
                 preparedStatement.setString(1, this.NAME);
                 preparedStatement.setString(2, this.DESCRIPTION);
