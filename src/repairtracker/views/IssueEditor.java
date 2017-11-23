@@ -206,7 +206,7 @@ public class IssueEditor extends TabAbstractPanel {
                     .addComponent(ISSUE_STATUS, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(ISSUE_TYPE, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(WARRANTY_TYPE, 0, 158, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 275, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 329, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel6)
                     .addComponent(jLabel7))
@@ -273,11 +273,11 @@ public class IssueEditor extends TabAbstractPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(DEVICE_MODEL, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
+                .addComponent(DEVICE_MODEL, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel12)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(DEVICE_NUMBER, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
+                .addComponent(DEVICE_NUMBER, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
                 .addGap(10, 10, 10))
         );
         jPanel4Layout.setVerticalGroup(
@@ -738,13 +738,14 @@ public class IssueEditor extends TabAbstractPanel {
 
         TOTAL_1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         TOTAL_1.setText(bundle.getString("IssueEditor.TOTAL_1.text")); // NOI18N
-        TOTAL_1.setPreferredSize(new java.awt.Dimension(51, 15));
+        TOTAL_1.setMaximumSize(new java.awt.Dimension(71, 15));
+        TOTAL_1.setPreferredSize(new java.awt.Dimension(71, 15));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.weightx = 0.2;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 1);
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 31);
         PANEL_TOTAL_2.add(TOTAL_1, gridBagConstraints);
 
         jLabel22.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -759,11 +760,13 @@ public class IssueEditor extends TabAbstractPanel {
         DISCOUNT_2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         DISCOUNT_2.setForeground(new java.awt.Color(0, 102, 0));
         DISCOUNT_2.setText(bundle.getString("IssueEditor.DISCOUNT_2.text")); // NOI18N
-        DISCOUNT_2.setPreferredSize(new java.awt.Dimension(51, 14));
+        DISCOUNT_2.setMaximumSize(new java.awt.Dimension(71, 14));
+        DISCOUNT_2.setPreferredSize(new java.awt.Dimension(71, 14));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 31);
         PANEL_TOTAL_2.add(DISCOUNT_2, gridBagConstraints);
 
         jLabel23.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -776,11 +779,13 @@ public class IssueEditor extends TabAbstractPanel {
 
         TOTAL_2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         TOTAL_2.setText(bundle.getString("IssueEditor.TOTAL_2.text")); // NOI18N
-        TOTAL_2.setPreferredSize(new java.awt.Dimension(51, 15));
+        TOTAL_2.setMaximumSize(new java.awt.Dimension(71, 15));
+        TOTAL_2.setPreferredSize(new java.awt.Dimension(71, 15));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 31);
         PANEL_TOTAL_2.add(TOTAL_2, gridBagConstraints);
 
         PANEL_TOTAL_1.setLayout(new java.awt.GridBagLayout());
@@ -793,11 +798,13 @@ public class IssueEditor extends TabAbstractPanel {
         PANEL_TOTAL_1.add(REPLACEMENT_TOTAL5, gridBagConstraints);
 
         WORK_TOTAL_1.setText(bundle.getString("IssueEditor.WORK_TOTAL_1.text")); // NOI18N
+        WORK_TOTAL_1.setMaximumSize(new java.awt.Dimension(71, 14));
+        WORK_TOTAL_1.setPreferredSize(new java.awt.Dimension(71, 14));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 24, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 30);
         PANEL_TOTAL_1.add(WORK_TOTAL_1, gridBagConstraints);
 
         REPLACEMENT_TOTAL3.setText(bundle.getString("IssueEditor.REPLACEMENT_TOTAL3.text")); // NOI18N
@@ -807,10 +814,13 @@ public class IssueEditor extends TabAbstractPanel {
         PANEL_TOTAL_1.add(REPLACEMENT_TOTAL3, gridBagConstraints);
 
         REPLACEMENT_TOTAL_1.setText(bundle.getString("IssueEditor.REPLACEMENT_TOTAL_1.text")); // NOI18N
+        REPLACEMENT_TOTAL_1.setMaximumSize(new java.awt.Dimension(71, 14));
+        REPLACEMENT_TOTAL_1.setPreferredSize(new java.awt.Dimension(71, 14));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 30);
         PANEL_TOTAL_1.add(REPLACEMENT_TOTAL_1, gridBagConstraints);
 
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
@@ -819,10 +829,10 @@ public class IssueEditor extends TabAbstractPanel {
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(PANEL_TOTAL_1, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
+                .addComponent(PANEL_TOTAL_1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(PANEL_TOTAL_2, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(PANEL_TOTAL_2, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5))
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -839,9 +849,7 @@ public class IssueEditor extends TabAbstractPanel {
             .addGroup(SUMMARY_ADJUSTMENTSLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(SUMMARY_ADJUSTMENTSLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(SUMMARY_ADJUSTMENTSLayout.createSequentialGroup()
-                        .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(0, 0, 0))
+                    .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
