@@ -117,6 +117,7 @@ public class Dashboard extends TabAbstractPanel {
 
         jLabel2.setText(bundle.getString("END DATE")); // NOI18N
 
+        FILTER_DO.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/16/icons8-search-16.png"))); // NOI18N
         FILTER_DO.setText(bundle.getString("SHOW ISSUES")); // NOI18N
         FILTER_DO.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -184,6 +185,7 @@ public class Dashboard extends TabAbstractPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        LIST_ISSUES.setAutoCreateRowSorter(true);
         LIST_ISSUES.setModel(Issue.getAsTable());
         LIST_ISSUES.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {

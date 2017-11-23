@@ -8,6 +8,7 @@ package repairtracker.views;
 import guitypes.IconFactory;
 import guitypes.TabAbstractPanel;
 import guitypes.TabManager;
+import java.awt.Component;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import org.apache.logging.log4j.LogManager;
@@ -147,6 +148,7 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
         });
         MENU_FILE.add(MENU_NEWISSUE);
 
+        MENU_SAVE.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         MENU_SAVE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/16/icons8-save-16.png"))); // NOI18N
         MENU_SAVE.setText(bundle.getString("RepairTrackerGUI.MENU_SAVE.text")); // NOI18N
         MENU_SAVE.addActionListener(new java.awt.event.ActionListener() {
@@ -156,8 +158,14 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
         });
         MENU_FILE.add(MENU_SAVE);
 
+        MENU_SAVEALL.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         MENU_SAVEALL.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/16/icons8-save-all-16.png"))); // NOI18N
         MENU_SAVEALL.setText(bundle.getString("RepairTrackerGUI.MENU_SAVEALL.text")); // NOI18N
+        MENU_SAVEALL.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MENU_SAVEALLActionPerformed(evt);
+            }
+        });
         MENU_FILE.add(MENU_SAVEALL);
 
         MENU_PRINT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/16/icons8-send-to-printer-16.png"))); // NOI18N
@@ -278,6 +286,12 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
                             LOGGER.error("Something went wrong with database");
                         }
     }//GEN-LAST:event_WindowClosing
+
+    private void MENU_SAVEALLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MENU_SAVEALLActionPerformed
+        for ( Component s : MAIN_PANEL.getComponents())  {
+            ((TabAbstractPanel)s).save();
+    }
+    }//GEN-LAST:event_MENU_SAVEALLActionPerformed
 
     /**
      * @param args the command line arguments

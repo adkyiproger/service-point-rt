@@ -319,6 +319,7 @@ public class IssueEditor extends TabAbstractPanel {
             }
         });
 
+        ISSUE_ATTRIBUTES.setAutoCreateRowSorter(true);
         ISSUE_ATTRIBUTES.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -330,7 +331,6 @@ public class IssueEditor extends TabAbstractPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        ISSUE_ATTRIBUTES.setRowSelectionAllowed(false);
         ISSUE_ATTRIBUTES.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         ISSUE_ATTRIBUTES.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -1059,6 +1059,7 @@ public class IssueEditor extends TabAbstractPanel {
     
     
     
+    @Override
     public void save(){
         
         // Save Client

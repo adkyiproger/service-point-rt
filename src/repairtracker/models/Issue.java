@@ -81,7 +81,7 @@ public class Issue {
         loadDB();
     }
     public static DefaultTableModel getAsTable(){
-        String SQL = "select issue_id, devicename||' ('||fname||')' as devicename, phone from issues iss"
+        String SQL = "select issue_id, devicename, fname, phone, totalcost, startdate, enddate, status from issues iss"
                 + " join clients cl on iss.client_id=cl.client_id"
                 + " join address ad on iss.client_id=ad.client_id";
         try {
@@ -97,7 +97,7 @@ public class Issue {
     public static DefaultTableModel getAsTable(int status, int issue_id, String client_name){
         try {
             LOGGER.info("getAsTable("+status+", "+issue_id+", "+client_name+")");
-            String SQL = "select issue_id, devicename||' ('||fname||')' as devicename, phone from issues iss"
+            String SQL = "select issue_id, devicename, fname, phone, totalcost, startdate, enddate, status from issues iss"
                     + " join clients cl on iss.client_id=cl.client_id"
                     + " join address ad on iss.client_id=ad.client_id"
                     + " where 1=1";
@@ -118,7 +118,7 @@ public class Issue {
         String DATE_COND=" and startdate>=? and enddate<=? ";
         
         LOGGER.info("getAsTable("+status+", "+issue_id+", "+client_name+")");
-        String SQL = "select issue_id, devicename||' ('||fname||')' as devicename, phone from issues iss"
+        String SQL = "select issue_id, devicename, fname, phone, totalcost, startdate, enddate, status from issues iss"
                 + " join clients cl on iss.client_id=cl.client_id"
                 + " join address ad on iss.client_id=ad.client_id"
                 + " where 1=1";
@@ -143,13 +143,27 @@ public class Issue {
     
    private static DefaultTableModel getListFromDB(PreparedStatement ps) {
         Object[][] rowDATA = {};
-        String[] colNames = {"#ID", java.util.ResourceBundle.getBundle("repairtracker/models/Bundle").getString("ISSUE"),java.util.ResourceBundle.getBundle("repairtracker/models/Bundle").getString("PHONE")};
-        DefaultTableModel _model = new DefaultTableModel(rowDATA, colNames);
+        String[] colNames = {"#ID", java.util.ResourceBundle.getBundle("repairtracker/models/Bundle").getString("DEVICE"),java.util.ResourceBundle.getBundle("repairtracker/models/Bundle").getString("CLIENT_NAME"), java.util.ResourceBundle.getBundle("repairtracker/models/Bundle").getString("PHONE"), java.util.ResourceBundle.getBundle("repairtracker/models/Bundle").getString("TOTAL_COST"), java.util.ResourceBundle.getBundle("repairtracker/models/Bundle").getString("START_DATE"), java.util.ResourceBundle.getBundle("repairtracker/models/Bundle").getString("END_DATE"), java.util.ResourceBundle.getBundle("repairtracker/models/Bundle").getString("STATUS")};
+        DefaultTableModel _model = new DefaultTableModel(rowDATA, colNames){
+            @Override
+    public boolean isCellEditable(int row, int column) {
+       //all cells false
+       return false;
+    }
+        };
         
         try {
         ResultSet resultSet = ps.executeQuery();
             while (resultSet.next()) {
-                    _model.addRow(new Object[]{resultSet.getInt("issue_id"),resultSet.getString("devicename"),resultSet.getString("phone")});
+                    _model.addRow(new Object[]{resultSet.getInt("issue_id"),
+                                resultSet.getString("devicename"),
+                                resultSet.getString("fname"),
+                                resultSet.getString("phone"),
+                                resultSet.getDouble("totalcost"),
+                                resultSet.getDate("startdate"),
+                                resultSet.getDate("enddate"),
+                                java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("ISSUE_STATUS").split(",")[resultSet.getInt("status")]});
+                    LOGGER.info("Issue status: "+java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("ISSUE_STATUS").split(",")[resultSet.getInt("status")]);
                 }
         } catch (SQLException ex) {
             LOGGER.error("Issue::getListFromDB(): "+ex.getMessage(),ex);

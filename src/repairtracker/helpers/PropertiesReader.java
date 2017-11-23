@@ -118,7 +118,13 @@ public class PropertiesReader {
         Object[][] rowDATA = {};
         String[] colNames = {java.util.ResourceBundle.getBundle("repairtracker/helpers/Bundle").getString("ITEMNAME"),java.util.ResourceBundle.getBundle("repairtracker/helpers/Bundle").getString("PRICE")};
         
-        DefaultTableModel _model = new DefaultTableModel(rowDATA, colNames);
+        DefaultTableModel _model = new DefaultTableModel(rowDATA, colNames) {
+            @Override
+    public boolean isCellEditable(int row, int column) {
+       //all cells false
+       return false;
+    }
+        };
 
         getFileAsList(file).forEach((l) -> {
             String item_name, price;
