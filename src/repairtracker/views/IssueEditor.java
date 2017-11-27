@@ -1208,9 +1208,9 @@ public class IssueEditor extends TabAbstractPanel {
                     LOGGER.info("Doing discount ISSUE.totalCost()-ISSUE.discount(): "+String.valueOf(ISSUE.totalCost()-ISSUE.discount()));
                 }
                 if (ISSUE.discountType()==1) {
-                    TOTAL_2.setText(String.valueOf(ISSUE.totalCost()-(ISSUE.discount()*ISSUE.totalCost()*0.01)));
-                    DISCOUNT_2.setText(String.valueOf(-(ISSUE.discount()*ISSUE.totalCost()*0.01)));
-                    LOGGER.info("Doing discount ISSUE.totalCost()-ISSUE.discount()*ISSUE.totalCost(): "+String.valueOf(ISSUE.totalCost()-ISSUE.discount()*ISSUE.totalCost()));
+                    TOTAL_2.setText(String.valueOf(ISSUE.totalCost()-(ISSUE.discount()*IssueAttribute.getTotalCost(ISSUE.id(), 0)*0.01)));
+                    DISCOUNT_2.setText(String.valueOf(-(ISSUE.discount()*IssueAttribute.getTotalCost(ISSUE.id(), 0)*0.01)));
+                    LOGGER.info("Doing discount ISSUE.totalCost()-ISSUE.discount()*ISSUE.totalCost(): "+String.valueOf(ISSUE.totalCost()-ISSUE.discount()*IssueAttribute.getTotalCost(ISSUE.id(), 0)*0.01));
                 }
             }
             

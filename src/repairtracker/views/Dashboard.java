@@ -15,9 +15,11 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
 import javax.swing.JMenu;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import repairtracker.models.Issue;
+import repairtracker.models.IssueAttribute;
 
 /**
  *
@@ -34,12 +36,16 @@ public class Dashboard extends TabAbstractPanel {
         
         initComponents();
         LIST_ISSUES.setModel(Issue.getAsTable());
+        
+        LIST_ISSUES.getColumnModel().removeColumn(LIST_ISSUES.getColumnModel().getColumn(7));
+        LIST_ISSUES.getColumnModel().removeColumn(LIST_ISSUES.getColumnModel().getColumn(6));
         LIST_ISSUES.getColumnModel().removeColumn(LIST_ISSUES.getColumnModel().getColumn(0));
         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
         model.addElement(java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("ISSUE_STATUS_SELECT"));
         for (String l : java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("ISSUE_STATUS").split(","))
             model.addElement(l);
         FILTER_STATUS.setModel(model);
+        applyDiscount();
     }
 
     /**
@@ -270,6 +276,7 @@ public class Dashboard extends TabAbstractPanel {
         if (FILTER_USEDATE.isSelected())
             LIST_ISSUES.setModel(Issue.getAsTable(FILTER_STATUS.getSelectedIndex()-1, issue, client,FILTER_STARTDATE.getDate(),FILTER_ENDDATE.getDate()));
         LIST_ISSUES.getColumnModel().removeColumn(LIST_ISSUES.getColumnModel().getColumn(0));
+        applyDiscount();
     }//GEN-LAST:event_FILTER_DOActionPerformed
 
     private void FILTER_TICKETFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_FILTER_TICKETFocusLost
@@ -317,7 +324,26 @@ public class Dashboard extends TabAbstractPanel {
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 
-    
+    private void applyDiscount(){
+        for (int ii=0; ii<LIST_ISSUES.getModel().getRowCount();ii++) {
+            int issue_id=Integer.parseInt(LIST_ISSUES.getModel().getValueAt(ii, 0).toString());
+            Issue is=new Issue(issue_id);
+            if (is.discount()>0) {
+                
+                if (is.discountType()==0) {
+                    Double t_disc=is.totalCost()-is.discount();
+                    LIST_ISSUES.getModel().setValueAt(IssueAttribute.getTotalCost(issue_id, 0)-is.discount(), ii, 5);
+                    LIST_ISSUES.getModel().setValueAt(t_disc, ii, 4);
+                }
+                if (is.discountType()==1) {
+                        Double t_disc=is.totalCost()-IssueAttribute.getTotalCost(issue_id, 0)*is.discount()*0.01;
+                        
+                    LIST_ISSUES.getModel().setValueAt(IssueAttribute.getTotalCost(issue_id, 0)-IssueAttribute.getTotalCost(issue_id, 0)*is.discount()*0.01, ii, 5);
+                    LIST_ISSUES.getModel().setValueAt(t_disc, ii, 4);
+                }
+            }
+        }
+    }
     @Override
     public void close() {
         //TabManager.removeTab(this);
