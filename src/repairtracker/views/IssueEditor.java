@@ -63,6 +63,10 @@ public class IssueEditor extends TabAbstractPanel {
             model2.addElement(l);
         ISSUE_STATUS.setModel(model2);
         
+        DefaultComboBoxModel<String> model3 = new DefaultComboBoxModel<>();
+        for (String l : java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("IssueEditor.DISCOUNT_TYPE").split(","))
+            model3.addElement(l);
+        DISCOUNT_TYPE.setModel(model3);
         
         if (PropertiesReader.getFilesAsComboboxModel("warranties").getSize()>0) WARRANTY_TYPE.setModel(PropertiesReader.getFilesAsComboboxModel("warranties"));
         

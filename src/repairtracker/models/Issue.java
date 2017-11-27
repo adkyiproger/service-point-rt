@@ -81,7 +81,7 @@ public class Issue {
         loadDB();
     }
     public static DefaultTableModel getAsTable(){
-        String SQL = "select issue_id, devicename, fname, phone, totalcost, startdate, enddate, status from issues iss"
+        String SQL = "select iss.issue_id as issue_id, devicename, fname, phone, totalcost, (select sum(price) from issueattributes ia where ia.issue_id=iss.issue_id and ia.issueattrtype_id=0) as total_work, startdate, enddate, status from issues iss"
                 + " join clients cl on iss.client_id=cl.client_id"
                 + " join address ad on iss.client_id=ad.client_id";
         try {
@@ -97,12 +97,12 @@ public class Issue {
     public static DefaultTableModel getAsTable(int status, int issue_id, String client_name){
         try {
             LOGGER.info("getAsTable("+status+", "+issue_id+", "+client_name+")");
-            String SQL = "select issue_id, devicename, fname, phone, totalcost, startdate, enddate, status from issues iss"
+            String SQL = "select iss.issue_id as issue_id, devicename, fname, phone, totalcost, (select sum(price) from issueattributes ia where ia.issue_id=iss.issue_id and ia.issueattrtype_id=0) as total_work, startdate, enddate, status from issues iss"
                     + " join clients cl on iss.client_id=cl.client_id"
                     + " join address ad on iss.client_id=ad.client_id"
                     + " where 1=1";
             if (status>-1) SQL+=(" and status="+String.valueOf(status));
-            if (issue_id>0) SQL=SQL+" and issue_id="+issue_id;
+            if (issue_id>0) SQL=SQL+" and iss.issue_id="+issue_id;
             if (client_name.equalsIgnoreCase("")==false) SQL=SQL+" and lower(fname) like '%"+client_name.toLowerCase()+"%'";
             PreparedStatement ps=DBDoor.getConn().prepareStatement(SQL);
             LOGGER.info("Filter results by SQL: "+SQL);
@@ -118,14 +118,17 @@ public class Issue {
         String DATE_COND=" and startdate>=? and enddate<=? ";
         
         LOGGER.info("getAsTable("+status+", "+issue_id+", "+client_name+")");
-        String SQL = "select issue_id, devicename, fname, phone, totalcost, startdate, enddate, status from issues iss"
+        String SQL = "select iss.issue_id as issue_id, devicename, fname, phone, totalcost, (select sum(price) from issueattributes ia where ia.issue_id=iss.issue_id and ia.issueattrtype_id=0) as total_work, startdate, enddate, status from issues iss"
                 + " join clients cl on iss.client_id=cl.client_id"
                 + " join address ad on iss.client_id=ad.client_id"
                 + " where 1=1";
                 if (status>-1) SQL+=(" and status="+String.valueOf(status));
-                if (issue_id>0) SQL=SQL+" and issue_id="+issue_id;
+                if (issue_id>0) SQL=SQL+" and iss.issue_id="+issue_id;
                 if (client_name.equalsIgnoreCase("")==false) 
                     SQL=SQL+" and lower(fname) like '%"+client_name.toLowerCase()+"%'";
+                SQL+=DATE_COND;
+                
+                
         try {
             PreparedStatement ps=DBDoor.getConn().prepareStatement(SQL+=DATE_COND);
             ps.setDate(1, new java.sql.Date(st_date.getTime()));
@@ -143,7 +146,7 @@ public class Issue {
     
    private static DefaultTableModel getListFromDB(PreparedStatement ps) {
         Object[][] rowDATA = {};
-        String[] colNames = {"#ID", java.util.ResourceBundle.getBundle("repairtracker/models/Bundle").getString("DEVICE"),java.util.ResourceBundle.getBundle("repairtracker/models/Bundle").getString("CLIENT_NAME"), java.util.ResourceBundle.getBundle("repairtracker/models/Bundle").getString("PHONE"), java.util.ResourceBundle.getBundle("repairtracker/models/Bundle").getString("TOTAL_COST"), java.util.ResourceBundle.getBundle("repairtracker/models/Bundle").getString("START_DATE"), java.util.ResourceBundle.getBundle("repairtracker/models/Bundle").getString("END_DATE"), java.util.ResourceBundle.getBundle("repairtracker/models/Bundle").getString("STATUS")};
+        String[] colNames = {"#ID", java.util.ResourceBundle.getBundle("repairtracker/models/Bundle").getString("DEVICE"),java.util.ResourceBundle.getBundle("repairtracker/models/Bundle").getString("CLIENT_NAME"), java.util.ResourceBundle.getBundle("repairtracker/models/Bundle").getString("PHONE"), java.util.ResourceBundle.getBundle("repairtracker/models/Bundle").getString("TOTAL_COST"),java.util.ResourceBundle.getBundle("repairtracker/models/Bundle").getString("TOTAL_WORK"), java.util.ResourceBundle.getBundle("repairtracker/models/Bundle").getString("START_DATE"), java.util.ResourceBundle.getBundle("repairtracker/models/Bundle").getString("END_DATE"), java.util.ResourceBundle.getBundle("repairtracker/models/Bundle").getString("STATUS")};
         DefaultTableModel _model = new DefaultTableModel(rowDATA, colNames){
             @Override
     public boolean isCellEditable(int row, int column) {
@@ -160,6 +163,7 @@ public class Issue {
                                 resultSet.getString("fname"),
                                 resultSet.getString("phone"),
                                 resultSet.getDouble("totalcost"),
+                                resultSet.getDouble("total_work"),
                                 resultSet.getDate("startdate"),
                                 resultSet.getDate("enddate"),
                                 java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("ISSUE_STATUS").split(",")[resultSet.getInt("status")]});
