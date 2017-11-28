@@ -1151,6 +1151,8 @@ public class IssueEditor extends TabAbstractPanel {
         THIS_COMPONENT.setText(ISSUE.toString());
         TabManager.updateTitle(this);
         loadIssue(ISSUE.id());
+        RepairTrackerGUI.STATUS.setText("Changes saved: "+ISSUE.toString());
+        
     }
     
     
@@ -1194,25 +1196,19 @@ public class IssueEditor extends TabAbstractPanel {
             REPLACEMENT_PARTS.setModel(IssueAttribute.getAttributesAsTable(ISSUE.id(), 1));
             REPLACEMENT_TOTAL_1.setText(String.valueOf(IssueAttribute.getTotalCost(ISSUE.id(), 1)));
             REPLACEMENT_TOTAL_2.setText(REPLACEMENT_TOTAL_1.getText());
-            TOTAL_1.setText(String.valueOf(ISSUE.totalCost()));
-            TOTAL_2.setText(TOTAL_1.getText());
+            TOTAL_1.setText(String.valueOf(ISSUE.totalCostWithoutDicsount()));
+            TOTAL_2.setText(String.valueOf(ISSUE.totalCost()));
             WARRANTY_TYPE.setSelectedItem(new Warranty(ISSUE.warrantyTypeId()).getName());
             
             if (ISSUE.discount()>0.0) {
                 
                 DISCOUNT.setText(String.valueOf(ISSUE.discount()));
                 DISCOUNT_TYPE.setSelectedIndex(ISSUE.discountType());
-                if (ISSUE.discountType()==0) {
-                    TOTAL_2.setText(String.valueOf(ISSUE.totalCost()-ISSUE.discount()));
-                    DISCOUNT_2.setText(String.valueOf(-ISSUE.discount()));
-                    LOGGER.info("Doing discount ISSUE.totalCost()-ISSUE.discount(): "+String.valueOf(ISSUE.totalCost()-ISSUE.discount()));
+                DISCOUNT_2.setText(String.valueOf(ISSUE.totalCostWithoutDicsount()-ISSUE.totalCost()));
+                
                 }
-                if (ISSUE.discountType()==1) {
-                    TOTAL_2.setText(String.valueOf(ISSUE.totalCost()-(ISSUE.discount()*IssueAttribute.getTotalCost(ISSUE.id(), 0)*0.01)));
-                    DISCOUNT_2.setText(String.valueOf(-(ISSUE.discount()*IssueAttribute.getTotalCost(ISSUE.id(), 0)*0.01)));
-                    LOGGER.info("Doing discount ISSUE.totalCost()-ISSUE.discount()*ISSUE.totalCost(): "+String.valueOf(ISSUE.totalCost()-ISSUE.discount()*IssueAttribute.getTotalCost(ISSUE.id(), 0)*0.01));
-                }
-            }
+                
+            
             
         }
         

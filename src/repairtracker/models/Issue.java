@@ -380,7 +380,7 @@ public class Issue {
         return SHORTDESCRIPTION;
     }
     
-    public Double totalCost(){
+    public Double totalCostWithoutDicsount(){
         return TOTAL_COST;
     }
     
@@ -396,6 +396,21 @@ public class Issue {
     }
     public int discountType(){
         return DISCOUNT_TYPE;
+    }
+    
+    public Double totalCost(){
+        Double t_cost=TOTAL_COST;
+        if (DISCOUNT_VALUE>0) {
+                LOGGER.info("Apply Discount: value is: "+DISCOUNT_VALUE+" type is: "+DISCOUNT_TYPE);
+                if (DISCOUNT_TYPE==0) {
+                    t_cost=TOTAL_COST-DISCOUNT_VALUE;
+                }
+                if (DISCOUNT_TYPE==1) {
+                        t_cost=TOTAL_COST-IssueAttribute.getTotalCost(ID, 0)*DISCOUNT_VALUE*0.01;
+                }
+                LOGGER.info("Return discounted totalCost(): TOTAL_COST="+t_cost);
+            }
+        return t_cost;
     }
     
     // Set methods
@@ -455,6 +470,8 @@ public class Issue {
     public void setDiscountType(int s){
         DISCOUNT_TYPE=s;
     }
+    
+    
     
     public void save() {
         if (this.ID > -1) {
