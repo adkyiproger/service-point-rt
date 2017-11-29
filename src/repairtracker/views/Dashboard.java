@@ -318,6 +318,8 @@ public class Dashboard extends TabAbstractPanel {
         FILTER_TICKET.setText(bundle.getString("TICKET #"));
         FILTER_CLIENT.setText(bundle.getString("CLIENT NAME"));
         FILTER_STATUS.setSelectedIndex(0);
+        FILTER_USEDATE.setSelected(false);
+        FILTER_DATEFIELD.setSelectedIndex(0);
         FILTER_STARTDATE.setDate(new Date());
         FILTER_ENDDATE.setDate(new Date());
     }//GEN-LAST:event_jButton1ActionPerformed
