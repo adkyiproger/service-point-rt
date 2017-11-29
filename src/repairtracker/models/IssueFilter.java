@@ -147,11 +147,12 @@ public class IssueFilter {
         try {
         ResultSet resultSet = ps.executeQuery();
             while (resultSet.next()) {
+                Issue iss=new Issue(resultSet.getInt("issue_id"));
                     TABLE_MODEL.addRow(new Object[]{resultSet.getInt("issue_id"),
-                                resultSet.getString("devicename"),
+                                iss.deviceName(),
                                 resultSet.getString("fname"),
                                 resultSet.getString("phone"),
-                                resultSet.getDouble("totalcost"),
+                                iss.totalCost(),
                                 resultSet.getDouble("total_work"),
                                 resultSet.getDate("startdate"),
                                 resultSet.getDate("enddate"),
