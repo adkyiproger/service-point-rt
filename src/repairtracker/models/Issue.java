@@ -256,12 +256,14 @@ public class Issue {
                 preparedStatement.setDouble(13, TOTAL_COST);
                 preparedStatement.setDouble(14, PREPAY);
                 
+                
+                preparedStatement.executeUpdate();
                 if (DISCOUNT_VALUE>0.0) {
                 discount = DB
                         .prepareStatement("insert into discount values (?,?,?)");
                 discount.setInt(1, ID);
                 discount.setInt(2, DISCOUNT_TYPE);
-                discount.setDouble(2, DISCOUNT_VALUE);
+                discount.setDouble(3, DISCOUNT_VALUE);
                 discount.executeUpdate();
                 
                 }
