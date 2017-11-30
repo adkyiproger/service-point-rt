@@ -10,11 +10,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.logging.Level;
-import javax.swing.table.DefaultTableModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -80,99 +77,6 @@ public class Issue {
         this.ID = id;
         loadDB();
     }
-    public static DefaultTableModel getAsTable(){
-        String SQL = "select issue_id, devicename, fname, phone, totalcost, startdate, enddate, status from issues iss"
-                + " join clients cl on iss.client_id=cl.client_id"
-                + " join address ad on iss.client_id=ad.client_id";
-        try {
-            return getListFromDB(DBDoor.getConn().prepareStatement(SQL));
-        } catch (SQLException ex) {
-            LOGGER.error(ex.getMessage(), ex);
-            return null;
-        }
-    }
-   
-
-    
-    public static DefaultTableModel getAsTable(int status, int issue_id, String client_name){
-        try {
-            LOGGER.info("getAsTable("+status+", "+issue_id+", "+client_name+")");
-            String SQL = "select issue_id, devicename, fname, phone, totalcost, startdate, enddate, status from issues iss"
-                    + " join clients cl on iss.client_id=cl.client_id"
-                    + " join address ad on iss.client_id=ad.client_id"
-                    + " where 1=1";
-            if (status>-1) SQL+=(" and status="+String.valueOf(status));
-            if (issue_id>0) SQL=SQL+" and issue_id="+issue_id;
-            if (client_name.equalsIgnoreCase("")==false) SQL=SQL+" and lower(fname) like '%"+client_name.toLowerCase()+"%'";
-            PreparedStatement ps=DBDoor.getConn().prepareStatement(SQL);
-            LOGGER.info("Filter results by SQL: "+SQL);
-            return getListFromDB(ps);
-        } catch (SQLException ex) {
-            LOGGER.error(ex.getMessage(), ex);
-            return null;
-        }
-    }
-   
-    public static DefaultTableModel getAsTable(int status, int issue_id, String client_name, Date st_date, Date en_date){
-
-        String DATE_COND=" and startdate>=? and enddate<=? ";
-        
-        LOGGER.info("getAsTable("+status+", "+issue_id+", "+client_name+")");
-        String SQL = "select issue_id, devicename, fname, phone, totalcost, startdate, enddate, status from issues iss"
-                + " join clients cl on iss.client_id=cl.client_id"
-                + " join address ad on iss.client_id=ad.client_id"
-                + " where 1=1";
-                if (status>-1) SQL+=(" and status="+String.valueOf(status));
-                if (issue_id>0) SQL=SQL+" and issue_id="+issue_id;
-                if (client_name.equalsIgnoreCase("")==false) 
-                    SQL=SQL+" and lower(fname) like '%"+client_name.toLowerCase()+"%'";
-        try {
-            PreparedStatement ps=DBDoor.getConn().prepareStatement(SQL+=DATE_COND);
-            ps.setDate(1, new java.sql.Date(st_date.getTime()));
-            ps.setDate(2, new java.sql.Date(en_date.getTime()));
-            LOGGER.info("Filter results by SQL: "+SQL);
-            return getListFromDB(ps);
-        } catch (SQLException ex) {
-            LOGGER.error(ex.getMessage(), ex);
-            return null;
-        }
-
-        
-        
-    }
-    
-   private static DefaultTableModel getListFromDB(PreparedStatement ps) {
-        Object[][] rowDATA = {};
-        String[] colNames = {"#ID", java.util.ResourceBundle.getBundle("repairtracker/models/Bundle").getString("DEVICE"),java.util.ResourceBundle.getBundle("repairtracker/models/Bundle").getString("CLIENT_NAME"), java.util.ResourceBundle.getBundle("repairtracker/models/Bundle").getString("PHONE"), java.util.ResourceBundle.getBundle("repairtracker/models/Bundle").getString("TOTAL_COST"), java.util.ResourceBundle.getBundle("repairtracker/models/Bundle").getString("START_DATE"), java.util.ResourceBundle.getBundle("repairtracker/models/Bundle").getString("END_DATE"), java.util.ResourceBundle.getBundle("repairtracker/models/Bundle").getString("STATUS")};
-        DefaultTableModel _model = new DefaultTableModel(rowDATA, colNames){
-            @Override
-    public boolean isCellEditable(int row, int column) {
-       //all cells false
-       return false;
-    }
-        };
-        
-        try {
-        ResultSet resultSet = ps.executeQuery();
-            while (resultSet.next()) {
-                    _model.addRow(new Object[]{resultSet.getInt("issue_id"),
-                                resultSet.getString("devicename"),
-                                resultSet.getString("fname"),
-                                resultSet.getString("phone"),
-                                resultSet.getDouble("totalcost"),
-                                resultSet.getDate("startdate"),
-                                resultSet.getDate("enddate"),
-                                java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("ISSUE_STATUS").split(",")[resultSet.getInt("status")]});
-                    LOGGER.info("Issue status: "+java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("ISSUE_STATUS").split(",")[resultSet.getInt("status")]);
-                }
-        } catch (SQLException ex) {
-            LOGGER.error("Issue::getListFromDB(): "+ex.getMessage(),ex);
-        }
-       
-       return _model;
-    }
-    
-    
     
     private void loadDB() {
         if (ID >= 0) {
@@ -378,7 +282,7 @@ public class Issue {
         return SHORTDESCRIPTION;
     }
     
-    public Double totalCost(){
+    public Double totalCostWithoutDicsount(){
         return TOTAL_COST;
     }
     
@@ -394,6 +298,21 @@ public class Issue {
     }
     public int discountType(){
         return DISCOUNT_TYPE;
+    }
+    
+    public Double totalCost(){
+        Double t_cost=TOTAL_COST;
+        if (DISCOUNT_VALUE>0) {
+                LOGGER.info("Apply Discount: value is: "+DISCOUNT_VALUE+" type is: "+DISCOUNT_TYPE);
+                if (DISCOUNT_TYPE==0) {
+                    t_cost=TOTAL_COST-DISCOUNT_VALUE;
+                }
+                if (DISCOUNT_TYPE==1) {
+                        t_cost=TOTAL_COST-IssueAttribute.getTotalCost(ID, 0)*DISCOUNT_VALUE*0.01;
+                }
+                LOGGER.info("Return discounted totalCost(): TOTAL_COST="+t_cost);
+            }
+        return t_cost;
     }
     
     // Set methods
@@ -453,6 +372,8 @@ public class Issue {
     public void setDiscountType(int s){
         DISCOUNT_TYPE=s;
     }
+    
+    
     
     public void save() {
         if (this.ID > -1) {

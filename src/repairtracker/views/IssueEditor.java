@@ -63,6 +63,10 @@ public class IssueEditor extends TabAbstractPanel {
             model2.addElement(l);
         ISSUE_STATUS.setModel(model2);
         
+        DefaultComboBoxModel<String> model3 = new DefaultComboBoxModel<>();
+        for (String l : java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("IssueEditor.DISCOUNT_TYPE").split(","))
+            model3.addElement(l);
+        DISCOUNT_TYPE.setModel(model3);
         
         if (PropertiesReader.getFilesAsComboboxModel("warranties").getSize()>0) WARRANTY_TYPE.setModel(PropertiesReader.getFilesAsComboboxModel("warranties"));
         
@@ -206,7 +210,7 @@ public class IssueEditor extends TabAbstractPanel {
                     .addComponent(ISSUE_STATUS, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(ISSUE_TYPE, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(WARRANTY_TYPE, 0, 158, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 329, Short.MAX_VALUE)
+                .addGap(30, 30, 30)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel6)
                     .addComponent(jLabel7))
@@ -214,7 +218,7 @@ public class IssueEditor extends TabAbstractPanel {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(END_DATE, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(START_DATE, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(10, 10, 10))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -273,11 +277,11 @@ public class IssueEditor extends TabAbstractPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(DEVICE_MODEL, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
+                .addComponent(DEVICE_MODEL)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel12)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(DEVICE_NUMBER, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
+                .addComponent(DEVICE_NUMBER)
                 .addGap(10, 10, 10))
         );
         jPanel4Layout.setVerticalGroup(
@@ -351,7 +355,7 @@ public class IssueEditor extends TabAbstractPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton9)
                 .addContainerGap())
-            .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 747, Short.MAX_VALUE)
+            .addComponent(jScrollPane7)
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -417,7 +421,7 @@ public class IssueEditor extends TabAbstractPanel {
                 .addContainerGap()
                 .addComponent(jLabel15)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(CLIENT_EMAIL)
+                .addComponent(CLIENT_EMAIL, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel9Layout.setVerticalGroup(
@@ -485,16 +489,13 @@ public class IssueEditor extends TabAbstractPanel {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(10, 10, 10))
         );
-
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jPanel3, jPanel4, jPanel7});
-
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -829,7 +830,7 @@ public class IssueEditor extends TabAbstractPanel {
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel13Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(PANEL_TOTAL_1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(PANEL_TOTAL_1, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(PANEL_TOTAL_2, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5))
@@ -896,7 +897,7 @@ public class IssueEditor extends TabAbstractPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 646, Short.MAX_VALUE)
                 .addGap(5, 5, 5))
         );
         layout.setVerticalGroup(
@@ -1150,6 +1151,8 @@ public class IssueEditor extends TabAbstractPanel {
         THIS_COMPONENT.setText(ISSUE.toString());
         TabManager.updateTitle(this);
         loadIssue(ISSUE.id());
+        RepairTrackerGUI.STATUS.setText("Changes saved: "+ISSUE.toString());
+        
     }
     
     
@@ -1193,25 +1196,19 @@ public class IssueEditor extends TabAbstractPanel {
             REPLACEMENT_PARTS.setModel(IssueAttribute.getAttributesAsTable(ISSUE.id(), 1));
             REPLACEMENT_TOTAL_1.setText(String.valueOf(IssueAttribute.getTotalCost(ISSUE.id(), 1)));
             REPLACEMENT_TOTAL_2.setText(REPLACEMENT_TOTAL_1.getText());
-            TOTAL_1.setText(String.valueOf(ISSUE.totalCost()));
-            TOTAL_2.setText(TOTAL_1.getText());
+            TOTAL_1.setText(String.valueOf(ISSUE.totalCostWithoutDicsount()));
+            TOTAL_2.setText(String.valueOf(ISSUE.totalCost()));
             WARRANTY_TYPE.setSelectedItem(new Warranty(ISSUE.warrantyTypeId()).getName());
             
             if (ISSUE.discount()>0.0) {
                 
                 DISCOUNT.setText(String.valueOf(ISSUE.discount()));
                 DISCOUNT_TYPE.setSelectedIndex(ISSUE.discountType());
-                if (ISSUE.discountType()==0) {
-                    TOTAL_2.setText(String.valueOf(ISSUE.totalCost()-ISSUE.discount()));
-                    DISCOUNT_2.setText(String.valueOf(-ISSUE.discount()));
-                    LOGGER.info("Doing discount ISSUE.totalCost()-ISSUE.discount(): "+String.valueOf(ISSUE.totalCost()-ISSUE.discount()));
+                DISCOUNT_2.setText(String.valueOf(ISSUE.totalCostWithoutDicsount()-ISSUE.totalCost()));
+                
                 }
-                if (ISSUE.discountType()==1) {
-                    TOTAL_2.setText(String.valueOf(ISSUE.totalCost()-(ISSUE.discount()*ISSUE.totalCost()*0.01)));
-                    DISCOUNT_2.setText(String.valueOf(-(ISSUE.discount()*ISSUE.totalCost()*0.01)));
-                    LOGGER.info("Doing discount ISSUE.totalCost()-ISSUE.discount()*ISSUE.totalCost(): "+String.valueOf(ISSUE.totalCost()-ISSUE.discount()*ISSUE.totalCost()));
-                }
-            }
+                
+            
             
         }
         

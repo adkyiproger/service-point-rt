@@ -34,8 +34,8 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
               <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="jScrollPane2" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jScrollPane2" pref="646" max="32767" attributes="0"/>
               <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -58,11 +58,11 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="jPanel7" linkSize="5" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jPanel3" linkSize="5" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jPanel4" linkSize="5" alignment="0" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                      <Component id="jPanel4" alignment="0" max="32767" attributes="0"/>
                       <Component id="jPanel8" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jPanel3" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jPanel7" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
               </Group>
@@ -117,7 +117,7 @@
                           <Component id="ISSUE_TYPE" max="32767" attributes="0"/>
                           <Component id="WARRANTY_TYPE" pref="158" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="329" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
@@ -127,7 +127,7 @@
                           <Component id="END_DATE" min="-2" pref="123" max="-2" attributes="0"/>
                           <Component id="START_DATE" min="-2" pref="123" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -271,11 +271,11 @@
                       <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" max="-2" attributes="0"/>
-                      <Component id="DEVICE_MODEL" pref="237" max="32767" attributes="0"/>
+                      <Component id="DEVICE_MODEL" max="32767" attributes="0"/>
                       <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" max="-2" attributes="0"/>
-                      <Component id="DEVICE_NUMBER" pref="237" max="32767" attributes="0"/>
+                      <Component id="DEVICE_NUMBER" max="32767" attributes="0"/>
                       <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -374,7 +374,7 @@
                       <Component id="jButton9" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
-                  <Component id="jScrollPane7" alignment="0" pref="747" max="32767" attributes="0"/>
+                  <Component id="jScrollPane7" alignment="0" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
@@ -580,7 +580,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="CLIENT_EMAIL" max="32767" attributes="0"/>
+                          <Component id="CLIENT_EMAIL" pref="149" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -1124,7 +1124,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="PANEL_TOTAL_1" min="-2" pref="193" max="-2" attributes="0"/>
+                              <Component id="PANEL_TOTAL_1" min="-2" pref="227" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="PANEL_TOTAL_2" min="-2" pref="336" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>

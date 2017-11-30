@@ -15,9 +15,12 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
 import javax.swing.JMenu;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import repairtracker.models.Issue;
+import repairtracker.models.IssueAttribute;
+import repairtracker.models.IssueFilter;
 
 /**
  *
@@ -33,13 +36,21 @@ public class Dashboard extends TabAbstractPanel {
     public Dashboard() {
         
         initComponents();
-        LIST_ISSUES.setModel(Issue.getAsTable());
+        LIST_ISSUES.setModel(new IssueFilter().getModel());
+        
+        LIST_ISSUES.getColumnModel().removeColumn(LIST_ISSUES.getColumnModel().getColumn(7));
+        LIST_ISSUES.getColumnModel().removeColumn(LIST_ISSUES.getColumnModel().getColumn(6));
         LIST_ISSUES.getColumnModel().removeColumn(LIST_ISSUES.getColumnModel().getColumn(0));
         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
         model.addElement(java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("ISSUE_STATUS_SELECT"));
         for (String l : java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("ISSUE_STATUS").split(","))
             model.addElement(l);
+        
         FILTER_STATUS.setModel(model);
+        DefaultComboBoxModel<String> model1 = new DefaultComboBoxModel<>();
+        for (String l : java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("IssueEditor.DATE_FIELD").split(","))
+            model1.addElement(l);
+        FILTER_DATEFIELD.setModel(model1);
     }
 
     /**
@@ -66,6 +77,8 @@ public class Dashboard extends TabAbstractPanel {
         FILTER_DO = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         FILTER_USEDATE = new javax.swing.JCheckBox();
+        FILTER_DATEFIELD = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         LIST_ISSUES = new javax.swing.JTable();
 
@@ -134,6 +147,10 @@ public class Dashboard extends TabAbstractPanel {
 
         FILTER_USEDATE.setText(bundle.getString("USE DATE")); // NOI18N
 
+        FILTER_DATEFIELD.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Start date", "End date" }));
+
+        jLabel3.setText(bundle.getString("Dashboard.jLabel3.text")); // NOI18N
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -147,6 +164,10 @@ public class Dashboard extends TabAbstractPanel {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addComponent(FILTER_USEDATE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(FILTER_DATEFIELD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(FILTER_STARTDATE, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -154,7 +175,7 @@ public class Dashboard extends TabAbstractPanel {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(FILTER_ENDDATE, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 151, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 358, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(FILTER_DO))
@@ -171,22 +192,26 @@ public class Dashboard extends TabAbstractPanel {
                     .addComponent(FILTER_CLIENT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(FILTER_STARTDATE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(FILTER_ENDDATE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(FILTER_USEDATE))
-                        .addComponent(jLabel2))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(FILTER_STARTDATE, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(FILTER_ENDDATE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel1)
+                                .addComponent(FILTER_USEDATE)
+                                .addComponent(jLabel2)
+                                .addComponent(jLabel3)
+                                .addComponent(FILTER_DATEFIELD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(FILTER_DO)
                         .addComponent(jButton1)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         LIST_ISSUES.setAutoCreateRowSorter(true);
-        LIST_ISSUES.setModel(Issue.getAsTable());
+        LIST_ISSUES.setModel(new IssueFilter().getModel());
         LIST_ISSUES.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 LIST_ISSUESMousePressed(evt);
@@ -211,7 +236,7 @@ public class Dashboard extends TabAbstractPanel {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
                 .addGap(0, 0, 0))
         );
 
@@ -255,21 +280,28 @@ public class Dashboard extends TabAbstractPanel {
 
     private void FILTER_DOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FILTER_DOActionPerformed
         String client="";
-        int issue=0;
+        int issue=-1;
+        IssueFilter ISSUE_FILTER=new IssueFilter();
         
-        if (FILTER_CLIENT.getText().equalsIgnoreCase(bundle.getString("CLIENT NAME"))==false)
-            client=FILTER_CLIENT.getText();
+        if (FILTER_CLIENT.getText().equalsIgnoreCase(bundle.getString("CLIENT NAME"))==false) 
+            ISSUE_FILTER.setClient(FILTER_CLIENT.getText());
         if (FILTER_TICKET.getText().equalsIgnoreCase(bundle.getString("TICKET #"))==false)
             try {
                 issue=Integer.parseInt(FILTER_TICKET.getText());
+                ISSUE_FILTER.setIsseID(issue);
             } catch (NumberFormatException ex) {
-                    issue=0;
+                    issue=-1;
                     LOGGER.error(ex.getMessage(),ex);
             }
-        LIST_ISSUES.setModel(Issue.getAsTable(FILTER_STATUS.getSelectedIndex()-1, issue, client));
+        
         if (FILTER_USEDATE.isSelected())
-            LIST_ISSUES.setModel(Issue.getAsTable(FILTER_STATUS.getSelectedIndex()-1, issue, client,FILTER_STARTDATE.getDate(),FILTER_ENDDATE.getDate()));
+           ISSUE_FILTER.setDate(FILTER_STARTDATE.getDate(),FILTER_ENDDATE.getDate(),FILTER_DATEFIELD.getSelectedIndex());
+        
+        if (FILTER_STATUS.getSelectedIndex()>0)
+            ISSUE_FILTER.setStatus(FILTER_STATUS.getSelectedIndex()-1);
+        LIST_ISSUES.setModel(ISSUE_FILTER.getModel());
         LIST_ISSUES.getColumnModel().removeColumn(LIST_ISSUES.getColumnModel().getColumn(0));
+        
     }//GEN-LAST:event_FILTER_DOActionPerformed
 
     private void FILTER_TICKETFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_FILTER_TICKETFocusLost
@@ -286,8 +318,11 @@ public class Dashboard extends TabAbstractPanel {
         FILTER_TICKET.setText(bundle.getString("TICKET #"));
         FILTER_CLIENT.setText(bundle.getString("CLIENT NAME"));
         FILTER_STATUS.setSelectedIndex(0);
+        FILTER_USEDATE.setSelected(false);
+        FILTER_DATEFIELD.setSelectedIndex(0);
         FILTER_STARTDATE.setDate(new Date());
         FILTER_ENDDATE.setDate(new Date());
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void LIST_ISSUESKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_LIST_ISSUESKeyPressed
@@ -299,6 +334,7 @@ public class Dashboard extends TabAbstractPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField FILTER_CLIENT;
+    private javax.swing.JComboBox<String> FILTER_DATEFIELD;
     private javax.swing.JButton FILTER_DO;
     private com.toedter.calendar.JDateChooser FILTER_ENDDATE;
     private com.toedter.calendar.JDateChooser FILTER_STARTDATE;
@@ -312,12 +348,12 @@ public class Dashboard extends TabAbstractPanel {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 
-    
     @Override
     public void close() {
         //TabManager.removeTab(this);
@@ -339,6 +375,16 @@ public class Dashboard extends TabAbstractPanel {
     
     @Override
     public void print(){
+        if (LIST_ISSUES.getSelectedRow()>-1) {
+                TabManager.insertTab(new PrinterBean(new Issue(Integer.parseInt(LIST_ISSUES.getModel().getValueAt(LIST_ISSUES.getSelectedRow(), 0).toString()))));
+        } else {
+        JOptionPane.showMessageDialog(
+                this,
+                java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("SELECT_ISSUE_TO_PRINT"),
+                java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("SELECT_ISSUE_TO_PRINT_TITLE"),
+                JOptionPane.WARNING_MESSAGE
+        );
+        }
     }
     
     @Override

@@ -75,7 +75,7 @@ public class RepairTracker {
             System.out.print(System.getProperty("os.name"));
             String os=System.getProperty("os.name");
             if (os.split(" ")[0].equalsIgnoreCase("linux")) {
-                UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
+              //  UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
             } else if (os.split(" ")[0].equalsIgnoreCase("windows")) {
                 System.out.println("repairtracker.RepairTracker.main()");
                 UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
