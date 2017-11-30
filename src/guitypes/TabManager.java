@@ -10,13 +10,16 @@ import repairtracker.RepairTracker;
 import repairtracker.views.RepairTrackerGUI;
 import static guitypes.TabManager.PANEL;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -39,6 +42,7 @@ public class TabManager {
     
 public TabManager(JTabbedPane panel) {
         PANEL = panel;
+        
         MENU = new JMenu(LANG.getString("TabManager"));
         MENU.setIcon(IconFactory.createImageIcon("/images/16/window.png"));
         addMenuItem();
@@ -153,15 +157,23 @@ class CloseComponent extends JPanel {
         setOpaque(false);
 JLabel lblTitle = new JLabel(title,IconFactory.scaleImageIcon(icon,Integer.parseInt(RepairTracker.PROPERTIES.getProperty("ICON_SIZE_TAB","16"))), 0);
 //JLabel lblTitle=new JLabel("aaaa");
+lblTitle.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
+lblTitle.setMaximumSize(new Dimension(150, 20));
+        lblTitle.setPreferredSize(new Dimension(150, 20));
+        lblTitle.setMinimumSize(new Dimension(150, 20));
 
 JButton btnClose = new JButton(
 
 );
                 btnClose.setIcon(IconFactory.scaleImageIcon(IconFactory.createImageIcon("/images/16/close.png"),
                         Integer.parseInt(RepairTracker.PROPERTIES.getProperty("ICON_SIZE_TAB","16"))));
-        btnClose.setOpaque(false);
-        btnClose.setContentAreaFilled(false);
+        //btnClose.setOpaque(false);
+        btnClose.setMaximumSize(new Dimension(18, 18));
+        btnClose.setPreferredSize(new Dimension(18, 18));
+        btnClose.setMinimumSize(new Dimension(18, 18));
+       // btnClose.setContentAreaFilled(false);
         btnClose.setBorderPainted(false);
+        
 
 btnClose.addActionListener(new MyCloseActionHandler(title));
 
