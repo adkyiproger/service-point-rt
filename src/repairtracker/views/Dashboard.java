@@ -322,6 +322,7 @@ public class Dashboard extends TabAbstractPanel {
         FILTER_DATEFIELD.setSelectedIndex(0);
         FILTER_STARTDATE.setDate(new Date());
         FILTER_ENDDATE.setDate(new Date());
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void LIST_ISSUESKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_LIST_ISSUESKeyPressed
@@ -374,6 +375,16 @@ public class Dashboard extends TabAbstractPanel {
     
     @Override
     public void print(){
+        if (LIST_ISSUES.getSelectedRow()>-1) {
+                TabManager.insertTab(new PrinterBean(new Issue(Integer.parseInt(LIST_ISSUES.getModel().getValueAt(LIST_ISSUES.getSelectedRow(), 0).toString()))));
+        } else {
+        JOptionPane.showMessageDialog(
+                this,
+                java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("SELECT_ISSUE_TO_PRINT"),
+                java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("SELECT_ISSUE_TO_PRINT_TITLE"),
+                JOptionPane.WARNING_MESSAGE
+        );
+        }
     }
     
     @Override

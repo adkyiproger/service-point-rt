@@ -54,6 +54,7 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
         jToolBar1 = new javax.swing.JToolBar();
         TB_NEW = new javax.swing.JButton();
         TB_SAVE = new javax.swing.JButton();
+        TB_SAVEALL = new javax.swing.JButton();
         TB_PRINT = new javax.swing.JButton();
         MAIN_MENU = new javax.swing.JMenuBar();
         MENU_FILE = new javax.swing.JMenu();
@@ -122,6 +123,18 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
             }
         });
         jToolBar1.add(TB_SAVE);
+
+        TB_SAVEALL.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/30/icons8-save-all-30.png"))); // NOI18N
+        TB_SAVEALL.setText(bundle.getString("RepairTrackerGUI.TB_SAVEALL.text")); // NOI18N
+        TB_SAVEALL.setFocusable(false);
+        TB_SAVEALL.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        TB_SAVEALL.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        TB_SAVEALL.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TB_SAVEALLActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(TB_SAVEALL);
 
         TB_PRINT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/30/icons8-send-to-printer-30.png"))); // NOI18N
         TB_PRINT.setText(bundle.getString("RepairTrackerGUI.TB_PRINT.text")); // NOI18N
@@ -293,6 +306,10 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
     }
     }//GEN-LAST:event_MENU_SAVEALLActionPerformed
 
+    private void TB_SAVEALLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TB_SAVEALLActionPerformed
+        MENU_SAVEALLActionPerformed(evt);
+    }//GEN-LAST:event_TB_SAVEALLActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -344,6 +361,7 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
     private javax.swing.JButton TB_NEW;
     private javax.swing.JButton TB_PRINT;
     private javax.swing.JButton TB_SAVE;
+    private javax.swing.JButton TB_SAVEALL;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
