@@ -586,6 +586,11 @@ public class IssueEditor extends TabAbstractPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        REPLACEMENT_PARTS.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                REPLACEMENT_PARTSKeyPressed(evt);
+            }
+        });
         jScrollPane4.setViewportView(REPLACEMENT_PARTS);
 
         REPLACEMENT_TOTAL1.setText(bundle.getString("IssueEditor.REPLACEMENT_TOTAL1.text")); // NOI18N
@@ -612,6 +617,11 @@ public class IssueEditor extends TabAbstractPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        WORKLOG.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                WORKLOGKeyPressed(evt);
+            }
+        });
         jScrollPane3.setViewportView(WORKLOG);
 
         javax.swing.GroupLayout ISSUE_ATTRS_PANELLayout = new javax.swing.GroupLayout(ISSUE_ATTRS_PANEL);
@@ -936,8 +946,8 @@ public class IssueEditor extends TabAbstractPanel {
             String item_name=String.valueOf(ISSUE_ATTRIBUTES.getModel().getValueAt(ISSUE_ATTRIBUTES.getSelectedRow(), 0));
             String price=String.valueOf(ISSUE_ATTRIBUTES.getModel().getValueAt(ISSUE_ATTRIBUTES.getSelectedRow(), 1));
             LOGGER.info("Got element: "+item_name+" -> "+price);
-            if (RB_REPLACEMENT_PARTS.isSelected()) ((DefaultTableModel)REPLACEMENT_PARTS.getModel()).addRow(new Object[]{"-1",item_name,price});
-            if (RB_WORK.isSelected()) ((DefaultTableModel)WORKLOG.getModel()).addRow(new Object[]{"-1",item_name,price});
+            if (RB_REPLACEMENT_PARTS.isSelected()) ((DefaultTableModel)REPLACEMENT_PARTS.getModel()).addRow(new Object[]{"-1",item_name,price,1.0,price});
+            if (RB_WORK.isSelected()) ((DefaultTableModel)WORKLOG.getModel()).addRow(new Object[]{"-1",item_name,price,1.0,price});
         }
     }//GEN-LAST:event_ISSUE_ATTRIBUTESMousePressed
 
@@ -966,6 +976,26 @@ public class IssueEditor extends TabAbstractPanel {
             ((DefaultTableModel)WORKLOG.getModel()).removeRow(row);
         }
     }//GEN-LAST:event_DELETE_WORKActionPerformed
+
+    private void WORKLOGKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_WORKLOGKeyPressed
+        if (evt.getKeyCode() == 10 && WORKLOG.getSelectedRow() > 0) {
+            WORKLOG.getModel().setValueAt(
+                    Double.parseDouble(WORKLOG.getModel().getValueAt(WORKLOG.getSelectedRow(), 2).toString())*
+                            Double.parseDouble(WORKLOG.getModel().getValueAt(WORKLOG.getSelectedRow(), 3).toString()),
+                    WORKLOG.getSelectedRow(),
+                    4);
+        }
+    }//GEN-LAST:event_WORKLOGKeyPressed
+
+    private void REPLACEMENT_PARTSKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_REPLACEMENT_PARTSKeyPressed
+        if (evt.getKeyCode() == 10 && REPLACEMENT_PARTS.getSelectedRow() > 0) {
+            REPLACEMENT_PARTS.getModel().setValueAt(
+                    Double.parseDouble(REPLACEMENT_PARTS.getModel().getValueAt(REPLACEMENT_PARTS.getSelectedRow(), 2).toString())*
+                            Double.parseDouble(REPLACEMENT_PARTS.getModel().getValueAt(REPLACEMENT_PARTS.getSelectedRow(), 3).toString()),
+                    REPLACEMENT_PARTS.getSelectedRow(),
+                    4);
+        }
+    }//GEN-LAST:event_REPLACEMENT_PARTSKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1115,12 +1145,14 @@ public class IssueEditor extends TabAbstractPanel {
             int id=Integer.parseInt(String.valueOf(WORKLOG.getModel().getValueAt(i, 0)));
             String item_name=String.valueOf(WORKLOG.getModel().getValueAt(i, 1));
             Double price=Double.parseDouble(String.valueOf(WORKLOG.getModel().getValueAt(i, 2)));
+            Double count_num=Double.parseDouble(String.valueOf(WORKLOG.getModel().getValueAt(i, 3)));
             IssueAttribute ia=new IssueAttribute(id);
             ia.setName(item_name);
             ia.setIssueId(ISSUE.id());
             ia.setTypeId(0);
             ia.setPrice(price);
-            LOGGER.info("Save element: "+id+" : "+item_name+" -> "+price);
+            ia.setCount(count_num);
+            LOGGER.info("Save element: "+id+" : "+item_name+" -> "+price+" count: "+count_num);
             ia.save();
         }
 
@@ -1129,12 +1161,14 @@ public class IssueEditor extends TabAbstractPanel {
             int id=Integer.parseInt(String.valueOf(REPLACEMENT_PARTS.getModel().getValueAt(i, 0)));
             String item_name=String.valueOf(REPLACEMENT_PARTS.getModel().getValueAt(i, 1));
             Double price=Double.parseDouble(String.valueOf(REPLACEMENT_PARTS.getModel().getValueAt(i, 2)));
+            Double count_num=Double.parseDouble(String.valueOf(REPLACEMENT_PARTS.getModel().getValueAt(i, 3)));
             IssueAttribute ia=new IssueAttribute(id);
             ia.setName(item_name);
             ia.setIssueId(ISSUE.id());
             ia.setPrice(price);
+            ia.setCount(count_num);
             ia.setTypeId(1);
-            LOGGER.info("Save element: "+id+" : "+item_name+" -> "+price);
+            LOGGER.info("Save element: "+id+" : "+item_name+" -> "+price+" count: "+count_num);
             ia.save();
         }
         
@@ -1184,12 +1218,12 @@ public class IssueEditor extends TabAbstractPanel {
         ISSUE_ATTRIBUTES.setModel(PropertiesReader.getTableModel(getIssueAttributesFileName()));
         //ISSUE_ATTRIBUTES.getColumnModel().getColumn(1).setWidth(50);
         
-        Object[][] rowDATA = {};
-        String[] colNames = {"",java.util.ResourceBundle.getBundle("repairtracker/helpers/Bundle").getString("ITEMNAME"),java.util.ResourceBundle.getBundle("repairtracker/helpers/Bundle").getString("PRICE")};
-        REPLACEMENT_PARTS.setModel(new DefaultTableModel(rowDATA, colNames));
-        WORKLOG.setModel(new DefaultTableModel(rowDATA, colNames));
+        //Object[][] rowDATA = {};
+        //String[] colNames = {"",java.util.ResourceBundle.getBundle("repairtracker/helpers/Bundle").getString("ITEMNAME"),java.util.ResourceBundle.getBundle("repairtracker/helpers/Bundle").getString("PRICE")};
+        //REPLACEMENT_PARTS.setModel(IssueAttribute.getAttributesAsTable(ISSUE.id(), 1));
+        //WORKLOG.setModel(IssueAttribute.getAttributesAsTable(ISSUE.id(), 0));
         
-        if (ISSUE.id()>-1) {
+        //if (ISSUE.id()>-1) {
             WORKLOG.setModel(IssueAttribute.getAttributesAsTable(ISSUE.id(), 0));
             WORK_TOTAL_1.setText(String.valueOf(IssueAttribute.getTotalCost(ISSUE.id(), 0)));
             WORK_TOTAL_2.setText(WORK_TOTAL_1.getText());
@@ -1210,14 +1244,16 @@ public class IssueEditor extends TabAbstractPanel {
                 
             
             
-        }
+        //}
         
         
         ISSUE_ATTRIBUTES.getColumnModel().getColumn(1).setMaxWidth(120);
         REPLACEMENT_PARTS.getColumnModel().removeColumn(REPLACEMENT_PARTS.getColumnModel().getColumn(0));
         WORKLOG.getColumnModel().removeColumn(WORKLOG.getColumnModel().getColumn(0));
-        REPLACEMENT_PARTS.getColumnModel().getColumn(1).setMaxWidth(120);
-        WORKLOG.getColumnModel().getColumn(1).setMaxWidth(120);
+        for (int ii=1; ii<4;ii++) {
+        REPLACEMENT_PARTS.getColumnModel().getColumn(ii).setMaxWidth(120);
+        WORKLOG.getColumnModel().getColumn(ii).setMaxWidth(120); 
+        }
     }
     @Override
     public void close() {

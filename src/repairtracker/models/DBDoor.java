@@ -17,6 +17,7 @@ import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -45,6 +46,7 @@ public class DBDoor {
     //private static String[][] RT_TABLES = {"clients", "address", "issues", "issueattributes"};
     private static Map<String, String> RT_TABLES = new HashMap<String, String>();
     private static Map<String, String> RT_DATA = new HashMap<String, String>();
+    private static Map<String, String> RT_ALTER=new HashMap<String, String>();
     
     
     
@@ -237,19 +239,26 @@ public class DBDoor {
                 + "CONSTRAINT FK_ISWAR  FOREIGN KEY (warranty_id)  REFERENCES WARRANTIES (warranty_id)"
                 + ")");
         // -- issueattributes types
-        RT_TABLES.put("issueattrtypes", "CREATE TABLE issueattrtypes (issueattrtype_id bigint NOT NULL, name varchar(128) NOT NULL, PRIMARY KEY(issueattrtype_id) ) ");
+        RT_TABLES.put("issueattrtypes", "CREATE TABLE issueattrtypes "
+                + "(issueattrtype_id bigint NOT NULL,"
+                + " name varchar(128) NOT NULL,"
+                + " PRIMARY KEY(issueattrtype_id) ) ");
         RT_TABLES.put("discount", "CREATE TABLE discount (issue_id bigint NOT NULL, discount_type bigint NOT NULL, value double not null,"
                 + "CONSTRAINT FK_ISADI  FOREIGN KEY (issue_id)  REFERENCES issues (issue_id))");
         RT_TABLES.put("issueattributes", "CREATE TABLE issueattributes (issueattribute_id bigint NOT NULL, issue_id bigint NOT NULL,"
-                + " description varchar(128) NOT NULL, price double default null, issueattrtype_id bigint not null, PRIMARY KEY(issueattribute_id),"
+                + " description varchar(128) NOT NULL, price double default null, issueattrtype_id bigint not null,"
+                + " count_num double default 1, "
+                + "PRIMARY KEY(issueattribute_id),"
                 + "CONSTRAINT FK_ISAIS  FOREIGN KEY (issue_id)  REFERENCES issues (issue_id),"
                 + "CONSTRAINT FK_ISATY  FOREIGN KEY (issueattrtype_id)  REFERENCES issueattrtypes (issueattrtype_id)"
                 + " ) ");
+        RT_TABLES.put("changelog", "CREATE TABLE changelog (change_id varchar(128), sql_value varchar(1024))");
         RT_DATA.put("issueattrtypes","insert into issueattrtypes values (0,'Work'), (1,'Parts')");
         RT_DATA.put("issuetypes", "insert into issuetypes values (0,'Regular'), (1,'Warranty'), (2,'Consulting')");
         
         RT_DATA.put("devicetypes","insert into devicetypes values (0,'Phone'), (1,'Tablet'), (2,'Laptop'),(3,'PC'), (4,'Other')");
         //RT_DATA.put("WARRANTIES","insert into WARRANTIES values (0,'Regular new','Regular new'), (1,'Used parts','Used parts'), (2,'Regular repair','Regular repair')");
+        RT_ALTER.put("1.attributes_add_count_num","ALTER TABLE issueattributes ADD count_num double default 1.0");
 
     }
     private static boolean createTables(){
@@ -262,7 +271,10 @@ public class DBDoor {
                     LOGGER.info("SQL: "+RT_TABLES.get(s));
                 getStatement().execute(RT_TABLES.get(s));
                 LOGGER.info("SQL: "+RT_DATA.get(s));
-                if (RT_DATA.containsKey(s)) getStatement().execute(RT_DATA.get(s));
+                if (RT_DATA.containsKey(s)) { 
+                     getStatement().execute(RT_DATA.get(s));
+                     LOGGER.info("Added initial data into table: "+s);
+                }
                 else LOGGER.info("SQL: Skip for table "+s);
                 LOGGER.info("Table "+s+" created");
                 } catch (SQLException ex) {
@@ -271,6 +283,25 @@ public class DBDoor {
                  flag=false;
                 }
                 
+            }
+            
+        }
+        for (String s: RT_ALTER.keySet()) {
+        try {
+                
+                    PreparedStatement ps=DBDoor.getConn().prepareStatement("select * from changelog where change_id=?");
+                    ps.setString(1, s);
+                    ps.execute();
+                    ResultSet rs=ps.getResultSet();
+                    if (!rs.next()) {
+                        getStatement().execute(RT_ALTER.get(s));
+                        LOGGER.info("Changeset: "+s+" SQL:"+RT_ALTER.get(s)+" applied");
+                    }
+                        
+                
+            } catch (SQLException ex ) {
+                LOGGER.error("Changeset: "+s+" SQL:"+RT_ALTER.get(s)+" was not applied");
+                LOGGER.error(ex.getMessage(),ex);
             }
         }
         if (flag==true) {
