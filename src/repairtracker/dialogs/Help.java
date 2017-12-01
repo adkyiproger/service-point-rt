@@ -5,14 +5,15 @@
  */
 
 package repairtracker.dialogs;
-import java.io.File;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.Scanner;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.util.logging.Level;
 import repairtracker.RTProperties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import repairtracker.RepairTracker;
-import repairtracker.helpers.PropertiesReader;
 
 /**
  *
@@ -23,39 +24,40 @@ private String FILE;
 public static Logger LOGGER=LogManager.getLogger(Help.class.getName());
     /**
      * Creates new form Editor
+     * @param title
+     * @param filename
      */
     public Help(String title, String filename) {
         LOGGER.info("initialized");
         
         initComponents();
         TITLE.setText(title);
-        FILE="files/"+filename+"_"+RepairTracker.LOCALE+"_help.html";
+        FILE="/files/"+filename+"_"+RepairTracker.LOCALE+"_help.html";
         VIEWER.setEditable(false);
         VIEWER.setText(getFile(FILE));
         setVisible(true);
         
+        
     }
     
      private String getFile(String fileName) {
-
+         
 	StringBuilder result = new StringBuilder("");
+        
          LOGGER.info("Logding help file:"+fileName);
-	//Get file from resources folder
-	ClassLoader classLoader = getClass().getClassLoader();
-	File file = new File(classLoader.getResource(fileName).getFile());
-
-	try (Scanner scanner = new Scanner(file)) {
-
-		while (scanner.hasNextLine()) {
-			String line = scanner.nextLine();
-			result.append(line).append("\n");
-		}
-
-		scanner.close();
-                LOGGER.info("Help file read completed");
-	} catch (IOException ex) {
-		LOGGER.error(ex.getMessage(),ex);
-	}
+        BufferedReader reader;
+   
+          String line; // = new String ("","UTF-8");
+           try {
+        reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(fileName),"UTF-8"));
+        while((line = reader.readLine()) != null){
+            result.append(line);
+        }
+    } catch (UnsupportedEncodingException ex) {
+        LOGGER.error(ex.getMessage(),ex);
+    } catch (IOException ex) {
+        LOGGER.error(ex.getMessage(),ex);
+    }
 
 	return result.toString();
 
@@ -90,7 +92,7 @@ public static Logger LOGGER=LogManager.getLogger(Help.class.getName());
         );
 
         VIEWER.setEditable(false);
-        VIEWER.setContentType("text/html"); // NOI18N
+        VIEWER.setContentType("text/html;charset=UTF-8"); // NOI18N
         VIEWER.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jScrollPane2.setViewportView(VIEWER);
 
