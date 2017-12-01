@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import repairtracker.RTProperties;
+import repairtracker.dialogs.Example;
 import repairtracker.dialogs.Help;
 import repairtracker.helpers.PropertiesReader;
 import repairtracker.helpers.TextPropsDecorator;
@@ -35,6 +36,8 @@ public class TemplateEditor extends TabAbstractPanel {
     String TPL_NAME="";
     Boolean SAVED=true;
     Boolean LOADED=false;
+    Help HELP;
+    Example EXAMPLE;
     /**
      * Creates new form TemplateEditor
      */
@@ -54,6 +57,8 @@ public class TemplateEditor extends TabAbstractPanel {
             loadTemplate();
         }
         SAVED=true;
+         HELP= new Help(TPL_NAME,TPL_PATH);
+         EXAMPLE= new Example(TPL_NAME,TPL_PATH);
     }
     
     private void loadTemplate() {
@@ -88,6 +93,7 @@ public class TemplateEditor extends TabAbstractPanel {
         jScrollPane3 = new javax.swing.JScrollPane();
         TEMPLATE_VIEW = new javax.swing.JEditorPane();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         THIS_COMPONENT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/16/icons8-web-design-16.png"))); // NOI18N
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("repairtracker/views/Bundle"); // NOI18N
@@ -160,10 +166,19 @@ public class TemplateEditor extends TabAbstractPanel {
         });
         jScrollPane3.setViewportView(TEMPLATE_VIEW);
 
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/16/help.png"))); // NOI18N
         jButton1.setText(bundle.getString("TemplateEditor.jButton1.text")); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/16/example.png"))); // NOI18N
+        jButton2.setText(bundle.getString("TemplateEditor.jButton2.text")); // NOI18N
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
             }
         });
 
@@ -176,22 +191,28 @@ public class TemplateEditor extends TabAbstractPanel {
                 .addGap(10, 10, 10)
                 .addComponent(TEMPLATE_NAME, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1))
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE))
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE))
         );
+
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton1, jButton2});
+
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(TEMPLATE_NAME, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
-                    .addComponent(jButton1))
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
                 .addGap(15, 15, 15)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 524, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 523, Short.MAX_VALUE)
                     .addComponent(jScrollPane3)))
         );
 
@@ -246,13 +267,18 @@ public class TemplateEditor extends TabAbstractPanel {
     }//GEN-LAST:event_TEMPLATE_EDITORCaretUpdate
 
     private void TEMPLATE_VIEWCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_TEMPLATE_VIEWCaretUpdate
-       //if (LOADED) TEMPLATE_EDITOR.setText(TEMPLATE_VIEW.getText());
+       
     }//GEN-LAST:event_TEMPLATE_VIEWCaretUpdate
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        new Help(TPL_NAME,TPL_PATH);
+        HELP.setVisible(true);
         LOGGER.info("Help window opened");
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        EXAMPLE.setVisible(true);
+        LOGGER.info("Example window opened");
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -263,6 +289,7 @@ public class TemplateEditor extends TabAbstractPanel {
     private javax.swing.JEditorPane TEMPLATE_VIEW;
     private javax.swing.JLabel THIS_COMPONENT;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

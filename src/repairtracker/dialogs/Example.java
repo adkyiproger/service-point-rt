@@ -20,21 +20,21 @@ import repairtracker.RepairTracker;
  *
  * @author pigeon
  */
-public class Help extends javax.swing.JFrame {
+public class Example extends javax.swing.JFrame {
 private String FILE;
-public static Logger LOGGER=LogManager.getLogger(Help.class.getName());
+public static Logger LOGGER=LogManager.getLogger(Example.class.getName());
     /**
      * Creates new form Editor
      * @param title
      * @param filename
      */
-    public Help(String title, String filename) {
+    public Example(String title, String filename) {
         LOGGER.info("initialized");
         
         initComponents();
-        setIconImage(IconFactory.createImage("/images/30/help.png"));
+        setIconImage(IconFactory.createImage("/images/30/example.png"));
         TITLE.setText(title);
-        FILE="/files/"+filename+"_"+RepairTracker.LOCALE+"_help.html";
+        FILE="/files/examples/"+filename+"_"+RepairTracker.LOCALE+".html";
         VIEWER.setEditable(false);
         VIEWER.setText(getFile(FILE));
         
@@ -94,12 +94,12 @@ public static Logger LOGGER=LogManager.getLogger(Help.class.getName());
         );
 
         VIEWER.setEditable(false);
-        VIEWER.setContentType("text/html;charset=UTF-8"); // NOI18N
         VIEWER.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("repairtracker/dialogs/Bundle"); // NOI18N
+        VIEWER.setText(bundle.getString("Example.VIEWER.text")); // NOI18N
         jScrollPane2.setViewportView(VIEWER);
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("repairtracker/dialogs/Bundle"); // NOI18N
-        TITLE.setText(bundle.getString("Help.TITLE.text")); // NOI18N
+        TITLE.setText(bundle.getString("Example.TITLE.text")); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

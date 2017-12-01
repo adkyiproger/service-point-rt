@@ -3,14 +3,20 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/user/git/service-point-rt/src/repairtracker/views/Bundle.properties</file>
-            <file>file:/home/user/git/service-point-rt/src/repairtracker/views/IssueEditor.java</file>
             <file>file:/home/user/git/service-point-rt/src/repairtracker/models/Address.java</file>
-            <file>file:/home/user/git/service-point-rt/src/repairtracker/views/RepairTrackerGUI.java</file>
+            <file>file:/home/user/git/service-point-rt/src/files/templates_uk_UA_help.html</file>
+            <file>file:/home/user/git/service-point-rt/src/repairtracker/models/Bundle.properties</file>
             <file>file:/home/user/git/service-point-rt/src/repairtracker/models/DBDoor.java</file>
-            <file>file:/home/user/git/service-point-rt/src/repairtracker/views/Dashboard.java</file>
+            <file>file:/home/user/git/service-point-rt/src/repairtracker/views/RepairTrackerGUI.java</file>
+            <file>file:/home/user/git/service-point-rt/src/repairtracker/models/Warranty.java</file>
+            <file>file:/home/user/git/service-point-rt/src/repairtracker/models/IssueAttribute.java</file>
             <file>file:/home/user/git/service-point-rt/src/repairtracker/models/IssueFilter.java</file>
-            <file>file:/home/user/git/service-point-rt/src/repairtracker/models/Issue.java</file>
+            <file>file:/home/user/git/service-point-rt/src/guitypes/IconFactory.java</file>
+            <file>file:/home/user/git/service-point-rt/src/repairtracker/views/PrinterBean.java</file>
+            <file>file:/home/user/git/service-point-rt/src/repairtracker/views/Dashboard.java</file>
+            <file>file:/home/user/git/service-point-rt/src/guitypes/TabManager.java</file>
+            <file>file:/home/user/git/service-point-rt/src/repairtracker/views/Bundle.properties</file>
+            <file>file:/home/user/git/service-point-rt/src/repairtracker/RepairTracker.java</file>
         </group>
     </open-files>
 </project-private>
