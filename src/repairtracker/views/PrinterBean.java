@@ -14,11 +14,13 @@ import ehospital.model.Measurement;
 import ehospital.model.Patient;
 import ehospital.model.Template;
 */
+import articles.print.EditorPanePrinter;
 import repairtracker.helpers.PageDecorator;
 import guitypes.TabManager;
 import guitypes.TabAbstractPanel;
 import java.awt.Font;
 import java.awt.FontFormatException;
+import java.awt.Insets;
 import repairtracker.helpers.TextPropsDecorator;
 import java.awt.print.PageFormat;
 import java.awt.print.Paper;
@@ -115,6 +117,9 @@ private static Logger LOGGER=LogManager.getLogger(PrinterBean.class.getName());
         myFont = myFont.deriveFont(12.0f);
         EDITOR.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, Boolean.TRUE);
         EDITOR.setFont(myFont);
+        //EditorPanePrinter pnl=new EditorPanePrinter(EDITOR, new Paper(), new Insets(18,18,18,18));
+        //jScrollPane1.add(pnl);
+        
     } catch (FontFormatException ex) {
         LOGGER.error(ex.getMessage(), ex);
     } catch (IOException ex) {
