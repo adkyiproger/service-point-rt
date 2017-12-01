@@ -14,17 +14,25 @@ import ehospital.model.Measurement;
 import ehospital.model.Patient;
 import ehospital.model.Template;
 */
+import articles.print.EditorPanePrinter;
 import repairtracker.helpers.PageDecorator;
 import guitypes.TabManager;
 import guitypes.TabAbstractPanel;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.Insets;
 import repairtracker.helpers.TextPropsDecorator;
 import java.awt.print.PageFormat;
 import java.awt.print.Paper;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.logging.Level;
 import javax.swing.Icon;
+import javax.swing.JEditorPane;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.Element;
@@ -95,6 +103,30 @@ private static Logger LOGGER=LogManager.getLogger(PrinterBean.class.getName());
                 };
             }
         });
+        
+        if (TEMPLATE_BOX.getItemCount()>0) { 
+            //TEMPLATE_BOX.setSelectedIndex(0);
+            
+            LOGGER.info("TEMPLATE_BOX.getItemCount(): "+TEMPLATE_BOX.getItemCount());
+        EDITOR.setText(replaceValues(PropertiesReader.getFileAsString("templates"+RTProperties.FS+TEMPLATE_BOX.getSelectedItem().toString()))); }
+        
+        
+    try {
+        InputStream istream = getClass().getResourceAsStream("/files/fonts/segoeui.ttf");
+        Font myFont = Font.createFont(Font.TRUETYPE_FONT, istream);
+        myFont = myFont.deriveFont(12.0f);
+        EDITOR.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, Boolean.TRUE);
+        EDITOR.setFont(myFont);
+        //EditorPanePrinter pnl=new EditorPanePrinter(EDITOR, new Paper(), new Insets(18,18,18,18));
+        //jScrollPane1.add(pnl);
+        
+    } catch (FontFormatException ex) {
+        LOGGER.error(ex.getMessage(), ex);
+    } catch (IOException ex) {
+        LOGGER.error(ex.getMessage(), ex);
+    }
+        
+        
 
 }
 
@@ -161,16 +193,20 @@ private static Logger LOGGER=LogManager.getLogger(PrinterBean.class.getName());
     }
     
     private String tableModelToHTMLTable(DefaultTableModel model){
-        String OUT=java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("PRINT_TABLE_HEADER");
+        //String OUT=java.util.ResourceBundle.getBundle("repairtracker/views/Bundle").getString("PRINT_TABLE_HEADER");
         
-        int wl=model.getRowCount();
-        
-        for (int i=0;i<wl;i++) {
-            OUT+="<tr><td>"+model.getValueAt(i, 1).toString()+"</td><td>"+model.getValueAt(i, 2).toString()+"</td></tr>";
-            
+        int rc=model.getRowCount();
+        int cc=model.getColumnCount();
+        String OUT="";
+        for (int i=0;i<rc;i++) {
+            OUT+="<tr>";
+                    for (int j=1;j<cc;j++) {
+                    OUT+="<td>"+model.getValueAt(i, j).toString()+"</td>";
+                            }
+            OUT+="</tr>";
         }
         
-        return OUT+="</table>";
+        return OUT;
     }
     
     private String replaceValues(String input){
@@ -204,8 +240,13 @@ private static Logger LOGGER=LogManager.getLogger(PrinterBean.class.getName());
             OUT=OUT.replaceAll("WARRANTY_NAME", new Warranty(ISSUE.warrantyTypeId()).getName());
             OUT=OUT.replaceAll("WARRANTY_TEXT", new Warranty(ISSUE.warrantyTypeId()).getDescription());
 
-            OUT=OUT.replaceAll("WORKLOG", tableModelToHTMLTable(IssueAttribute.getAttributesAsTable(ISSUE.id(), 0)));
-            OUT=OUT.replaceAll("REPLACEMENT", tableModelToHTMLTable(IssueAttribute.getAttributesAsTable(ISSUE.id(), 1)));
+            OUT=OUT.replaceAll("WORKLOG_DETAILS", tableModelToHTMLTable(IssueAttribute.getAttributesAsTable(ISSUE.id(), 0)));
+            OUT=OUT.replaceAll("WORKLOG_TOTAL", String.valueOf(IssueAttribute.getTotalCost(ISSUE.id(), 0)));
+            OUT=OUT.replaceAll("TOTAL_COST_WITHOUT_DISCOUNT", String.valueOf(ISSUE.totalCostWithoutDicsount()));
+            OUT=OUT.replaceAll("TOTAL_COST_WITH_DISCOUNT", String.valueOf(ISSUE.totalCost()));
+            OUT=OUT.replaceAll("DISCOUNT_VALUE", String.valueOf(ISSUE.totalCostWithoutDicsount()-ISSUE.totalCost()));
+            OUT=OUT.replaceAll("REPLACEMENT_DETAILS", tableModelToHTMLTable(IssueAttribute.getAttributesAsTable(ISSUE.id(), 1)));
+            OUT=OUT.replaceAll("REPLACEMENT_TOTAL", String.valueOf(IssueAttribute.getTotalCost(ISSUE.id(), 1)));
             
         }
         

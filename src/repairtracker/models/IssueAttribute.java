@@ -25,6 +25,7 @@ public class IssueAttribute {
 */
     private Integer ID = -1;
     private Integer ISSUE_ID = -1;
+    private Double COUNT_NUM=1.0;
     private Integer TYPE=-1;
     private String DESCRIPTION = "";
     private Double PRICE=0.0;
@@ -50,22 +51,22 @@ public class IssueAttribute {
        }
    }
    public static DefaultTableModel getAttributesAsTable(int id){
-        String SQL = "select issueattribute_id, description, price from issueattributes where issue_id="+id;
+        String SQL = "select issueattribute_id, description, price, count_num, (price*count_num) as attr_total  from issueattributes where issue_id="+id;
         return getListFromDB(SQL);
    }
    public static DefaultTableModel getAttributesAsTable(int id, int type_id ){
-        String SQL = "select issueattribute_id, description, price from issueattributes where issue_id="+id+" and issueattrtype_id="+type_id;
+        String SQL = "select issueattribute_id, description, price, count_num, (price*count_num) as attr_total from issueattributes where issue_id="+id+" and issueattrtype_id="+type_id;
         return getListFromDB(SQL);
     }
     
    private static DefaultTableModel getListFromDB(String sql) {
         Object[][] rowDATA = {};
-        String[] colNames = {"#ID", "Name","Price"};
+        String[] colNames = {"#ID", java.util.ResourceBundle.getBundle("repairtracker/models/Bundle").getString("NAME"),java.util.ResourceBundle.getBundle("repairtracker/models/Bundle").getString("PRICE"),java.util.ResourceBundle.getBundle("repairtracker/models/Bundle").getString("COUNT"),java.util.ResourceBundle.getBundle("repairtracker/models/Bundle").getString("TOTAL")};
         DefaultTableModel _model = new DefaultTableModel(rowDATA, colNames);
         try {
         ResultSet resultSet = DBDoor.getStatement().executeQuery(sql);
             while (resultSet.next()) {
-                    _model.addRow(new Object[]{resultSet.getInt("issueattribute_id"),resultSet.getString("description"),resultSet.getDouble("price")});
+                    _model.addRow(new Object[]{resultSet.getInt("issueattribute_id"),resultSet.getString("description"),resultSet.getDouble("price"),resultSet.getDouble("count_num"),resultSet.getDouble("attr_total")});
                 }
         } catch (SQLException ex) {
             LOGGER.error("IssueAttribute::getListFromDB(): "+ex.getMessage(),ex);
@@ -77,7 +78,7 @@ public class IssueAttribute {
    public static Double getTotalCost(int issueId){
        Double total_cost=0.0;
        try {
-       ResultSet rs = DBDoor.getStatement().executeQuery("select sum(price) as total_cost from issueattributes where issue_id="+issueId);
+       ResultSet rs = DBDoor.getStatement().executeQuery("select sum(price*count_num) as total_cost from issueattributes where issue_id="+issueId);
        rs.next();
        total_cost=rs.getDouble("total_cost");
        } catch (SQLException ex)
@@ -91,7 +92,7 @@ public class IssueAttribute {
    public static Double getTotalCost(int issueId, int issueAttrTypeId){
        Double total_cost=0.0;
        try {
-       ResultSet rs = DBDoor.getStatement().executeQuery("select sum(price) as total_cost from issueattributes where issue_id="+issueId+" and issueattrtype_id="+issueAttrTypeId);
+       ResultSet rs = DBDoor.getStatement().executeQuery("select sum(price*count_num) as total_cost from issueattributes where issue_id="+issueId+" and issueattrtype_id="+issueAttrTypeId);
        rs.next();
        total_cost=rs.getDouble("total_cost");
        } catch (SQLException ex)
@@ -109,6 +110,8 @@ public class IssueAttribute {
                 resultSet.next();
                 ID = resultSet.getInt("issueattribute_id");
                 DESCRIPTION = resultSet.getString("description");
+                PRICE=resultSet.getDouble("price");
+                COUNT_NUM=resultSet.getDouble("count_num");
                 LOGGER.info("IssueAttribute::loadDB(): id=>"+ID+" description=>"+DESCRIPTION);
             } catch (SQLException ex) {
                 LOGGER.error("IssueAttribute::loadDB(): " + ex.getMessage(),ex);
@@ -121,23 +124,26 @@ public class IssueAttribute {
         try {
             if (mode.equals("I")) {
                 preparedStatement = DB
-                        .prepareStatement("insert into issueattributes values (?,?,?,?,?)");
+                        .prepareStatement("insert into issueattributes values (?,?,?,?,?,?)");
                 preparedStatement.setInt(1, this.ID);
                 preparedStatement.setInt(2, this.ISSUE_ID);
                 
                 preparedStatement.setString(3, this.DESCRIPTION);
                 preparedStatement.setDouble(4, this.PRICE);
                 preparedStatement.setInt(5, this.TYPE);
+                preparedStatement.setDouble(6, this.COUNT_NUM);
             }
             if (mode.equals("U")) {
                 preparedStatement = DB
                         .prepareStatement("update issueattributes set "
                                 + "description=? ,"
-                                + "price=? "
+                                + "price=? ,"
+                                + "count_num=? "
                                 + "where issueattribute_id=?");
                 preparedStatement.setString(1, this.DESCRIPTION);
                 preparedStatement.setDouble(2,this.PRICE);
-                preparedStatement.setInt(3, this.ID);
+                preparedStatement.setDouble(3,this.COUNT_NUM);
+                preparedStatement.setInt(4, this.ID);
             }
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
@@ -169,6 +175,10 @@ public class IssueAttribute {
      public Double price() {
         return PRICE;
     }
+     public Double count() {
+        return COUNT_NUM;
+    }
+     
     
     // Set methods
     public void setName(String name) {
@@ -184,7 +194,9 @@ public class IssueAttribute {
     public void setIssueId(int id) {
         this.ISSUE_ID = id;
     }
-    
+    public void setCount(Double cnt) {
+        this.COUNT_NUM = cnt;
+    }
     
     public void save() {
         LOGGER.info("Saving attribute to DB");

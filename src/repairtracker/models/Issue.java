@@ -20,7 +20,7 @@ import org.apache.logging.log4j.Logger;
  * @author pigeon
  */
 public class Issue {
-    private static java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("repairtracker/views/Bundle"); // NOI18N
+    //private static java.util.ResourceBu7ndle bundle = java.util.ResourceBundle.getBundle("repairtracker/views/Bundle"); // NOI18N
     private static Logger LOGGER=LogManager.getLogger(Issue.class.getName()); 
     private Connection DB = DBDoor.getConn();
     private Statement statement = null;
@@ -162,6 +162,7 @@ public class Issue {
                 
                 
                 preparedStatement.executeUpdate();
+                
                 if (DISCOUNT_VALUE>0.0) {
                 discount = DB
                         .prepareStatement("insert into discount values (?,?,?)");
@@ -234,6 +235,7 @@ public class Issue {
             preparedStatement.executeUpdate();
             
         } catch (SQLException ex) {
+            LOGGER.error("ISSUE: "+ID);
             LOGGER.error("Issue::saveDB(): " + ex.toString(),ex);
         }
         LOGGER.info("Discount value: "+DISCOUNT_VALUE);

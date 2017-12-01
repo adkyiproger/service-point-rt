@@ -50,7 +50,7 @@ public class IssueFilter {
     // Statement registry:
     //   0. Generic statement:
     private String SQL = "select iss.issue_id as issue_id, devicename, fname, phone, totalcost,"
-            + " (select sum(price) from issueattributes ia where ia.issue_id=iss.issue_id and ia.issueattrtype_id=0) as total_work, "
+            + " (select sum(price*count_num) from issueattributes ia where ia.issue_id=iss.issue_id and ia.issueattrtype_id=0) as total_work, "
             + "startdate, enddate, status from issues iss"
                     + " join clients cl on iss.client_id=cl.client_id"
                     + " join address ad on iss.client_id=ad.client_id"
