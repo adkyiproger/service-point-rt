@@ -152,45 +152,39 @@ public static void insertTab(TabAbstractPanel usf)  {
 class CloseComponent extends JPanel {
 
     public CloseComponent(String title, Icon icon) {
-        
+
         setLayout(new java.awt.GridBagLayout());
         setOpaque(false);
-JLabel lblTitle = new JLabel(title,IconFactory.scaleImageIcon(icon,Integer.parseInt(RepairTracker.PROPERTIES.getProperty("ICON_SIZE_TAB","16"))), 0);
+        JLabel lblTitle = new JLabel(title, IconFactory.scaleImageIcon(icon, Integer.parseInt(RepairTracker.PROPERTIES.getProperty("ICON_SIZE_TAB", "16"))), 0);
 //JLabel lblTitle=new JLabel("aaaa");
-lblTitle.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
-lblTitle.setMaximumSize(new Dimension(150, 20));
+        lblTitle.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
+        lblTitle.setMaximumSize(new Dimension(150, 20));
         lblTitle.setPreferredSize(new Dimension(150, 20));
         lblTitle.setMinimumSize(new Dimension(150, 20));
 
-JButton btnClose = new JButton(
-
-);
-                btnClose.setIcon(IconFactory.scaleImageIcon(IconFactory.createImageIcon("/images/16/close.png"),
-                        Integer.parseInt(RepairTracker.PROPERTIES.getProperty("ICON_SIZE_TAB","16"))));
+        JButton btnClose = new JButton();
+        btnClose.setIcon(IconFactory.scaleImageIcon(IconFactory.createImageIcon("/images/16/close.png"),
+                Integer.parseInt(RepairTracker.PROPERTIES.getProperty("ICON_SIZE_TAB", "16"))));
         //btnClose.setOpaque(false);
         btnClose.setMaximumSize(new Dimension(18, 18));
         btnClose.setPreferredSize(new Dimension(18, 18));
         btnClose.setMinimumSize(new Dimension(18, 18));
-       // btnClose.setContentAreaFilled(false);
+        // btnClose.setContentAreaFilled(false);
         btnClose.setBorderPainted(false);
-        
 
-btnClose.addActionListener(new MyCloseActionHandler(title));
+        btnClose.addActionListener(new MyCloseActionHandler(title));
 
-GridBagConstraints gbc = new GridBagConstraints();
-gbc.gridx = 0;
-gbc.gridy = 0;
-gbc.weightx = 1;
-add(lblTitle, gbc);
-gbc.gridx++;
-gbc.weightx = 0;
-add(btnClose, gbc);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1;
+        add(lblTitle, gbc);
+        gbc.gridx++;
+        gbc.weightx = 0;
+        add(btnClose, gbc);
 
-        
-        
     }
-    
-        
+
 }
 
  class MyCloseActionHandler implements ActionListener {
