@@ -4,33 +4,17 @@
  * and open the template in the editor.
  */
 package repairtracker.views;
-/* import ehospital.code.EHospital;
-import ehospital.code.EHospitalProperties;
-import ehospital.code.TabAbstractPanel;
-import ehospital.model.Address;
-import ehospital.model.Doctor;
-import ehospital.model.Epicrisis;
-import ehospital.model.Measurement;
-import ehospital.model.Patient;
-import ehospital.model.Template;
-*/
-import articles.print.EditorPanePrinter;
 import repairtracker.helpers.PageDecorator;
 import guitypes.TabManager;
 import guitypes.TabAbstractPanel;
 import java.awt.Font;
 import java.awt.FontFormatException;
-import java.awt.Insets;
-import repairtracker.helpers.TextPropsDecorator;
 import java.awt.print.PageFormat;
 import java.awt.print.Paper;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.logging.Level;
 import javax.swing.Icon;
 import javax.swing.JEditorPane;
 import javax.swing.JOptionPane;
