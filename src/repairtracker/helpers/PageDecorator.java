@@ -25,17 +25,17 @@ public class PageDecorator {
     public static Paper decorate(Paper paper) {
     
     
-    /*
+    
     if (RepairTracker.PROPERTIES.getProperty("PRINTER_PAGE","A5").equalsIgnoreCase("A5")){
     
         width=A5[0];
         height=A5[1];
     }
     if (RepairTracker.PROPERTIES.getProperty("PRINTER_PAGE","A4").equalsIgnoreCase("A4")){
-    */
+    
         width=A4[0];
         height=A4[1];
-   // }
+    }
     if (PRINTER_ORIENTATION.equalsIgnoreCase("Landscape"))
     {
         int t=height;

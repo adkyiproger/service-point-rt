@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import repairtracker.RTProperties;
+import repairtracker.RepairTracker;
 import repairtracker.models.DBDoor;
 
 /**
@@ -62,6 +63,7 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
         MENU_SAVE = new javax.swing.JMenuItem();
         MENU_SAVEALL = new javax.swing.JMenuItem();
         MENU_PRINT = new javax.swing.JMenuItem();
+        MENU_SETTINGS = new javax.swing.JMenuItem();
         MENU_EXIT = new javax.swing.JMenuItem();
         MENU_ISSUES = new javax.swing.JMenu();
         MENU_TEMPLATES = new javax.swing.JMenuItem();
@@ -190,6 +192,14 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
         });
         MENU_FILE.add(MENU_PRINT);
 
+        MENU_SETTINGS.setText(bundle.getString("RepairTrackerGUI.MENU_SETTINGS.text")); // NOI18N
+        MENU_SETTINGS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MENU_SETTINGSActionPerformed(evt);
+            }
+        });
+        MENU_FILE.add(MENU_SETTINGS);
+
         MENU_EXIT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/16/icons8-shutdown-16.png"))); // NOI18N
         MENU_EXIT.setText(bundle.getString("RepairTrackerGUI.MENU_EXIT.text")); // NOI18N
         MENU_EXIT.addActionListener(new java.awt.event.ActionListener() {
@@ -289,7 +299,7 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
                         if(dialogResult == JOptionPane.YES_OPTION){
                             if (DBDoor.shutdown()) {
                                 
-                                
+                                RTProperties.SaveProperties(RepairTracker.PROPERTIES);
                                 LOGGER.info("Exit application completely");
                                 
                                 System.exit(0);
@@ -309,6 +319,11 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
     private void TB_SAVEALLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TB_SAVEALLActionPerformed
         MENU_SAVEALLActionPerformed(evt);
     }//GEN-LAST:event_TB_SAVEALLActionPerformed
+
+    private void MENU_SETTINGSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MENU_SETTINGSActionPerformed
+        LOGGER.info("TabManager.insertTab(new Settings());");
+        TabManager.insertTab(new Settings());
+    }//GEN-LAST:event_MENU_SETTINGSActionPerformed
 
     /**
      * @param args the command line arguments
@@ -355,6 +370,7 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem MENU_PRINT;
     private javax.swing.JMenuItem MENU_SAVE;
     private javax.swing.JMenuItem MENU_SAVEALL;
+    private javax.swing.JMenuItem MENU_SETTINGS;
     private javax.swing.JMenuItem MENU_TEMPLATES;
     private javax.swing.JMenuItem MENU_WARRANTIES;
     public static javax.swing.JLabel STATUS;

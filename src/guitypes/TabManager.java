@@ -143,6 +143,7 @@ public static void insertTab(TabAbstractPanel usf)  {
     } else {
         PANEL.setSelectedIndex(index);
     }
+    LOGGER.info("Added: "+title);
 }
     
 

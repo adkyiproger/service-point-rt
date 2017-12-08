@@ -70,8 +70,8 @@ public class RepairTracker {
         try {
 
             //new McWinLookAndFeel();
-            //UIManager.setLookAndFeel(THEME_CLASS);
-            //UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            UIManager.setLookAndFeel(THEME_CLASS);
+            /*UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             System.out.print(System.getProperty("os.name"));
             String os=System.getProperty("os.name");
             if (os.split(" ")[0].equalsIgnoreCase("linux")) {
@@ -80,9 +80,9 @@ public class RepairTracker {
                 System.out.println("repairtracker.RepairTracker.main()");
                 UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
             } else {
-                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                UIManager.setLookAndFeel(THEME_CLASS);
             }
-            
+            */
             //UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
             
         } catch (UnsupportedLookAndFeelException e) {
