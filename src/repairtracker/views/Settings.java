@@ -18,6 +18,7 @@ import javax.swing.JMenu;
 import javax.swing.UIManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import repairtracker.RTProperties;
 import repairtracker.RepairTracker;
 
 /**
@@ -48,13 +49,12 @@ public class Settings extends TabAbstractPanel {
         CB_FONT_FAMILY2.setSelectedItem(RepairTracker.PROPERTIES.getProperty("PRINT_FONT_FAMILY","Arial"));
         CB_FONT_SIZE2.setModel(getFontSizeModel());
         CB_FONT_SIZE2.setSelectedItem(Integer.parseInt(RepairTracker.PROPERTIES.getProperty("PRINT_FONT_SIZE","12")));
-//        System.out.println("RepairTracker.PROPERTIES.getProperty(\"ICON_SIZE_TAB\",\"16\")"+RepairTracker.PROPERTIES.getProperty("ICON_SIZE_TAB","16"));
-  //      System.out.println("RepairTracker.PROPERTIES.getProperty(\"ICON_SIZE_LIST\",\"16\")"+RepairTracker.PROPERTIES.getProperty("ICON_SIZE_LIST","16"));
-        ICON_SIZE_LIST.setSelectedItem(RepairTracker.PROPERTIES.getProperty("ICON_SIZE_LIST","16"));
-        ICON_SIZE_TAB.setSelectedItem(RepairTracker.PROPERTIES.getProperty("ICON_SIZE_TAB","16"));
         PRINTER_PAGE.setSelectedItem(RepairTracker.PROPERTIES.getProperty("PRINTER_PAGE","A4"));
         PRINTER_ORIENTATION.setSelectedItem(RepairTracker.PROPERTIES.getProperty("PRINTER_ORIENTATION","Portrait"));
-        PRINTER_BORDER.setValue(Integer.parseInt(RepairTracker.PROPERTIES.getProperty("PRINTER_BORDER","5")));
+        BORDER_TOP.setValue(Integer.parseInt(RepairTracker.PROPERTIES.getProperty("PRINTER_BORDER_TOP","5")));
+        BORDER_LEFT.setValue(Integer.parseInt(RepairTracker.PROPERTIES.getProperty("PRINTER_BORDER_LEFT","5")));
+        BORDER_RIGHT.setValue(Integer.parseInt(RepairTracker.PROPERTIES.getProperty("PRINTER_BORDER_RIGHT","5")));
+        BORDER_BUTTOM.setValue(Integer.parseInt(RepairTracker.PROPERTIES.getProperty("PRINTER_BORDER_BUTTOM","5")));
         
         LOG_FILE.setText(RepairTracker.LOG_FILE);
         
@@ -88,6 +88,7 @@ public class Settings extends TabAbstractPanel {
                 CB_LANGUAGE.setSelectedIndex(0);
                 break;
         }
+        
     }
 
     /**
@@ -132,15 +133,17 @@ public class Settings extends TabAbstractPanel {
         PRINT_FONT_PREVIEW = new javax.swing.JTextArea();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
         PRINTER_PAGE = new javax.swing.JComboBox();
         PRINTER_ORIENTATION = new javax.swing.JComboBox();
-        PRINTER_BORDER = new com.toedter.components.JSpinField();
-        jPanel7 = new javax.swing.JPanel();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
-        ICON_SIZE_TAB = new javax.swing.JComboBox();
-        ICON_SIZE_LIST = new javax.swing.JComboBox();
+        jPanel9 = new javax.swing.JPanel();
+        jLabel13 = new javax.swing.JLabel();
+        BORDER_TOP = new javax.swing.JSpinner();
+        jLabel16 = new javax.swing.JLabel();
+        BORDER_LEFT = new javax.swing.JSpinner();
+        jLabel17 = new javax.swing.JLabel();
+        BORDER_RIGHT = new javax.swing.JSpinner();
+        jLabel18 = new javax.swing.JLabel();
+        BORDER_BUTTOM = new javax.swing.JSpinner();
         jPanel8 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         LOG_FILE = new javax.swing.JTextField();
@@ -255,7 +258,7 @@ public class Settings extends TabAbstractPanel {
                     .addComponent(CB_FONT_SIZE1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(227, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab(bundle.getString("Settings.jPanel4.TabConstraints.tabTitle_1"), jPanel4); // NOI18N
@@ -310,7 +313,7 @@ public class Settings extends TabAbstractPanel {
                     .addComponent(CB_FONT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(227, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab(bundle.getString("Settings.jPanel5.TabConstraints.tabTitle_1"), jPanel5); // NOI18N
@@ -340,15 +343,68 @@ public class Settings extends TabAbstractPanel {
 
         jLabel9.setText(bundle.getString("Settings.jLabel9.text")); // NOI18N
 
-        jLabel12.setText(bundle.getString("Settings.jLabel12.text")); // NOI18N
-
         PRINTER_PAGE.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "A5", "A4" }));
 
         PRINTER_ORIENTATION.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Portrait", "Landscape" }));
 
-        PRINTER_BORDER.setMaximum(50);
-        PRINTER_BORDER.setMinimum(0);
-        PRINTER_BORDER.setValue(5);
+        jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("Settings.jPanel9.border.title"))); // NOI18N
+
+        jLabel13.setText(bundle.getString("Settings.jLabel13.text")); // NOI18N
+
+        jLabel16.setText(bundle.getString("Settings.jLabel16.text")); // NOI18N
+
+        jLabel17.setText(bundle.getString("Settings.jLabel17.text")); // NOI18N
+
+        jLabel18.setText(bundle.getString("Settings.jLabel18.text")); // NOI18N
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(BORDER_LEFT, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(BORDER_TOP, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel9Layout.createSequentialGroup()
+                                .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(BORDER_BUTTOM, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
+                            .addComponent(BORDER_RIGHT))))
+                .addGap(27, 27, 27))
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel13)
+                    .addComponent(BORDER_TOP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel16)
+                    .addComponent(BORDER_LEFT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel17)
+                    .addComponent(BORDER_RIGHT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel18)
+                    .addComponent(BORDER_BUTTOM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(24, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -365,11 +421,7 @@ public class Settings extends TabAbstractPanel {
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(PRINTER_ORIENTATION, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel12)
-                        .addGap(18, 18, 18)
-                        .addComponent(PRINTER_BORDER, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(44, 44, 44))
+                        .addGap(115, 115, 115))
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jLabel10)
@@ -380,6 +432,10 @@ public class Settings extends TabAbstractPanel {
                         .addGap(18, 18, 18)
                         .addComponent(CB_FONT_SIZE2, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -393,57 +449,17 @@ public class Settings extends TabAbstractPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel8)
-                        .addComponent(jLabel12)
-                        .addComponent(jLabel9)
-                        .addComponent(PRINTER_PAGE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(PRINTER_ORIENTATION, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(PRINTER_BORDER, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel9)
+                    .addComponent(PRINTER_PAGE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(PRINTER_ORIENTATION, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab(bundle.getString("Settings.jPanel6.TabConstraints.tabTitle"), jPanel6); // NOI18N
-
-        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("Settings.jPanel6.border.title"))); // NOI18N
-
-        jLabel14.setText(bundle.getString("Settings.jLabel14.text")); // NOI18N
-
-        jLabel15.setText(bundle.getString("Settings.jLabel15.text")); // NOI18N
-
-        ICON_SIZE_TAB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "16", "24", "32" }));
-
-        ICON_SIZE_LIST.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "16", "24", "32" }));
-
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(11, 11, 11)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel14)
-                    .addComponent(jLabel15))
-                .addGap(28, 28, 28)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ICON_SIZE_TAB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ICON_SIZE_LIST, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel14)
-                    .addComponent(ICON_SIZE_TAB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel15)
-                    .addComponent(ICON_SIZE_LIST, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -452,19 +468,15 @@ public class Settings extends TabAbstractPanel {
             .addComponent(jTabbedPane1)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(10, 10, 10)
-                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, Short.MAX_VALUE))
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 369, Short.MAX_VALUE))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("Settings.jPanel3.border.title"))); // NOI18N
@@ -621,6 +633,10 @@ public class Settings extends TabAbstractPanel {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JSpinner BORDER_BUTTOM;
+    private javax.swing.JSpinner BORDER_LEFT;
+    private javax.swing.JSpinner BORDER_RIGHT;
+    private javax.swing.JSpinner BORDER_TOP;
     private javax.swing.JComboBox CB_FONT_FAMILY;
     private javax.swing.JComboBox CB_FONT_FAMILY1;
     private javax.swing.JComboBox CB_FONT_FAMILY2;
@@ -630,12 +646,9 @@ public class Settings extends TabAbstractPanel {
     private javax.swing.JComboBox CB_LANGUAGE;
     private javax.swing.JComboBox CB_THEME;
     private javax.swing.JTextArea FONT_PREVIEW;
-    private javax.swing.JComboBox ICON_SIZE_LIST;
-    private javax.swing.JComboBox ICON_SIZE_TAB;
     private javax.swing.JTextArea LIST_FONT_PREVIEW;
     private javax.swing.JTextField LOG_FILE;
     private static javax.swing.JMenu MENU;
-    private com.toedter.components.JSpinField PRINTER_BORDER;
     private javax.swing.JComboBox PRINTER_ORIENTATION;
     private javax.swing.JComboBox PRINTER_PAGE;
     private javax.swing.JTextArea PRINT_FONT_PREVIEW;
@@ -645,9 +658,10 @@ public class Settings extends TabAbstractPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -662,8 +676,8 @@ public class Settings extends TabAbstractPanel {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -706,14 +720,15 @@ public class Settings extends TabAbstractPanel {
         RepairTracker.PROPERTIES.setProperty("LIST_FONT_SIZE",CB_FONT_SIZE1.getSelectedItem().toString());
         RepairTracker.PROPERTIES.setProperty("PRINT_FONT_FAMILY",CB_FONT_FAMILY2.getSelectedItem().toString());
         RepairTracker.PROPERTIES.setProperty("PRINT_FONT_SIZE",CB_FONT_SIZE2.getSelectedItem().toString());
-        RepairTracker.PROPERTIES.setProperty("ICON_SIZE_TAB", ICON_SIZE_TAB.getSelectedItem().toString());
-        RepairTracker.PROPERTIES.setProperty("ICON_SIZE_LIST", ICON_SIZE_LIST.getSelectedItem().toString());
-        
+
         RepairTracker.PROPERTIES.setProperty("PRINTER_PAGE", PRINTER_PAGE.getSelectedItem().toString());
         RepairTracker.PROPERTIES.setProperty("PRINTER_ORIENTATION", PRINTER_ORIENTATION.getSelectedItem().toString());
-        RepairTracker.PROPERTIES.setProperty("PRINTER_BORDER", String.valueOf(PRINTER_BORDER.getValue()));
+        RepairTracker.PROPERTIES.setProperty("PRINTER_BORDER_TOP", String.valueOf(BORDER_TOP.getValue()));
+        RepairTracker.PROPERTIES.setProperty("PRINTER_BORDER_LEFT", String.valueOf(BORDER_LEFT.getValue()));
+        RepairTracker.PROPERTIES.setProperty("PRINTER_BORDER_RIGHT", String.valueOf(BORDER_RIGHT.getValue()));
+        RepairTracker.PROPERTIES.setProperty("PRINTER_BORDER_BUTTOM", String.valueOf(BORDER_BUTTOM.getValue()));
         
-        
+        RTProperties.SaveProperties(RepairTracker.PROPERTIES);
     }
     
     @Override

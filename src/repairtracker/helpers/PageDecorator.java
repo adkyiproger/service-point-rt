@@ -8,16 +8,22 @@ package repairtracker.helpers;
 
 import repairtracker.RepairTracker;
 import java.awt.print.Paper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 /**
  *
  * @author pigeon
  */
 public class PageDecorator {
-    
+    private static Logger LOGGER=LogManager.getLogger(PageDecorator.class.getName()); 
     private static int A4[]={595,842};
     private static int A5[]={420,595};
-    private static int PRINTER_BORDER=Integer.parseInt(RepairTracker.PROPERTIES.getProperty("PRINTER_BORDER","20"));
+    private static int BORDER_TOP=Integer.parseInt(RepairTracker.PROPERTIES.getProperty("PRINTER_BORDER_TOP","20"));
+    private static int BORDER_LEFT=Integer.parseInt(RepairTracker.PROPERTIES.getProperty("PRINTER_BORDER_LEFT","20"));
+    private static int BORDER_RIGHT=Integer.parseInt(RepairTracker.PROPERTIES.getProperty("PRINTER_BORDER_RIGHT","20"));
+    private static int BORDER_BUTTOM=Integer.parseInt(RepairTracker.PROPERTIES.getProperty("PRINTER_BORDER_BUTTOM","20"));
     private static String PRINTER_ORIENTATION=RepairTracker.PROPERTIES.getProperty("PRINTER_ORIENTATION","Portrait");
     private static int width=A4[0];
     private static int height=A4[1];
@@ -45,9 +51,9 @@ public class PageDecorator {
         
     
     
-    System.out.println("PRINTER_BORDER: "+PRINTER_BORDER);    
+    LOGGER.info("Setting printer borders: Left="+BORDER_LEFT+" Top="+BORDER_TOP+" Right="+BORDER_RIGHT+" Buttom="+BORDER_BUTTOM);    
     paper.setSize(width, height);
-    paper.setImageableArea(PRINTER_BORDER, PRINTER_BORDER, width-2*PRINTER_BORDER, height-2*PRINTER_BORDER);
+    paper.setImageableArea(BORDER_LEFT, BORDER_TOP, width-2*BORDER_RIGHT, height-2*BORDER_BUTTOM);
     
     return paper;
     }

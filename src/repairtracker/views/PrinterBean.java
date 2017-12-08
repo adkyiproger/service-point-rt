@@ -95,20 +95,20 @@ private static Logger LOGGER=LogManager.getLogger(PrinterBean.class.getName());
         EDITOR.setText(replaceValues(PropertiesReader.getFileAsString("templates"+RTProperties.FS+TEMPLATE_BOX.getSelectedItem().toString()))); }
         
         
-    try {
-        InputStream istream = getClass().getResourceAsStream("/files/fonts/segoeui.ttf");
-        Font myFont = Font.createFont(Font.TRUETYPE_FONT, istream);
-        myFont = myFont.deriveFont(12.0f);
-        EDITOR.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, Boolean.TRUE);
-        EDITOR.setFont(myFont);
+ //   try {
+      //  InputStream istream = getClass().getResourceAsStream("/files/fonts/segoeui.ttf");
+//        Font myFont = Font.createFont(Font.TRUETYPE_FONT, istream);
+//        myFont = myFont.deriveFont(12.0f);
+//        EDITOR.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, Boolean.TRUE);
+        EDITOR.setFont(new Font(RepairTracker.PROPERTIES.getProperty("PRINT_FONT_FAMILY","Arial").toString(),Font.PLAIN,Integer.parseInt(RepairTracker.PROPERTIES.getProperty("PRINT_FONT_SIZE","12").toString())));
         //EditorPanePrinter pnl=new EditorPanePrinter(EDITOR, new Paper(), new Insets(18,18,18,18));
         //jScrollPane1.add(pnl);
         
-    } catch (FontFormatException ex) {
-        LOGGER.error(ex.getMessage(), ex);
-    } catch (IOException ex) {
-        LOGGER.error(ex.getMessage(), ex);
-    }
+//    } catch (FontFormatException ex) {
+//        LOGGER.error(ex.getMessage(), ex);
+//    } catch (IOException ex) {
+//        LOGGER.error(ex.getMessage(), ex);
+//    }
         
         
 
