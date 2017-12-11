@@ -6,22 +6,17 @@
 
 package repairtracker.helpers;
 
-import repairtracker.RepairTracker;
 import repairtracker.RTProperties;
-import static repairtracker.RTProperties.APP_HOME;
 import static repairtracker.helpers.PropertiesReader.LOGGER;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.logging.Level;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
@@ -105,10 +100,10 @@ public class PropertiesReader {
         List<String> f= new ArrayList<>();
         for (int i = 0; i < listOfFiles.length; i++) {
         if (listOfFiles[i].isFile()) {
-        System.out.println("File " + listOfFiles[i].getName()); //NOI18N
+        LOGGER.info("File " + listOfFiles[i].getName()); //NOI18N
         f.add(listOfFiles[i].getName());
        } else if (listOfFiles[i].isDirectory()) {
-        System.out.println("Directory " + listOfFiles[i].getName()); //NOI18N
+        LOGGER.info("Directory " + listOfFiles[i].getName()); //NOI18N
        }
       }
         return f;
@@ -150,7 +145,7 @@ public class PropertiesReader {
                 folder.mkdirs();
                 
             } catch (Exception ex) {
-                LOGGER.error("Something critical happened: \n"+ex.getMessage(),ex); //NOI18N
+                LOGGER.error(ex.getMessage(),ex);
             }
             }
             File[] listOfFiles = folder.listFiles();
@@ -190,8 +185,8 @@ public class PropertiesReader {
                     ins = RTProperties.class.getClassLoader().getResourceAsStream(file);
                 }
                 LOGGER.info("File "+locale_file+" found in embeded sources"); //NOI18N
-                } catch (Exception e) {
-                    LOGGER.error("Unable to read resource "+e.toString()); //NOI18N
+                } catch (Exception ex) {
+                    LOGGER.error(ex.getMessage(),ex);
                     
 //                    file=locale_file;
                 }
@@ -207,8 +202,8 @@ public class PropertiesReader {
             }
             
             ins.close();
-        } catch (Exception e) {
-            LOGGER.error(e.toString());
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage(),ex);
         }
         
 
@@ -250,7 +245,7 @@ class SaveFile implements Runnable {
                 infile.getParentFile().mkdirs();
                 
             } catch (Exception ex) {
-                LOGGER.error("Something critical happened: \n"+ex.getMessage(),ex); //NOI18N
+                LOGGER.error(ex.getMessage(),ex);
             }
             }
 
@@ -261,9 +256,9 @@ class SaveFile implements Runnable {
                 out.print(outStr);
                 out.close();
             LOGGER.info("Properties file: "+fileName+" saved"); //NOI18N
-        } catch (Exception e) {
+        } catch (Exception ex) {
             LOGGER.error("Properties file: "+fileName+" not saved:"); //NOI18N
-            LOGGER.error(e.toString());
+            LOGGER.error(ex.getMessage(),ex);
         }
         
    }

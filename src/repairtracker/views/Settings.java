@@ -729,6 +729,7 @@ public class Settings extends TabAbstractPanel {
         RepairTracker.PROPERTIES.setProperty("PRINTER_BORDER_BUTTOM", String.valueOf(BORDER_BUTTOM.getValue()));
         
         RTProperties.SaveProperties(RepairTracker.PROPERTIES);
+        RepairTracker.PROPERTIES=RTProperties.ReadProperties();
     }
     
     @Override

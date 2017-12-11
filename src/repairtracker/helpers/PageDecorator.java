@@ -53,7 +53,7 @@ public class PageDecorator {
     
     LOGGER.info("Setting printer borders: Left="+BORDER_LEFT+" Top="+BORDER_TOP+" Right="+BORDER_RIGHT+" Buttom="+BORDER_BUTTOM);    
     paper.setSize(width, height);
-    paper.setImageableArea(BORDER_LEFT, BORDER_TOP, width-2*BORDER_RIGHT, height-2*BORDER_BUTTOM);
+    paper.setImageableArea(BORDER_LEFT, BORDER_TOP, width-BORDER_LEFT-BORDER_RIGHT, height-BORDER_TOP-BORDER_BUTTOM);
     
     return paper;
     }
