@@ -351,11 +351,19 @@ public class Settings extends TabAbstractPanel {
 
         jLabel13.setText(bundle.getString("Settings.jLabel13.text")); // NOI18N
 
+        BORDER_TOP.setModel(new javax.swing.SpinnerNumberModel(15, 0, 99, 1));
+
         jLabel16.setText(bundle.getString("Settings.jLabel16.text")); // NOI18N
+
+        BORDER_LEFT.setModel(new javax.swing.SpinnerNumberModel(15, 0, 99, 1));
 
         jLabel17.setText(bundle.getString("Settings.jLabel17.text")); // NOI18N
 
+        BORDER_RIGHT.setModel(new javax.swing.SpinnerNumberModel(15, 0, 99, 1));
+
         jLabel18.setText(bundle.getString("Settings.jLabel18.text")); // NOI18N
+
+        BORDER_BUTTOM.setModel(new javax.swing.SpinnerNumberModel(15, 0, 99, 1));
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
