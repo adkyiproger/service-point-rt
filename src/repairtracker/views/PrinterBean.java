@@ -93,25 +93,6 @@ private static Logger LOGGER=LogManager.getLogger(PrinterBean.class.getName());
             
             LOGGER.info("TEMPLATE_BOX.getItemCount(): "+TEMPLATE_BOX.getItemCount());
         EDITOR.setText(replaceValues(PropertiesReader.getFileAsString("templates"+RTProperties.FS+TEMPLATE_BOX.getSelectedItem().toString()))); }
-        
-        
- //   try {
-      //  InputStream istream = getClass().getResourceAsStream("/files/fonts/segoeui.ttf");
-//        Font myFont = Font.createFont(Font.TRUETYPE_FONT, istream);
-//        myFont = myFont.deriveFont(12.0f);
-//        EDITOR.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, Boolean.TRUE);
-        EDITOR.setFont(new Font(RepairTracker.PROPERTIES.getProperty("PRINT_FONT_FAMILY","Arial").toString(),Font.PLAIN,Integer.parseInt(RepairTracker.PROPERTIES.getProperty("PRINT_FONT_SIZE","12").toString())));
-        //EditorPanePrinter pnl=new EditorPanePrinter(EDITOR, new Paper(), new Insets(18,18,18,18));
-        //jScrollPane1.add(pnl);
-        
-//    } catch (FontFormatException ex) {
-//        LOGGER.error(ex.getMessage(), ex);
-//    } catch (IOException ex) {
-//        LOGGER.error(ex.getMessage(), ex);
-//    }
-        
-        
-
 }
 
   
@@ -232,6 +213,11 @@ private static Logger LOGGER=LogManager.getLogger(PrinterBean.class.getName());
             OUT=OUT.replaceAll("REPLACEMENT_DETAILS", tableModelToHTMLTable(IssueAttribute.getAttributesAsTable(ISSUE.id(), 1)));
             OUT=OUT.replaceAll("REPLACEMENT_TOTAL", String.valueOf(IssueAttribute.getTotalCost(ISSUE.id(), 1)));
             
+            //OUT = OUT.replaceAll("(font-size:) *$", "$1 "+RepairTracker.PROPERTIES.getProperty("PRINT_FONT_SIZE","12")+"\\;");
+            //OUT = OUT.replaceAll("(font-family:) *$", "$1 \""+RepairTracker.PROPERTIES.getProperty("PRINT_FONT_FAMILY","Arial")+"\"\\;");
+            
+            //LOGGER.info("Printer properties => font: "+RepairTracker.PROPERTIES.getProperty("PRINT_FONT_FAMILY","Arial").toString()+" size: "+RepairTracker.PROPERTIES.getProperty("PRINT_FONT_SIZE","12").toString());
+            //LOGGER.info("Text: "+OUT);
         }
         
         return OUT;

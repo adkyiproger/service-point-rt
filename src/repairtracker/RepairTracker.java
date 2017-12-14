@@ -4,18 +4,15 @@
  * and open the template in the editor.
  */
 package repairtracker;
-import java.awt.event.WindowEvent;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.Locale;
 import java.util.Properties;
-import java.util.logging.Level;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.Configuration;
+//import org.apache.logging.log4j.BasicConfigurator;
 import repairtracker.models.DBDoor;
 import repairtracker.views.RepairTrackerGUI;
 
@@ -63,27 +60,22 @@ public class RepairTracker {
         if (LOG_FILE == "NA") {
             LOG_FILE = RTProperties.APP_HOME + FS + "logs" + FS + RTProperties.APP_NAME + ".log";
         }
-        System.setProperty("logFilename", LOG_FILE);
+        System.setProperty("logfilename", LOG_FILE);
         System.setProperty("derby.stream.error.file", RTProperties.APP_HOME + FS + "logs" + FS + "derby.log");
+        
+        org.apache.logging.log4j.core.LoggerContext ctx =
+    (org.apache.logging.log4j.core.LoggerContext) LogManager.getContext(false);
+        ctx.reconfigure();
+        
         LOGGER = LogManager.getLogger();
+        //LogManager.getRootLogger().
+        
+        System.out.println("LOGGER: "+System.getProperty("repairtracker.logfilename"));
         LOGGER.info("Repair Tracker started!");
+        
         try {
 
-            //new McWinLookAndFeel();
             UIManager.setLookAndFeel(THEME_CLASS);
-            /*UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            System.out.print(System.getProperty("os.name"));
-            String os=System.getProperty("os.name");
-            if (os.split(" ")[0].equalsIgnoreCase("linux")) {
-              //  UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
-            } else if (os.split(" ")[0].equalsIgnoreCase("windows")) {
-                System.out.println("repairtracker.RepairTracker.main()");
-                UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-            } else {
-                UIManager.setLookAndFeel(THEME_CLASS);
-            }
-            */
-            //UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
             
         } catch (UnsupportedLookAndFeelException e) {
             // handle exception

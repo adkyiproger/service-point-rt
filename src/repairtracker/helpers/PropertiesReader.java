@@ -180,11 +180,12 @@ public class PropertiesReader {
                 try {
                     
                 ins = RTProperties.class.getClassLoader().getResourceAsStream(locale_file);
-                if (ins==null) {
+                if (ins.available()<0) {
                     LOGGER.info("Locale specific file "+locale_file+" not found using generic file. Trying to load "+file); //NOI18N
                     ins = RTProperties.class.getClassLoader().getResourceAsStream(file);
+                    if (ins.available()>0)  LOGGER.info("File "+locale_file+" found in embeded sources"); //NOI18N
                 }
-                LOGGER.info("File "+locale_file+" found in embeded sources"); //NOI18N
+                
                 } catch (Exception ex) {
                     LOGGER.error(ex.getMessage(),ex);
                     
@@ -192,6 +193,7 @@ public class PropertiesReader {
                 }
             }
   //          LOGGER.info("Reading file: " + file);
+            if (ins.available()>0) {
             InputStreamReader ir = new InputStreamReader(ins,"utf8"); //NOI18N
             BufferedReader br = new BufferedReader(ir);
 
@@ -202,6 +204,7 @@ public class PropertiesReader {
             }
             
             ins.close();
+            }
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage(),ex);
         }

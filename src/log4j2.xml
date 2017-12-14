@@ -2,8 +2,8 @@
 <Configuration status="INFO">
 <param name="Encoding" value="UTF-8" />
 <Appenders>
-<RollingFile name="RollingFile" fileName="${sys:logFilename}"
-filePattern="${sys:logFilename}-%d{yyyy-MM-dd}-%i.log" >
+<RollingFile name="RollingFile" fileName="${sys:logfilename:-RepairTracker.log}"
+filePattern="${sys:logfilename:-RepairTracker.log}-%d{yyyy-MM-dd}-%i.log" >
 
 <PatternLayout>
 <pattern>%d{dd/MM/yyyy HH:mm:ss,SSS} | %-5p | [%c{1}] %m%n</pattern>

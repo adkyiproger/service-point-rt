@@ -154,6 +154,7 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
 
         MENU_FILE.setText(bundle.getString("RepairTrackerGUI.MENU_FILE.text")); // NOI18N
 
+        MENU_NEWISSUE.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
         MENU_NEWISSUE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/16/icons8-add-file-16.png"))); // NOI18N
         MENU_NEWISSUE.setText(bundle.getString("RepairTrackerGUI.MENU_NEWISSUE.text")); // NOI18N
         MENU_NEWISSUE.addActionListener(new java.awt.event.ActionListener() {
@@ -183,6 +184,7 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
         });
         MENU_FILE.add(MENU_SAVEALL);
 
+        MENU_PRINT.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
         MENU_PRINT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/16/icons8-send-to-printer-16.png"))); // NOI18N
         MENU_PRINT.setText(bundle.getString("RepairTrackerGUI.MENU_PRINT.text")); // NOI18N
         MENU_PRINT.addActionListener(new java.awt.event.ActionListener() {
@@ -192,6 +194,7 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
         });
         MENU_FILE.add(MENU_PRINT);
 
+        MENU_SETTINGS.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/16/settings.png"))); // NOI18N
         MENU_SETTINGS.setText(bundle.getString("RepairTrackerGUI.MENU_SETTINGS.text")); // NOI18N
         MENU_SETTINGS.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -200,6 +203,7 @@ public class RepairTrackerGUI extends javax.swing.JFrame {
         });
         MENU_FILE.add(MENU_SETTINGS);
 
+        MENU_EXIT.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_MASK));
         MENU_EXIT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/16/icons8-shutdown-16.png"))); // NOI18N
         MENU_EXIT.setText(bundle.getString("RepairTrackerGUI.MENU_EXIT.text")); // NOI18N
         MENU_EXIT.addActionListener(new java.awt.event.ActionListener() {

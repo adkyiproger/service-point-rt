@@ -157,7 +157,7 @@ public class Settings extends TabAbstractPanel {
         });
         MENU.add(SEARCH_FOR);
 
-        THIS_NAME.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/16/icons8-web-design-16.png"))); // NOI18N
+        THIS_NAME.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/16/settings.png"))); // NOI18N
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("repairtracker/views/Bundle"); // NOI18N
         THIS_NAME.setText(bundle.getString("Settings.THIS_NAME.text")); // NOI18N
 
@@ -476,7 +476,7 @@ public class Settings extends TabAbstractPanel {
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 369, Short.MAX_VALUE))
+                .addComponent(jTabbedPane1))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("Settings.jPanel3.border.title"))); // NOI18N

@@ -1,0 +1,127 @@
+14/12/2017 15:38:41,953 | INFO  | [RTProperties] Properties read from file: C:\Users\pigeon\RepatirTracker\config.properties
+14/12/2017 15:38:41,955 | INFO  | [] Repair Tracker started!
+14/12/2017 15:38:42,130 | INFO  | [DBDoor] Setting DB connection
+14/12/2017 15:38:42,143 | INFO  | [DBDoor] Link:jdbc:derby:C:\Users\pigeon\RepatirTracker\db/rt;create=true
+14/12/2017 15:38:42,735 | INFO  | [DBDoor] DB connection successfully created
+14/12/2017 15:38:42,735 | INFO  | [DBDoor] Checking tables
+14/12/2017 15:38:42,998 | INFO  | [DBDoor] Table: devicetypes exists
+14/12/2017 15:38:43,010 | INFO  | [DBDoor] Table: issuetypes exists
+14/12/2017 15:38:43,019 | INFO  | [DBDoor] Table: issueattrtypes exists
+14/12/2017 15:38:43,029 | INFO  | [DBDoor] Table: clients exists
+14/12/2017 15:38:43,037 | INFO  | [DBDoor] Table: address exists
+14/12/2017 15:38:43,043 | INFO  | [DBDoor] Table: issueattributes exists
+14/12/2017 15:38:43,050 | INFO  | [DBDoor] Table: WARRANTIES exists
+14/12/2017 15:38:43,081 | INFO  | [DBDoor] Table: discount exists
+14/12/2017 15:38:43,088 | INFO  | [DBDoor] Table: changelog exists
+14/12/2017 15:38:43,095 | INFO  | [DBDoor] Table: issues exists
+14/12/2017 15:38:43,336 | ERROR | [DBDoor] Changeset: 1.attributes_add_count_num SQL:ALTER TABLE issueattributes ADD count_num double default 1.0 was not applied
+14/12/2017 15:38:43,336 | ERROR | [DBDoor] Column 'COUNT_NUM' already exists in Table/View '"APP"."ISSUEATTRIBUTES"'.
+java.sql.SQLException: Column 'COUNT_NUM' already exists in Table/View '"APP"."ISSUEATTRIBUTES"'.
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory40.getSQLException(Unknown Source) ~[derby.jar:?]
+	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source) ~[derby.jar:?]
+	at org.apache.derby.impl.jdbc.TransactionResourceImpl.wrapInSQLException(Unknown Source) ~[derby.jar:?]
+	at org.apache.derby.impl.jdbc.TransactionResourceImpl.handleException(Unknown Source) ~[derby.jar:?]
+	at org.apache.derby.impl.jdbc.EmbedConnection.handleException(Unknown Source) ~[derby.jar:?]
+	at org.apache.derby.impl.jdbc.ConnectionChild.handleException(Unknown Source) ~[derby.jar:?]
+	at org.apache.derby.impl.jdbc.EmbedStatement.executeStatement(Unknown Source) ~[derby.jar:?]
+	at org.apache.derby.impl.jdbc.EmbedStatement.execute(Unknown Source) ~[derby.jar:?]
+	at org.apache.derby.impl.jdbc.EmbedStatement.execute(Unknown Source) ~[derby.jar:?]
+	at repairtracker.models.DBDoor.createTables(DBDoor.java:297) [classes/:?]
+	at repairtracker.models.DBDoor.setupMyConnection(DBDoor.java:119) [classes/:?]
+	at repairtracker.RepairTracker.main(RepairTracker.java:90) [classes/:?]
+Caused by: org.apache.derby.impl.jdbc.EmbedSQLException: Column 'COUNT_NUM' already exists in Table/View '"APP"."ISSUEATTRIBUTES"'.
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source) ~[derby.jar:?]
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory40.wrapArgsForTransportAcrossDRDA(Unknown Source) ~[derby.jar:?]
+	... 12 more
+Caused by: org.apache.derby.iapi.error.StandardException: Column 'COUNT_NUM' already exists in Table/View '"APP"."ISSUEATTRIBUTES"'.
+	at org.apache.derby.iapi.error.StandardException.newException(Unknown Source) ~[derby.jar:?]
+	at org.apache.derby.impl.sql.execute.AlterTableConstantAction.addNewColumnToTable(Unknown Source) ~[derby.jar:?]
+	at org.apache.derby.impl.sql.execute.AlterTableConstantAction.executeConstantActionBody(Unknown Source) ~[derby.jar:?]
+	at org.apache.derby.impl.sql.execute.AlterTableConstantAction.executeConstantAction(Unknown Source) ~[derby.jar:?]
+	at org.apache.derby.impl.sql.execute.MiscResultSet.open(Unknown Source) ~[derby.jar:?]
+	at org.apache.derby.impl.sql.GenericPreparedStatement.executeStmt(Unknown Source) ~[derby.jar:?]
+	at org.apache.derby.impl.sql.GenericPreparedStatement.execute(Unknown Source) ~[derby.jar:?]
+	... 6 more
+14/12/2017 15:38:43,340 | INFO  | [DBDoor] createTables(): Completed successfully. All required tables are present in database
+14/12/2017 15:38:44,027 | INFO  | [Issue] Issue::Issue(1)
+14/12/2017 15:38:44,034 | INFO  | [Issue] Loaded information from database: org.apache.derby.impl.jdbc.EmbedResultSet42@5b247367
+14/12/2017 15:38:44,042 | INFO  | [IssueFilter] Issue status: В роботі
+14/12/2017 15:38:44,045 | INFO  | [Issue] Issue::Issue(0)
+14/12/2017 15:38:44,052 | INFO  | [Issue] Loaded information from database: org.apache.derby.impl.jdbc.EmbedResultSet42@6be968ce
+14/12/2017 15:38:44,056 | INFO  | [Issue] Apply Discount: value is: 20.0 type is: 1
+14/12/2017 15:38:44,064 | INFO  | [Issue] Return discounted totalCost(): TOTAL_COST=8077.4
+14/12/2017 15:38:44,064 | INFO  | [IssueFilter] Issue status: Новий
+14/12/2017 15:38:44,065 | INFO  | [Issue] Issue::Issue(2)
+14/12/2017 15:38:44,072 | INFO  | [Issue] Loaded information from database: org.apache.derby.impl.jdbc.EmbedResultSet42@433defed
+14/12/2017 15:38:44,077 | INFO  | [IssueFilter] Issue status: Новий
+14/12/2017 15:38:44,077 | INFO  | [IssueFilter] SQL: select iss.issue_id as issue_id, devicename, fname, phone, totalcost, (select sum(price*count_num) from issueattributes ia where ia.issue_id=iss.issue_id and ia.issueattrtype_id=0) as total_work, startdate, enddate, status from issues iss join clients cl on iss.client_id=cl.client_id join address ad on iss.client_id=ad.client_id where 1=1
+14/12/2017 15:38:44,081 | INFO  | [Issue] Issue::Issue(1)
+14/12/2017 15:38:44,082 | INFO  | [Issue] Loaded information from database: org.apache.derby.impl.jdbc.EmbedResultSet42@5a59ca5e
+14/12/2017 15:38:44,083 | INFO  | [IssueFilter] Issue status: В роботі
+14/12/2017 15:38:44,083 | INFO  | [Issue] Issue::Issue(0)
+14/12/2017 15:38:44,084 | INFO  | [Issue] Loaded information from database: org.apache.derby.impl.jdbc.EmbedResultSet42@5c80cf32
+14/12/2017 15:38:44,084 | INFO  | [Issue] Apply Discount: value is: 20.0 type is: 1
+14/12/2017 15:38:44,085 | INFO  | [Issue] Return discounted totalCost(): TOTAL_COST=8077.4
+14/12/2017 15:38:44,085 | INFO  | [IssueFilter] Issue status: Новий
+14/12/2017 15:38:44,086 | INFO  | [Issue] Issue::Issue(2)
+14/12/2017 15:38:44,086 | INFO  | [Issue] Loaded information from database: org.apache.derby.impl.jdbc.EmbedResultSet42@710636b0
+14/12/2017 15:38:44,087 | INFO  | [IssueFilter] Issue status: Новий
+14/12/2017 15:38:44,087 | INFO  | [IssueFilter] SQL: select iss.issue_id as issue_id, devicename, fname, phone, totalcost, (select sum(price*count_num) from issueattributes ia where ia.issue_id=iss.issue_id and ia.issueattrtype_id=0) as total_work, startdate, enddate, status from issues iss join clients cl on iss.client_id=cl.client_id join address ad on iss.client_id=ad.client_id where 1=1
+14/12/2017 15:38:44,203 | INFO  | [TabManager] Added: Дошка
+14/12/2017 15:46:59,872 | ERROR | [DBDoor] Derby system shutdown.
+java.sql.SQLException: Derby system shutdown.
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory40.getSQLException(Unknown Source) ~[derby.jar:?]
+	at org.apache.derby.impl.jdbc.Util.newEmbedSQLException(Unknown Source) ~[derby.jar:?]
+	at org.apache.derby.impl.jdbc.Util.newEmbedSQLException(Unknown Source) ~[derby.jar:?]
+	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source) ~[derby.jar:?]
+	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source) ~[derby.jar:?]
+	at org.apache.derby.jdbc.Driver20.connect(Unknown Source) ~[derby.jar:?]
+	at org.apache.derby.jdbc.AutoloadedDriver.connect(Unknown Source) ~[derby.jar:?]
+	at java.sql.DriverManager.getConnection(DriverManager.java:664) ~[?:1.8.0_151]
+	at java.sql.DriverManager.getConnection(DriverManager.java:270) ~[?:1.8.0_151]
+	at repairtracker.models.DBDoor.shutdown(DBDoor.java:127) [classes/:?]
+	at repairtracker.views.RepairTrackerGUI.WindowClosing(RepairTrackerGUI.java:304) [classes/:?]
+	at repairtracker.views.RepairTrackerGUI.access$000(RepairTrackerGUI.java:24) [classes/:?]
+	at repairtracker.views.RepairTrackerGUI$1.windowClosing(RepairTrackerGUI.java:75) [classes/:?]
+	at java.awt.AWTEventMulticaster.windowClosing(AWTEventMulticaster.java:349) [?:1.8.0_151]
+	at java.awt.Window.processWindowEvent(Window.java:2054) [?:1.8.0_151]
+	at javax.swing.JFrame.processWindowEvent(JFrame.java:305) [?:1.8.0_151]
+	at java.awt.Window.processEvent(Window.java:2013) [?:1.8.0_151]
+	at java.awt.Component.dispatchEventImpl(Component.java:4889) [?:1.8.0_151]
+	at java.awt.Container.dispatchEventImpl(Container.java:2294) [?:1.8.0_151]
+	at java.awt.Window.dispatchEventImpl(Window.java:2746) [?:1.8.0_151]
+	at java.awt.Component.dispatchEvent(Component.java:4711) [?:1.8.0_151]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758) [?:1.8.0_151]
+	at java.awt.EventQueue.access$500(EventQueue.java:97) [?:1.8.0_151]
+	at java.awt.EventQueue$3.run(EventQueue.java:709) [?:1.8.0_151]
+	at java.awt.EventQueue$3.run(EventQueue.java:703) [?:1.8.0_151]
+	at java.security.AccessController.doPrivileged(Native Method) ~[?:1.8.0_151]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_151]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:90) [?:1.8.0_151]
+	at java.awt.EventQueue$4.run(EventQueue.java:731) [?:1.8.0_151]
+	at java.awt.EventQueue$4.run(EventQueue.java:729) [?:1.8.0_151]
+	at java.security.AccessController.doPrivileged(Native Method) ~[?:1.8.0_151]
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80) [?:1.8.0_151]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728) [?:1.8.0_151]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201) [?:1.8.0_151]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116) [?:1.8.0_151]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105) [?:1.8.0_151]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:1.8.0_151]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93) [?:1.8.0_151]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82) [?:1.8.0_151]
+Caused by: org.apache.derby.impl.jdbc.EmbedSQLException: Derby system shutdown.
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source) ~[derby.jar:?]
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory40.wrapArgsForTransportAcrossDRDA(Unknown Source) ~[derby.jar:?]
+	... 39 more
+14/12/2017 15:46:59,940 | INFO  | [RTProperties] Properties file have been saved: C:\Users\pigeon\RepatirTracker\config.properties
+14/12/2017 15:46:59,941 | INFO  | [RepairTrackerGUI] Exit application completely
+14/12/2017 15:47:02,586 | INFO  | [RTProperties] Properties read from file: C:\Users\pigeon\RepatirTracker\config.properties
+14/12/2017 16:02:46,404 | INFO  | [RTProperties] Properties read from file: C:\Users\pigeon\RepatirTracker\config.properties
+14/12/2017 16:09:23,732 | INFO  | [RTProperties] Properties read from file: C:\Users\pigeon\RepatirTracker\config.properties
+14/12/2017 16:12:30,846 | INFO  | [RTProperties] Properties read from file: C:\Users\pigeon\RepatirTracker\config.properties
+14/12/2017 16:33:54,129 | INFO  | [RTProperties] Properties read from file: C:\Users\pigeon\RepatirTracker\config.properties
+14/12/2017 16:46:11,700 | INFO  | [RTProperties] Properties read from file: C:\Users\pigeon\RepatirTracker\config.properties
+14/12/2017 17:18:55,884 | INFO  | [RTProperties] Properties read from file: C:\Users\pigeon\RepatirTracker\config.properties
+14/12/2017 17:20:19,493 | INFO  | [RTProperties] Properties read from file: C:\Users\pigeon\RepatirTracker\config.properties
+14/12/2017 17:41:03,739 | INFO  | [RTProperties] Properties read from file: C:\Users\pigeon\RepatirTracker\config.properties
+14/12/2017 17:59:25,047 | INFO  | [RTProperties] Properties read from file: C:\Users\pigeon\RepatirTracker\config.properties
