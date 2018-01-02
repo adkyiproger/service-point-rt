@@ -1,7 +1,7 @@
 # Service Point Repair Tracker
 
 **Do not download it now since it is under development**
-
+**We are almost ready for release**
 Software for Computer devices Repair Service center.
 Originally developed for [Service Point Korosten](https://service-point.in.ua) computer repair service center.
 
